@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  rehub-db:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=rehub
+      - POSTGRES_USER=rehub
+      - POSTGRES_PASSWORD=rehub
+    volumes:
+      - rehub-db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  rehub-db:
