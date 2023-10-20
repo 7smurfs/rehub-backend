@@ -5,22 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "uc_employee_pin", columnNames = "pin"))
+@Table(uniqueConstraints = @UniqueConstraint(name = "uc_doctor_pin", columnNames = "pin"))
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Employee {
+@AllArgsConstructor
+public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +32,5 @@ public class Employee {
     private String pin;
 
     @Column(nullable = false)
-    private String profession;
-
-    @Column(nullable = false)
-    private LocalDateTime dateOfBirth;
-
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private RehubUser user;
-
+    private String speciality;
 }
