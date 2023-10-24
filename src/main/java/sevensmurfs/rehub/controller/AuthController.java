@@ -50,7 +50,7 @@ public class AuthController {
 
         log.info(" < < < POST /api/v1/auth/login (User login request successful)");
 
-        return ResponseEntity.ok().body(UserResponse.mapAuthenticatedUser(user, jwtToken));
+        return ResponseEntity.ok().body(UserResponse.mapAuthenticatedUserEntity(user, jwtToken));
     }
 
 }

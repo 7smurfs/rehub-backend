@@ -8,11 +8,6 @@ public enum Role {
     ADMIN,
 
     /**
-     * Standard role for all application users
-     */
-    USER,
-
-    /**
      * Role for patients
      */
     PATIENT,
@@ -21,6 +16,5 @@ public enum Role {
      * Role for all employees
      */
     EMPLOYEE;
-    
 
 }

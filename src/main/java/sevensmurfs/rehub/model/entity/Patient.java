@@ -12,6 +12,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -22,6 +23,7 @@ import java.util.Set;
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(name = "uc_patient_pin", columnNames = "pin"),
 @UniqueConstraint(name = "uc_patient_phone_number", columnNames = "phoneNumber")})
+@Getter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor

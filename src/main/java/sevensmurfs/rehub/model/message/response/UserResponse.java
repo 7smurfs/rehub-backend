@@ -2,9 +2,11 @@ package sevensmurfs.rehub.model.message.response;
 
 import lombok.Builder;
 import lombok.Data;
+import sevensmurfs.rehub.enums.Role;
 import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.UserRole;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -16,23 +18,14 @@ public class UserResponse {
 
     private String accessToken;
 
-    private String firstName;
+    private List<Role> roles;
 
-    private String lastName;
-
-    private String password;
-
-    private String pin;
-
-    private String gender;
-
-    private LocalDateTime dateOfBirth;
-
-    public static UserResponse mapAuthenticatedUser(RehubUser user, String jwtToken) {
+    public static UserResponse mapAuthenticatedUserEntity(RehubUser user, String jwtToken) {
         return UserResponse.builder()
                            .id(user.getId())
                            .username(user.getUsername())
                            .accessToken(jwtToken)
+                           .roles(user.getRoles().stream().map(UserRole::getName).toList())
                            .build();
     }
 }
