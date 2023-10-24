@@ -27,7 +27,7 @@ public class UserService {
 
     @Transactional
     public RehubUser registerPatient(UserRequest userRequest) {
-        this.validateRegistrationUserRequest(userRequest);
+        this.validateUserRequestRegistration(userRequest);
         RehubUser user = RehubUser.builder()
                                   .username(userRequest.getUsername())
                                   .password(encoder.encode(userRequest.getPassword()))
@@ -40,7 +40,7 @@ public class UserService {
 
     @Transactional
     public RehubUser registerEmployee(UserRequest userRequest) {
-        this.validateRegistrationUserRequest(userRequest);
+        this.validateUserRequestRegistration(userRequest);
         RehubUser user = RehubUser.builder()
                                   .username(userRequest.getUsername())
                                   .password(encoder.encode(userRequest.getPassword()))
@@ -51,11 +51,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    private void validateRegistrationUserRequest(UserRequest userRequest) {
+    private void validateUserRequestRegistration(UserRequest userRequest) {
         log.debug("Validating user registration request.");
 
+        if (userRepository.findByUsername(userRequest.getUsername()).isPresent())
+            throw new IllegalArgumentException("User email already in use.");
+
         if (!userRequest.getPassword().equals(userRequest.getConfirmPassword()))
-            throw new IllegalArgumentException("Password do not match.");
+            throw new IllegalArgumentException("Passwords do not match.");
+
         if (userRequest.getDateOfBirth().plusYears(18L).isAfter(LocalDate.now()))
             throw new IllegalArgumentException("User needs to be legal age to register.");
 

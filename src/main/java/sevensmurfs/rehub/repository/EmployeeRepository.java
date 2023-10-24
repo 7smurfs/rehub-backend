@@ -7,4 +7,7 @@ import sevensmurfs.rehub.model.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
+    boolean existsByPin(String pin);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 }
