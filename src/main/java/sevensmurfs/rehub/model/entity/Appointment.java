@@ -11,23 +11,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class TherapyResult {
+@AllArgsConstructor
+public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String status;
+    private LocalDateTime startAt;
 
     @Column(nullable = false)
-    private String result;
+    private LocalDateTime endAt;
 
-    @OneToOne(mappedBy = "therapyResult", optional = false)
+    @OneToOne(mappedBy = "appointment", optional = false)
     private Therapy therapy;
 }

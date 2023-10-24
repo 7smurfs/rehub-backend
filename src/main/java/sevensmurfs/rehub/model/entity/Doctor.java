@@ -8,12 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "uc_doctor_pin", columnNames = "pin"))
-@Builder
+@Table(uniqueConstraints = {@UniqueConstraint(name = "uc_doctor_pin", columnNames = "pin"),
+                            @UniqueConstraint(name = "uc_doctor_phone_number", columnNames = "phoneNumber")})
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Doctor {
@@ -30,6 +31,9 @@ public class Doctor {
 
     @Column(nullable = false, unique = true)
     private String pin;
+
+    @Column(nullable = false, unique = true)
+    private String phoneNumber;
 
     @Column(nullable = false)
     private String speciality;

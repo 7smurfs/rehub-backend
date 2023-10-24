@@ -10,17 +10,18 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "uc_employee_pin", columnNames = "pin"))
-@Builder
+@Table(uniqueConstraints = {@UniqueConstraint(name = "uc_employee_pin", columnNames = "pin"),
+                            @UniqueConstraint(name = "uc_employee_phone_number", columnNames = "phoneNumber")})
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee {
+public class Employee extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,14 +36,16 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String pin;
 
+    @Column(nullable = false, unique = true)
+    private String phoneNumber;
+
     @Column(nullable = false)
     private String profession;
 
     @Column(nullable = false)
     private LocalDateTime dateOfBirth;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private RehubUser user;
-
 }
