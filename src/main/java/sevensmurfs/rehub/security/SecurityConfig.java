@@ -27,7 +27,11 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .requestMatchers("/v1/auth/login").permitAll())
-                .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry.requestMatchers(HttpMethod.POST, "/v1/patient").permitAll())
+                   .authorizeHttpRequests(
+                           requestMatcherRegistry -> requestMatcherRegistry.requestMatchers(HttpMethod.POST, "/v1/patient").permitAll())
+                   .authorizeHttpRequests(
+                           requestMatcherRegistry -> requestMatcherRegistry.requestMatchers(HttpMethod.POST, "/v1/employee")
+                                                                           .permitAll())
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .anyRequest().authenticated())
                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

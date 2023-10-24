@@ -8,6 +8,8 @@ public interface UserRequestValidator {
 
     interface Register extends Default {}
 
+    interface Employee extends Default {}
+
     interface Update extends Default {}
 
     interface Delete extends Default {}

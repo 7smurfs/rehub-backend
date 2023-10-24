@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS employee
     phone_number     VARCHAR                             NOT NULL,
     profession       VARCHAR(255)                        NOT NULL,
     date_of_birth    TIMESTAMP                           NOT NULL,
+    gender           VARCHAR(255)                        NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_modified_at TIMESTAMP,
     user_id          BIGINT                              NOT NULL,

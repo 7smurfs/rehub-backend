@@ -10,6 +10,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @Table(uniqueConstraints = {@UniqueConstraint(name = "uc_employee_pin", columnNames = "pin"),
                             @UniqueConstraint(name = "uc_employee_phone_number", columnNames = "phoneNumber")})
 @SuperBuilder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee extends AuditableEntity {
@@ -38,6 +40,8 @@ public class Employee extends AuditableEntity {
 
     @Column(nullable = false, unique = true)
     private String phoneNumber;
+
+    private String gender;
 
     @Column(nullable = false)
     private String profession;

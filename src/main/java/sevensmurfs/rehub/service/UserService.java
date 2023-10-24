@@ -25,12 +25,26 @@ public class UserService {
 
     private final PasswordEncoder encoder;
 
+    @Transactional
     public RehubUser registerPatient(UserRequest userRequest) {
         this.validateRegistrationUserRequest(userRequest);
         RehubUser user = RehubUser.builder()
                                   .username(userRequest.getUsername())
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.PATIENT)))
+                                  .build();
+
+        log.debug("Saving user entity.");
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public RehubUser registerEmployee(UserRequest userRequest) {
+        this.validateRegistrationUserRequest(userRequest);
+        RehubUser user = RehubUser.builder()
+                                  .username(userRequest.getUsername())
+                                  .password(encoder.encode(userRequest.getPassword()))
+                                  .roles(userRoleRepository.findAllByNameIn(List.of(Role.EMPLOYEE)))
                                   .build();
 
         log.debug("Saving user entity.");
@@ -54,4 +68,5 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("User with given username does not exist."));
     }
+
 }

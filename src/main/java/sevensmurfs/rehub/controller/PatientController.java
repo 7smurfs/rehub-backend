@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
-import sevensmurfs.rehub.model.message.response.PatientResponse;
 import sevensmurfs.rehub.service.PatientService;
 
 @RestController
@@ -23,8 +22,12 @@ public class PatientController {
 
     private final PatientService patientService;
 
+    /**
+     *  Patient registration request
+     *  POST > /api/v1/patient
+     */
     @PostMapping
-    public ResponseEntity<PatientResponse> register(@Validated(UserRequestValidator.Register.class) @RequestBody UserRequest userRequest) {
+    public ResponseEntity<Object> register(@Validated(UserRequestValidator.Register.class) @RequestBody UserRequest userRequest) {
 
         log.info(" > > > POST /api/v1/patient (Patient register request)");
 

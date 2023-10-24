@@ -46,6 +46,9 @@ public class UserRequest {
     @Pattern(regexp = "^\\+3859(1|2|5|8|9|76|77)\\d{6,7}$")
     private String phoneNumber;
 
+    @NotNull(groups = {UserRequestValidator.Employee.class})
+    private String profession;
+
     private String gender;
 
     @NotNull(groups = {UserRequestValidator.Register.class})
