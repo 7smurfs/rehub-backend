@@ -11,7 +11,7 @@ import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.UserRoleRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -56,7 +56,7 @@ public class UserService {
 
         if (!userRequest.getPassword().equals(userRequest.getConfirmPassword()))
             throw new IllegalArgumentException("Password do not match.");
-        if (userRequest.getDateOfBirth().plusYears(18L).isAfter(LocalDateTime.now()))
+        if (userRequest.getDateOfBirth().plusYears(18L).isAfter(LocalDate.now()))
             throw new IllegalArgumentException("User needs to be legal age to register.");
 
         log.debug("User successfully validated.");

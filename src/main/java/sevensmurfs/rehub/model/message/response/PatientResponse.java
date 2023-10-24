@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import sevensmurfs.rehub.model.entity.Patient;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -25,7 +25,7 @@ public class PatientResponse {
 
     private String gender;
 
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private List<TherapyResponse> therapies;
 

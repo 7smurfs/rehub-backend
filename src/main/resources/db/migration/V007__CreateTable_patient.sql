@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS patient
     pin              VARCHAR(11)                         NOT NULL,
     gender           VARCHAR(255)                        NULL,
     phone_number     VARCHAR                             NOT NULL,
-    date_of_birth    TIMESTAMP                           NOT NULL,
+    date_of_birth    DATE                                NOT NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_modified_at TIMESTAMP,
     user_id          BIGINT                              NOT NULL,

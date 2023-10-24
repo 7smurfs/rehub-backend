@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(name = "uc_employee_pin", columnNames = "pin"),
@@ -49,7 +49,7 @@ public class Employee extends AuditableEntity {
     private String profession;
 
     @Column(nullable = false)
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class UserRequest {
@@ -52,5 +52,5 @@ public class UserRequest {
     private String gender;
 
     @NotNull(groups = {UserRequestValidator.Register.class})
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 }
