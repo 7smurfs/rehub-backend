@@ -13,7 +13,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import sevensmurfs.rehub.enums.RoomStatus;
 
 import java.util.HashSet;
@@ -22,6 +24,8 @@ import java.util.Set;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uc_room_label", columnNames = "label"))
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room {

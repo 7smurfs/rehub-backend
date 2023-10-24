@@ -12,11 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import sevensmurfs.rehub.enums.Role;
 
 @Entity
 @Table(name = "role")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

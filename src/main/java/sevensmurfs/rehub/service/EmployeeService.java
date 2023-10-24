@@ -9,6 +9,8 @@ import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -37,5 +39,10 @@ public class EmployeeService {
         log.debug("Saving employee entity.");
 
         return employeeRepository.save(employee);
+    }
+
+    public List<Employee> getAllEmployees() {
+        log.debug("Fetching all employees.");
+        return employeeRepository.findAll();
     }
 }

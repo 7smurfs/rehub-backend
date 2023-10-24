@@ -28,4 +28,12 @@ public class UserResponse {
                            .roles(user.getRoles().stream().map(UserRole::getName).toList())
                            .build();
     }
+
+    public static UserResponse mapUserEntity(RehubUser user) {
+        return UserResponse.builder()
+                           .id(user.getId())
+                           .username(user.getUsername())
+                           .roles(user.getRoles().stream().map(UserRole::getName).toList())
+                           .build();
+    }
 }

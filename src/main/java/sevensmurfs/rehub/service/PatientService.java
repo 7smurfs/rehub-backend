@@ -9,6 +9,8 @@ import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.PatientRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -36,5 +38,10 @@ public class PatientService {
 
         log.debug("Saving patient entity.");
         return patientRepository.save(patient);
+    }
+
+    public List<Patient> getAllPatients() {
+        log.debug("Fetching all patients.");
+        return patientRepository.findAll();
     }
 }

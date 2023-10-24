@@ -1,8 +1,8 @@
 package sevensmurfs.rehub.model.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,20 +14,22 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(name = "uc_patient_pin", columnNames = "pin"),
 @UniqueConstraint(name = "uc_patient_phone_number", columnNames = "phoneNumber")})
 @Getter
+@Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Patient extends AuditableEntity{
+public class Patient extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,7 +56,7 @@ public class Patient extends AuditableEntity{
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private RehubUser user;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-    private Set<Therapy> therapies = new HashSet<>();
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    private List<Therapy> therapies = new ArrayList<>();
 
 }
