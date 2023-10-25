@@ -35,7 +35,8 @@ public class EmployeeController {
     @PostMapping
     @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<Object> register(@Validated({UserRequestValidator.Register.class,
-                                                       UserRequestValidator.Employee.class}) @RequestBody UserRequest userRequest) {
+                                                       UserRequestValidator.Employee.class}) @RequestBody UserRequest userRequest)
+            throws Exception {
 
         log.info(" > > > POST /api/v1/employee (Employee register request)");
 

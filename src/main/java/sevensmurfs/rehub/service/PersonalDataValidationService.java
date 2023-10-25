@@ -17,7 +17,7 @@ public class PersonalDataValidationService {
     public void validatePatientFromHealthCareDatabase(UserRequest userRequest) {
         log.debug("Validating patient from health care database.");
         personalDataRepository.findAllByFirstNameAndLastNameAndPinAndPhinAndDateOfBirth(userRequest.getFirstName(),
-                                                                                        userRequest.getFirstName(),
+                                                                                        userRequest.getLastName(),
                                                                                         SecurityUtil.hashInput(userRequest.getPin()),
                                                                                         SecurityUtil.hashInput(userRequest.getPhin()),
                                                                                         userRequest.getDateOfBirth()).orElseThrow(

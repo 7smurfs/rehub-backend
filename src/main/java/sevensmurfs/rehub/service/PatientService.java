@@ -25,7 +25,7 @@ public class PatientService {
     private final TherapyService therapyService;
 
     @Transactional
-    public Patient registerPatient(UserRequest userRequest) {
+    public Patient registerPatient(UserRequest userRequest) throws Exception {
 
         RehubUser user = userService.registerPatient(userRequest);
         log.debug("Creating patient entity.");
@@ -54,8 +54,10 @@ public class PatientService {
     public void invalidatePatientWithId(Long id) {
         Patient patient = patientRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given ID does not exist."));
-        log.debug("Invalidating patient with ID {}.", patient.getId());
+        if (patient.getUser().getStatus().equals(UserStatus.INVALIDATED))
+            throw new IllegalArgumentException("User is already invalidated.");
 
+        log.debug("Invalidating patient with ID {}.", patient.getId());
         therapyService.invalidateAllTherapiesForPatient(patient);
         patient.getUser().setStatus(UserStatus.INVALIDATED);
         userService.saveUser(patient.getUser());

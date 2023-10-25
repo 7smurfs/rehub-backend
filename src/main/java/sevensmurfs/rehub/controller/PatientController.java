@@ -34,7 +34,8 @@ public class PatientController {
      */
     @PostMapping
     public ResponseEntity<Object> register(@Validated({UserRequestValidator.Register.class,
-                                                       UserRequestValidator.Patient.class}) @RequestBody UserRequest userRequest) {
+                                                       UserRequestValidator.Patient.class}) @RequestBody UserRequest userRequest)
+            throws Exception {
 
         log.info(" > > > POST /api/v1/patient (Patient register request)");
 

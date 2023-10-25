@@ -36,16 +36,17 @@ public class AuthController {
      * User login request POST > /api/v1/auth/login
      */
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@Validated(UserRequestValidator.Login.class) @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> login(@Validated(UserRequestValidator.Login.class) @RequestBody UserRequest userRequest)
+            throws Exception {
 
         log.info(" > > > POST /api/v1/auth/login (User login request)");
 
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(SecurityUtil.hashInput(userRequest.getUsername()),
+                .authenticate(new UsernamePasswordAuthenticationToken(SecurityUtil.encryptUsername(userRequest.getUsername()),
                                                                       userRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String username = SecurityUtil.hashInput(userRequest.getUsername());
+        String username = SecurityUtil.encryptUsername(userRequest.getUsername());
         RehubUser user = userService.findUserByUsername(username);
         String jwtToken = jwtGenerator.generateToken(authentication, user.getRoles());
 

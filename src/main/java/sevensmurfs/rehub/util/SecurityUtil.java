@@ -3,13 +3,24 @@ package sevensmurfs.rehub.util;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 @Slf4j
 public class SecurityUtil {
 
-    public static final String HASH_ALGORITHM = "SHA-256";
+    private static final String HASH_ALGORITHM = "SHA-256";
+
+    private static final String KEY_ALGORITHM = "AES";
+
+    private static final String ENCRYPTION_ALGORITHM = "AES/ECB/PKCS5Padding";
+
+    private static final String SECRET_KEY = "THISISVERYSECRETSECRETREHUBKEY69";
 
     private SecurityUtil() {
         throw new IllegalStateException("Security util class.");
@@ -37,5 +48,25 @@ public class SecurityUtil {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    private static SecretKey generateKey() {
+        return new SecretKeySpec(SECRET_KEY.getBytes(), KEY_ALGORITHM);
+    }
+
+    public static String encryptUsername(@NotNull String username) throws Exception {
+        Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, generateKey());
+        byte[] encryptedBytes = cipher.doFinal(username.getBytes(StandardCharsets.UTF_8));
+        log.debug("Username encrypted");
+        return Base64.getEncoder().encodeToString(encryptedBytes);
+    }
+
+    public static String decryptUsername(@NotNull String encryptedUsername) throws Exception {
+        Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, generateKey());
+        byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedUsername));
+        log.debug("Username decrypted");
+        return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
 }

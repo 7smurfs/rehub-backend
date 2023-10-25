@@ -13,7 +13,6 @@ import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.UserRoleRepository;
 import sevensmurfs.rehub.util.SecurityUtil;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,14 +29,14 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     @Transactional
-    public RehubUser registerPatient(UserRequest userRequest) {
+    public RehubUser registerPatient(UserRequest userRequest) throws Exception {
         this.validateUserRequestRegistration(userRequest);
         // This is mocked validation from our server database.
         // We are checking if user information is valid and legit
         dataValidationService.validatePatientFromHealthCareDatabase(userRequest);
 
         RehubUser user = RehubUser.builder()
-                                  .username(SecurityUtil.hashInput(userRequest.getUsername()))
+                                  .username(SecurityUtil.encryptUsername(userRequest.getUsername()))
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.PATIENT)))
                                   .status(UserStatus.ACTIVE)
@@ -48,14 +47,14 @@ public class UserService {
     }
 
     @Transactional
-    public RehubUser registerEmployee(UserRequest userRequest) {
+    public RehubUser registerEmployee(UserRequest userRequest) throws Exception {
         this.validateUserRequestRegistration(userRequest);
         // This is mocked validation from our server database.
         // We are checking if user information is valid and legit
         dataValidationService.validateEmployeeFromMinistryDatabase(userRequest);
 
         RehubUser user = RehubUser.builder()
-                                  .username(SecurityUtil.hashInput(userRequest.getUsername()))
+                                  .username(SecurityUtil.encryptUsername(userRequest.getUsername()))
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.EMPLOYEE)))
                                   .status(UserStatus.ACTIVE)
@@ -65,17 +64,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    private void validateUserRequestRegistration(UserRequest userRequest) {
+    private void validateUserRequestRegistration(UserRequest userRequest) throws Exception {
         log.debug("Validating user registration request.");
 
-        if (userRepository.findByUsername(userRequest.getUsername()).isPresent())
+        if (userRepository.findByUsername(SecurityUtil.encryptUsername(userRequest.getUsername())).isPresent())
             throw new IllegalArgumentException("User email already in use.");
 
         if (!userRequest.getPassword().equals(userRequest.getConfirmPassword()))
             throw new IllegalArgumentException("Passwords do not match.");
-
-        if (userRequest.getDateOfBirth().plusYears(18L).isAfter(LocalDate.now()))
-            throw new IllegalArgumentException("User needs to be legal age to register.");
 
         log.debug("User successfully validated.");
     }

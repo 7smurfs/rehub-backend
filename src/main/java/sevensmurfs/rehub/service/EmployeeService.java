@@ -23,7 +23,7 @@ public class EmployeeService {
     private final UserService userService;
 
     @Transactional
-    public Employee registerEmployee(UserRequest userRequest) {
+    public Employee registerEmployee(UserRequest userRequest) throws Exception {
 
         RehubUser user = userService.registerEmployee(userRequest);
 
@@ -52,6 +52,8 @@ public class EmployeeService {
     public void invalidateEmployeeWithId(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Employee with given ID does not exist."));
+        if (employee.getUser().getStatus().equals(UserStatus.INVALIDATED))
+            throw new IllegalArgumentException("User is already invalidate.");
         log.debug("Invalidating employee with ID {}.", employee.getId());
         employee.getUser().setStatus(UserStatus.INVALIDATED);
         userService.saveUser(employee.getUser());
