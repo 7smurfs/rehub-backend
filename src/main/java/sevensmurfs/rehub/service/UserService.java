@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.Role;
+import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.UserRoleRepository;
+import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,15 +25,22 @@ public class UserService {
 
     private final UserRoleRepository userRoleRepository;
 
+    private final PersonalDataValidationService dataValidationService;
+
     private final PasswordEncoder encoder;
 
     @Transactional
     public RehubUser registerPatient(UserRequest userRequest) {
         this.validateUserRequestRegistration(userRequest);
+        // This is mocked validation from our server database.
+        // We are checking if user information is valid and legit
+        dataValidationService.validatePatientFromHealthCareDatabase(userRequest);
+
         RehubUser user = RehubUser.builder()
-                                  .username(userRequest.getUsername())
+                                  .username(SecurityUtil.hashInput(userRequest.getUsername()))
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.PATIENT)))
+                                  .status(UserStatus.ACTIVE)
                                   .build();
 
         log.debug("Saving user entity.");
@@ -41,10 +50,15 @@ public class UserService {
     @Transactional
     public RehubUser registerEmployee(UserRequest userRequest) {
         this.validateUserRequestRegistration(userRequest);
+        // This is mocked validation from our server database.
+        // We are checking if user information is valid and legit
+        dataValidationService.validateEmployeeFromMinistryDatabase(userRequest);
+
         RehubUser user = RehubUser.builder()
-                                  .username(userRequest.getUsername())
+                                  .username(SecurityUtil.hashInput(userRequest.getUsername()))
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.EMPLOYEE)))
+                                  .status(UserStatus.ACTIVE)
                                   .build();
 
         log.debug("Saving user entity.");
@@ -73,4 +87,10 @@ public class UserService {
                 () -> new IllegalArgumentException("User with given username does not exist."));
     }
 
+    @Transactional
+    public void saveUser(RehubUser user) {
+        log.debug("Saving user.");
+        userRepository.save(user);
+        log.debug("User saved.");
+    }
 }

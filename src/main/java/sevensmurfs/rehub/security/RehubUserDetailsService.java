@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.UserRole;
 import sevensmurfs.rehub.repository.RehubUserRepository;
@@ -24,12 +25,12 @@ public class RehubUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        RehubUser user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found."));
+        RehubUser user = userRepository.findByUsernameAndStatus(username, UserStatus.ACTIVE).orElseThrow(
+                () -> new UsernameNotFoundException("Username not found."));
         return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<UserRole> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
     }
-
 }

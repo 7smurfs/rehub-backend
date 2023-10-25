@@ -67,17 +67,17 @@ public class EmployeeController {
     }
 
     /**
-     * Delete employee ADMIN request DELETE > /api/v1/employee/:id
+     * Invalidate employee ADMIN request DELETE > /api/v1/employee/:id
      */
     @DeleteMapping("/{id}")
     @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<Object> deleteEmployee(@PathVariable(name = "id") Long id) {
 
-        log.info(" > > > DELETE /api/v1/employee/{} (Delete employee ADMIN request)", id);
+        log.info(" > > > DELETE /api/v1/employee/{} (Invalidate employee ADMIN request)", id);
 
-        employeeService.deleteEmployeeWithId(id);
+        employeeService.invalidateEmployeeWithId(id);
 
-        log.info(" < < < DELETE /api/v1/employee/{} (Delete employee ADMIN success)", id);
+        log.info(" < < < DELETE /api/v1/employee/{} (Invalidate employee ADMIN success)", id);
 
         return ResponseEntity.noContent().build();
     }

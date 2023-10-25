@@ -14,8 +14,6 @@ public class DoctorResponse {
 
     private String lastName;
 
-    private String phoneNumber;
-
     private String speciality;
 
     public static DoctorResponse mapDoctorEntity(Doctor doctor) {
@@ -23,7 +21,6 @@ public class DoctorResponse {
                              .id(doctor.getId())
                              .firstName(doctor.getFirstName())
                              .lastName(doctor.getLastName())
-                             .phoneNumber(doctor.getPhoneNumber())
                              .speciality(doctor.getSpeciality())
                              .build();
     }

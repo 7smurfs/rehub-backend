@@ -33,7 +33,8 @@ public class PatientController {
      * Patient registration request POST > /api/v1/patient
      */
     @PostMapping
-    public ResponseEntity<Object> register(@Validated(UserRequestValidator.Register.class) @RequestBody UserRequest userRequest) {
+    public ResponseEntity<Object> register(@Validated({UserRequestValidator.Register.class,
+                                                       UserRequestValidator.Patient.class}) @RequestBody UserRequest userRequest) {
 
         log.info(" > > > POST /api/v1/patient (Patient register request)");
 
@@ -65,16 +66,16 @@ public class PatientController {
     }
 
     /**
-     * Delete patient request DELETE > /api/v1/patient/:id
+     * Invalidate patient request DELETE > /api/v1/patient/:id
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePatient(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Object> invalidatePatient(@PathVariable(name = "id") Long id) {
 
-        log.info(" > > > DELETE /api/v1/patient/{} (Delete patient request)", id);
+        log.info(" > > > DELETE /api/v1/patient/{} (Invalidate patient request)", id);
 
-        patientService.deletePatientWithId(id);
+        patientService.invalidatePatientWithId(id);
 
-        log.info(" < < < DELETE /api/v1/patient/{} (Delete patient success)", id);
+        log.info(" < < < DELETE /api/v1/patient/{} (Invalidate patient success)", id);
 
         return ResponseEntity.noContent().build();
     }

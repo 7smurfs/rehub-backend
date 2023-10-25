@@ -42,6 +42,11 @@ public class UserRequest {
     @Pattern(regexp = "^[0-9]{11}$", groups = {UserRequestValidator.Register.class})
     private String pin;
 
+    @NotNull(groups = {UserRequestValidator.Patient.class})
+    @Null(groups = {UserRequestValidator.Update.class})
+    @Pattern(regexp = "^[0-9]{9}$")
+    private String phin;
+
     @NotNull(groups = {UserRequestValidator.Register.class})
     @Pattern(regexp = "^\\+3859(1|2|5|8|9|76|77)\\d{6,7}$")
     private String phoneNumber;

@@ -34,7 +34,6 @@ public class EmployeeResponse {
                                .user(UserResponse.mapUserEntity(employee.getUser()))
                                .firstName(employee.getFirstName())
                                .lastName(employee.getLastName())
-                               .pin(employee.getPin())
                                .phoneNumber(employee.getPhoneNumber())
                                .gender(employee.getGender())
                                .profession(employee.getProfession())

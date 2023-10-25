@@ -20,6 +20,11 @@ public enum TherapyStatus {
     /**
      * There is no available appointment for this therapy
      */
-    NO_AVAILABLE_APPOINTMENT
+    NO_AVAILABLE_APPOINTMENT,
+
+    /**
+     * Patient is invalidated so is the therapy
+     */
+    INVALIDATED
     ;
 }

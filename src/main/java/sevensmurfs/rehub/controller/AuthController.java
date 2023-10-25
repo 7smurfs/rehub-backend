@@ -18,7 +18,7 @@ import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
 import sevensmurfs.rehub.model.message.response.UserResponse;
 import sevensmurfs.rehub.security.JwtGenerator;
 import sevensmurfs.rehub.service.UserService;
-
+import sevensmurfs.rehub.util.SecurityUtil;
 
 @RestController
 @RequestMapping("/v1/auth")
@@ -33,8 +33,7 @@ public class AuthController {
     private final UserService userService;
 
     /**
-     *  User login request
-     *  POST > /api/v1/auth/login
+     * User login request POST > /api/v1/auth/login
      */
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@Validated(UserRequestValidator.Login.class) @RequestBody UserRequest userRequest) {
@@ -42,15 +41,16 @@ public class AuthController {
         log.info(" > > > POST /api/v1/auth/login (User login request)");
 
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(SecurityUtil.hashInput(userRequest.getUsername()),
+                                                                      userRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        RehubUser user = userService.findUserByUsername(userRequest.getUsername());
+        String username = SecurityUtil.hashInput(userRequest.getUsername());
+        RehubUser user = userService.findUserByUsername(username);
         String jwtToken = jwtGenerator.generateToken(authentication, user.getRoles());
 
         log.info(" < < < POST /api/v1/auth/login (User login request successful)");
 
         return ResponseEntity.ok().body(UserResponse.mapAuthenticatedUserEntity(user, jwtToken));
     }
-
 }

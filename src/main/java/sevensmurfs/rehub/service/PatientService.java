@@ -4,10 +4,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.PatientRepository;
+import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class PatientService {
         Patient patient = Patient.builder()
                                  .firstName(userRequest.getFirstName())
                                  .lastName(userRequest.getLastName())
-                                 .pin(userRequest.getPin())
+                                 .pin(SecurityUtil.hashInput(userRequest.getPin()))
+                                 .phin(SecurityUtil.hashInput(userRequest.getPhin()))
                                  .phoneNumber(userRequest.getPhoneNumber())
                                  .dateOfBirth(userRequest.getDateOfBirth())
                                  .gender(userRequest.getGender())
@@ -48,13 +51,14 @@ public class PatientService {
     }
 
     @Transactional
-    public void deletePatientWithId(Long id) {
+    public void invalidatePatientWithId(Long id) {
         Patient patient = patientRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given ID does not exist."));
-        log.debug("Deleting patient with ID {}.", patient.getId());
+        log.debug("Invalidating patient with ID {}.", patient.getId());
 
-        therapyService.deleteAllTherapiesForPatient(patient);
-
-        log.debug("Successfully deleted patient with ID {}.", patient.getId());
+        therapyService.invalidateAllTherapiesForPatient(patient);
+        patient.getUser().setStatus(UserStatus.INVALIDATED);
+        userService.saveUser(patient.getUser());
+        log.debug("Successfully invalidated patient with ID {}.", patient.getId());
     }
 }

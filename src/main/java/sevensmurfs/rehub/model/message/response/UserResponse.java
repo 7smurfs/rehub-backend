@@ -23,7 +23,6 @@ public class UserResponse {
     public static UserResponse mapAuthenticatedUserEntity(RehubUser user, String jwtToken) {
         return UserResponse.builder()
                            .id(user.getId())
-                           .username(user.getUsername())
                            .accessToken(jwtToken)
                            .roles(user.getRoles().stream().map(UserRole::getName).toList())
                            .build();
@@ -32,7 +31,6 @@ public class UserResponse {
     public static UserResponse mapUserEntity(RehubUser user) {
         return UserResponse.builder()
                            .id(user.getId())
-                           .username(user.getUsername())
                            .roles(user.getRoles().stream().map(UserRole::getName).toList())
                            .build();
     }

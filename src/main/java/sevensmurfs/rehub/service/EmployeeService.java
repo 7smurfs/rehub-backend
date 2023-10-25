@@ -4,10 +4,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
+import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class EmployeeService {
         Employee employee = Employee.builder()
                                     .firstName(userRequest.getFirstName())
                                     .lastName(userRequest.getLastName())
-                                    .pin(userRequest.getPin())
+                                    .pin(SecurityUtil.hashInput(userRequest.getPin()))
                                     .phoneNumber(userRequest.getPhoneNumber())
                                     .dateOfBirth(userRequest.getDateOfBirth())
                                     .profession(userRequest.getProfession())
@@ -47,13 +49,13 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void deleteEmployeeWithId(Long id) {
+    public void invalidateEmployeeWithId(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Employee with given ID does not exist."));
-        log.debug("Deleting employee with ID {}.", employee.getId());
+        log.debug("Invalidating employee with ID {}.", employee.getId());
+        employee.getUser().setStatus(UserStatus.INVALIDATED);
+        userService.saveUser(employee.getUser());
 
-        employeeRepository.deleteById(employee.getId());
-
-        log.debug("Successfully deleted employee with ID {}.", employee.getId());
+        log.debug("Successfully invalidate employee with ID {}.", employee.getId());
     }
 }

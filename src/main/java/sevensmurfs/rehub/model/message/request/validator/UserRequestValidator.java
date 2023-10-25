@@ -10,6 +10,8 @@ public interface UserRequestValidator {
 
     interface Employee extends Default {}
 
+    interface Patient extends Default {}
+
     interface Update extends Default {}
 
     interface Delete extends Default {}

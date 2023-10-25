@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.TherapyStatus;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.repository.TherapyRepository;
 
@@ -17,12 +18,11 @@ public class TherapyService {
     private final TherapyResultService therapyResultService;
 
     @Transactional
-    public void deleteAllTherapiesForPatient(Patient patient) {
+    public void invalidateAllTherapiesForPatient(Patient patient) {
+        log.debug("Invalidating all therapies for employee with ID {}.", patient.getId());
         therapyResultService.deleteAllTherapyResultsForTherapies(patient.getTherapies());
-        log.debug("Deleting all therapies for employee with ID {}.", patient.getId());
-
-        therapyRepository.deleteAll(patient.getTherapies());
+        patient.getTherapies().forEach(therapy -> therapy.setStatus(TherapyStatus.INVALIDATED));
+        therapyRepository.saveAll(patient.getTherapies());
         log.debug("Successfully deleted all therapies for employee with ID {}.", patient.getId());
     }
-
 }
