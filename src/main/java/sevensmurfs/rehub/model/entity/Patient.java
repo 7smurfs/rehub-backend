@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -62,5 +63,6 @@ public class Patient extends AuditableEntity {
     private RehubUser user;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @Builder.Default
     private List<Therapy> therapies = new ArrayList<>();
 }

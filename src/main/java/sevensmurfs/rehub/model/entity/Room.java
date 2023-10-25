@@ -47,6 +47,7 @@ public class Room {
     private String specialMessage;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @Builder.Default
     private Set<Equipment> equipment = new HashSet<>();
 
 }
