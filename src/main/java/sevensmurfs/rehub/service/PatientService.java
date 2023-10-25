@@ -20,6 +20,8 @@ public class PatientService {
 
     private final UserService userService;
 
+    private final TherapyService therapyService;
+
     @Transactional
     public Patient registerPatient(UserRequest userRequest) {
 
@@ -43,5 +45,16 @@ public class PatientService {
     public List<Patient> getAllPatients() {
         log.debug("Fetching all patients.");
         return patientRepository.findAll();
+    }
+
+    @Transactional
+    public void deletePatientWithId(Long id) {
+        Patient patient = patientRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Patient with given ID does not exist."));
+        log.debug("Deleting patient with ID {}.", patient.getId());
+
+        therapyService.deleteAllTherapiesForPatient(patient);
+
+        log.debug("Successfully deleted patient with ID {}.", patient.getId());
     }
 }

@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,5 +62,20 @@ public class PatientController {
         log.info(" < < < GET /api/v1/patient (Get all patients request success)");
 
         return ResponseEntity.ok(patients.stream().map(PatientResponse::mapPatientEntity).toList());
+    }
+
+    /**
+     * Delete patient request DELETE > /api/v1/patient/:id
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletePatient(@PathVariable(name = "id") Long id) {
+
+        log.info(" > > > DELETE /api/v1/patient/{} (Delete patient request)", id);
+
+        patientService.deletePatientWithId(id);
+
+        log.info(" < < < DELETE /api/v1/patient/{} (Delete patient success)", id);
+
+        return ResponseEntity.noContent().build();
     }
 }

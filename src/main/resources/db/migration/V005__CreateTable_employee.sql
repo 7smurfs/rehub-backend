@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS employee
     date_of_birth    DATE                                NOT NULL,
     gender           VARCHAR(255)                        NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_modified_at TIMESTAMP,
+    last_modified_at TIMESTAMP                           NULL,
     user_id          BIGINT                              NOT NULL,
     FOREIGN KEY (user_id) REFERENCES rehub_user (id)
 );

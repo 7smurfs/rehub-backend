@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS patient
     phone_number     VARCHAR                             NOT NULL,
     date_of_birth    DATE                                NOT NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_modified_at TIMESTAMP,
+    last_modified_at TIMESTAMP                           NULL,
     user_id          BIGINT                              NOT NULL,
     FOREIGN KEY (user_id) REFERENCES rehub_user (id)
 );

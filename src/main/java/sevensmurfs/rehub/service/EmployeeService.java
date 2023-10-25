@@ -45,4 +45,15 @@ public class EmployeeService {
         log.debug("Fetching all employees.");
         return employeeRepository.findAll();
     }
+
+    @Transactional
+    public void deleteEmployeeWithId(Long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Employee with given ID does not exist."));
+        log.debug("Deleting employee with ID {}.", employee.getId());
+
+        employeeRepository.deleteById(employee.getId());
+
+        log.debug("Successfully deleted employee with ID {}.", employee.getId());
+    }
 }

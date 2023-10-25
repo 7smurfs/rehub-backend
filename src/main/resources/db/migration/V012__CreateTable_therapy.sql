@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS therapy
     status            VARCHAR(255)                        NOT NULL,
     ref_id            BIGINT                              NULL,
     created_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_modified_at  TIMESTAMP                           NOT NULL,
+    last_modified_at  TIMESTAMP                           NULL,
     patient_id        BIGINT                              NOT NULL,
     room_id           BIGINT                              NOT NULL,
     doctor_id         BIGINT                              NOT NULL,

@@ -27,9 +27,9 @@ public class SecurityConfig {
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .requestMatchers("/v1/auth/login").permitAll())
                    .authorizeHttpRequests(
-                           requestMatcherRegistry -> requestMatcherRegistry.requestMatchers("/v1/patient").permitAll())
+                           requestMatcherRegistry -> requestMatcherRegistry.requestMatchers("/v1/patient/**").permitAll())
                    .authorizeHttpRequests(
-                           requestMatcherRegistry -> requestMatcherRegistry.requestMatchers("/v1/employee").permitAll())
+                           requestMatcherRegistry -> requestMatcherRegistry.requestMatchers("/v1/employee/**").permitAll())
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .anyRequest().authenticated())
                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

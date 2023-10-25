@@ -1,5 +1,6 @@
 package sevensmurfs.rehub.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,7 +52,7 @@ public class Employee extends AuditableEntity {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private RehubUser user;
 }
