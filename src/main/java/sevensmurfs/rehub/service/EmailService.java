@@ -56,7 +56,7 @@ public class EmailService {
             // Set right name of the template without extension
             html = springTemplateEngine.process("", context);
 
-            // Set email subject according to your needs
+            // Set email subject according to your need
             helper.setSubject(""); // FIXME
             helper.setTo("");   // Email of receiver FIXME
             helper.setText(html, true);
