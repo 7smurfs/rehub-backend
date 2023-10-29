@@ -14,11 +14,11 @@ public class FaqResponse {
 
     private String answer;
 
-    public static FaqResponse mapFaqEntity (Faq faq) {
+    public static FaqResponse mapFaqEntity(Faq faq) {
         return FaqResponse.builder()
                           .id(faq.getId())
-                .question(faq.getQuestion())
-                .answer(faq.getAnswer())
-                .build();
+                          .question(faq.getQuestion())
+                          .answer(faq.getAnswer())
+                          .build();
     }
 }

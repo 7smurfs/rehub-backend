@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.model.entity.Faq;
-import sevensmurfs.rehub.repository.EmployeeRepository;
+import sevensmurfs.rehub.model.message.request.FaqRequest;
 import sevensmurfs.rehub.repository.FaqRepository;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class FaqService {
     private final FaqRepository faqRepository;
 
     @Transactional
-    public Faq addFaq(Faq newFaq) {
+    public Faq addFaq(FaqRequest newFaq) {
 
         log.debug("Creating faq entity.");
 
@@ -31,7 +31,6 @@ public class FaqService {
         log.debug("Saving faq entity.");
 
         return faqRepository.save(faq);
-
     }
 
     public List<Faq> getAllFaq() {
@@ -39,5 +38,14 @@ public class FaqService {
         return faqRepository.findAll();
     }
 
+    @Transactional
+    public void deleteFaqWithId(Long id) {
+        Faq faq = faqRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Faq with given ID does not exist."));
+        log.debug("Deleting faq with ID {}.", id);
 
+        faqRepository.delete(faq);
+
+        log.debug("Successfully delete faq with ID {}.", id);
+    }
 }

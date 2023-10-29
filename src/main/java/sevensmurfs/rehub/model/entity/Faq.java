@@ -30,5 +30,4 @@ public class Faq {
 
     @Column(nullable = false)
     private String answer;
-
 }
