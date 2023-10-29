@@ -23,7 +23,6 @@ public class FaqService {
         log.debug("Creating faq entity.");
 
         Faq faq = Faq.builder()
-                     .id(newFaq.getId())
                      .question(newFaq.getQuestion())
                      .answer(newFaq.getAnswer())
                      .build();

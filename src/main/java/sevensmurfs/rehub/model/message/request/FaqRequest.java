@@ -7,9 +7,6 @@ import lombok.Data;
 @Data
 public class FaqRequest {
 
-    @Null
-    private Long id;
-
     @NotNull
     private String question;
 
