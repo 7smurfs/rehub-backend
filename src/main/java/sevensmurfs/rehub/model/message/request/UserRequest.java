@@ -1,6 +1,7 @@
 package sevensmurfs.rehub.model.message.request;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
@@ -17,19 +18,19 @@ public class UserRequest {
     @Null(groups = {UserRequestValidator.Login.class, UserRequestValidator.Register.class})
     private Long id;
 
-    @NotNull(groups = {UserRequestValidator.Register.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class})
     @Null(groups = {UserRequestValidator.Login.class})
     private String firstName;
 
-    @NotNull(groups = {UserRequestValidator.Register.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class})
     @Null(groups = {UserRequestValidator.Login.class})
     private String lastName;
 
-    @NotNull(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class})
     @Email(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class})
     private String username;
 
-    @NotNull(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class, UserRequestValidator.Delete.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class, UserRequestValidator.Delete.class})
     @Size(min = 8, groups = {UserRequestValidator.Register.class})
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9]).{8,}$", groups = {UserRequestValidator.Register.class, UserRequestValidator.Update.class})
     private String password;
@@ -48,10 +49,10 @@ public class UserRequest {
     private String phin;
 
     @NotNull(groups = {UserRequestValidator.Register.class})
-    @Pattern(regexp = "^\\+3859(1|2|5|8|9|76|77)\\d{6,7}$")
+    @Pattern(regexp = "^\\+3859(1|2|5|8|9|76|77)\\d{6,7}$", groups = {UserRequestValidator.Register.class})
     private String phoneNumber;
 
-    @NotNull(groups = {UserRequestValidator.Employee.class})
+    @NotBlank(groups = {UserRequestValidator.Employee.class})
     private String profession;
 
     private String gender;

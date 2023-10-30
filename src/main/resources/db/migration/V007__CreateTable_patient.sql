@@ -5,12 +5,12 @@
 CREATE TABLE IF NOT EXISTS patient
 (
     id               BIGSERIAL PRIMARY KEY,
-    first_name       VARCHAR(255)                        NOT NULL,
-    last_name        VARCHAR(255)                        NOT NULL,
+    first_name       TEXT                                NOT NULL,
+    last_name        TEXT                                NOT NULL,
     pin              VARCHAR(64)                         NOT NULL,
     phin             VARCHAR(64)                         NOT NULL,
-    gender           VARCHAR(255)                        NULL,
-    phone_number     VARCHAR                             NOT NULL,
+    gender           TEXT                                NULL,
+    phone_number     TEXT                                NOT NULL,
     date_of_birth    DATE                                NOT NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_modified_at TIMESTAMP                           NULL,

@@ -5,14 +5,14 @@
 CREATE TABLE IF NOT EXISTS doctor
 (
     id                  BIGSERIAL PRIMARY KEY,
-    first_name          VARCHAR(255) NOT NULL,
-    last_name           VARCHAR(255) NOT NULL,
-    pin                 VARCHAR(64)  NOT NULL,
-    medical_no          VARCHAR(64)  NOT NULL,
-    speciality          VARCHAR(255) NOT NULL,
-    date_of_employment  DATE         NULL,
-    date_of_resignation DATE         NULL,
-    date_of_birth       DATE         NOT NULL
+    first_name          TEXT        NOT NULL,
+    last_name           TEXT        NOT NULL,
+    pin                 VARCHAR(64) NOT NULL,
+    medical_no          VARCHAR(64) NOT NULL,
+    speciality          TEXT        NOT NULL,
+    date_of_employment  DATE        NULL,
+    date_of_resignation DATE        NULL,
+    date_of_birth       DATE        NOT NULL
 );
 
 -- pin needs to be unique

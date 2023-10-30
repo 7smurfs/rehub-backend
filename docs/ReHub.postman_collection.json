@@ -1,0 +1,246 @@
+{
+	"info": {
+		"_postman_id": "c114409b-076d-4313-b473-b981c228c60f",
+		"name": "ReHub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27880902"
+	},
+	"item": [
+		{
+			"name": "/v1/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"bega@mail.com\",\n    \"password\": \"password123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/patient",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJSRUhVQiIsInN1YiI6ImJlZ2ljQG1haWwuY29tIiwidXNlcm5hbWUiOiJiZWdpY0BtYWlsLmNvbSIsInJvbGVzIjpbIlVTRVIiLCJQQVRJRU5UIl0sImlhdCI6MTY5Nzc2ODk0NCwiZXhwIjoxNjk3NzY5NTQ0fQ.dHsx-VfAcUdSReFpraFEmMsJ0ZlfoZ0b4uVWm6M96PBQp9dZmD7TlTbDGG8t1t94n4E4iXfE2JGCHdsvlOQgrQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJSRUhVQiIsInN1YiI6ImpiNTMwODlAZmVyLmhyIiwidXNlcm5hbWUiOiJqYjUzMDg5QGZlci5ociIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTY5ODE4NDIxNiwiZXhwIjoxNjk4MTg0ODE2fQ.SQQQvv-NMZ3lN5TTaPj-CMJVAMJ8WsQ8fBGfSey0guYDdMFeeksSf5gVg96Va1Qj8IYitKgLZSE8GhjiyNhhbg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/patient",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/patient/:id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJSRUhVQiIsInN1YiI6ImJMTHh0Q3NMdVRlbTduMFMzRWVUTkE9PSIsInVzZXJuYW1lIjoiYkxMeHRDc0x1VGVtN24wUzNFZVROQT09Iiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNjk4MjQ3NDQxLCJleHAiOjE2OTgyNDgwNDF9.9_utcLSb5yVU85e-JnYhSFMNg9vxbdA8sIunRnjg1I9syHiZe7naoz6Q3mt2gC3FuOVgIUMs5gsISf_Qk5dYrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/patient/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"patient",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/faq",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/faq",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"faq"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/faq",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question\": \"sta oces\",\n    \"answer\": \"ocu ovo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/faq",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"faq"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/faq/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/faq/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"faq",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

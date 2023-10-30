@@ -3,11 +3,11 @@
 CREATE TABLE IF NOT EXISTS personal_data
 (
     id            BIGSERIAL PRIMARY KEY,
-    first_name    VARCHAR(255) NOT NULL,
-    last_name     VARCHAR(255) NOT NULL,
-    pin           VARCHAR(64)  NOT NULL,
-    phin          VARCHAR(64)  NULL,
-    date_of_birth DATE         NOT NULL
+    first_name    TEXT        NOT NULL,
+    last_name     TEXT        NOT NULL,
+    pin           VARCHAR(64) NOT NULL,
+    phin          VARCHAR(64) NULL,
+    date_of_birth DATE        NOT NULL
 );
 
 -- pin needs to be unique

@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sevensmurfs.rehub.model.entity.Faq;
 import sevensmurfs.rehub.model.message.request.FaqRequest;
-import sevensmurfs.rehub.model.message.response.EmployeeResponse;
 import sevensmurfs.rehub.model.message.response.FaqResponse;
 import sevensmurfs.rehub.service.FaqService;
 
@@ -32,7 +31,6 @@ public class FaqController {
     /**
      * Add a new faq Admin POST > /api/v1/faq
      */
-
     @PostMapping
     @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<Object> addFaq(@Validated @RequestBody FaqRequest faqRequest) throws Exception {
@@ -41,15 +39,18 @@ public class FaqController {
 
         Faq faq = faqService.addFaq(faqRequest);
 
-        log.info(" > > > POST /api/v1/faq (Adding a new faq succesful)");
+        log.info(" < < < POST /api/v1/faq (Adding a new faq successful)");
 
-        return ResponseEntity.ok(faq);
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest()
+                                                                 .path("/{faqId}")
+                                                                 .buildAndExpand(faq.getId())
+                                                                 .toUri())
+                             .build();
     }
 
     /**
      * Get all faq request GET > /api/v1/faq
      */
-
     @GetMapping
     public ResponseEntity<Object> getAllFaq() {
 
@@ -73,7 +74,7 @@ public class FaqController {
 
         faqService.deleteFaqWithId(id);
 
-        log.info(" > > > DELETE /api/v1/faq/{} (Delete faq succes)", id);
+        log.info(" < < < DELETE /api/v1/faq/{} (Delete faq success)", id);
 
         return ResponseEntity.noContent().build();
     }
