@@ -48,13 +48,13 @@ public class Therapy extends AuditableEntity {
     @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
     private Patient patient;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false)
-    private Room room;
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
-    private Doctor doctor;
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private Room room;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id", referencedColumnName = "id")

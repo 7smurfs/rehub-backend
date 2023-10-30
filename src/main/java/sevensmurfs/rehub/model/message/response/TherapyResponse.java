@@ -27,8 +27,6 @@ public class TherapyResponse {
 
     private LocalDateTime endAt;
 
-    private DoctorResponse doctor;
-
     private TherapyResultResponse therapyResultResponse;
 
     public static TherapyResponse mapTherapyEntity(Therapy therapy) {
@@ -41,7 +39,6 @@ public class TherapyResponse {
                               .roomLabel(therapy.getRoom().getLabel())
                               .startAt(therapy.getAppointment().getStartAt())
                               .endAt(therapy.getAppointment().getEndAt())
-                              .doctor(DoctorResponse.mapDoctorEntity(therapy.getDoctor()))
                               .therapyResultResponse(TherapyResultResponse.mapTherapyResultEntity(therapy.getTherapyResult()))
                               .build();
     }

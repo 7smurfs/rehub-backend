@@ -6,9 +6,9 @@
 CREATE TABLE IF NOT EXISTS rehub_user
 (
     id       BIGSERIAL PRIMARY KEY,
-    username VARCHAR      NOT NULL,
-    password VARCHAR(60)  NOT NULL,
-    status   VARCHAR(255) NOT NULL
+    username VARCHAR     NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    status   TEXT        NOT NULL
 );
 
 -- username needs to be unique

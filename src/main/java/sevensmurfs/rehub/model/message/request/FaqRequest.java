@@ -1,15 +1,14 @@
 package sevensmurfs.rehub.model.message.request;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class FaqRequest {
 
-    @NotNull
+    @NotBlank
     private String question;
 
-    @NotNull
+    @NotBlank
     private String answer;
 }

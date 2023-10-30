@@ -4,13 +4,13 @@
 CREATE TABLE IF NOT EXISTS employee
 (
     id               BIGSERIAL PRIMARY KEY,
-    first_name       VARCHAR(255)                        NOT NULL,
-    last_name        VARCHAR(255)                        NOT NULL,
+    first_name       TEXT                                NOT NULL,
+    last_name        TEXT                                NOT NULL,
     pin              VARCHAR(64)                         NOT NULL,
     phone_number     VARCHAR                             NOT NULL,
-    profession       VARCHAR(255)                        NOT NULL,
+    profession       TEXT                                NOT NULL,
     date_of_birth    DATE                                NOT NULL,
-    gender           VARCHAR(255)                        NULL,
+    gender           TEXT                                NULL,
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_modified_at TIMESTAMP                           NULL,
     user_id          BIGINT                              NOT NULL,

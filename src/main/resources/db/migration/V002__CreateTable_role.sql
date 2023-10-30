@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS role
 (
-    id          BIGSERIAL PRIMARY KEY,
-    name        VARCHAR(255)
+    id   BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL
 );
 
