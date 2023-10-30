@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class FaqController {
 
-    public final FaqService faqService;
+    private final FaqService faqService;
 
     /**
      * Add a new faq Admin POST > /api/v1/faq
