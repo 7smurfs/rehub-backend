@@ -241,6 +241,204 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/v1/employee/room",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/room",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/room/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/room/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"room",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"label\": \"soba\",\n    \"capacity\": 4,\n    \"status\": \"FULL\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/room",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/room/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/room/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"room",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/equipment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Rengen\",\n    \"status\": \"OPERABLE\",\n    \"specialMessage\": \"posebna poruka\",\n    \"roomId\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/equipment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"equipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/equipment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/equipment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"equipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/equipment/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/equipment/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"equipment",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/employee/equipment/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/employee/equipment/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"equipment",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
