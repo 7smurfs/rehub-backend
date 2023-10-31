@@ -14,6 +14,7 @@ import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.repository.TherapyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,9 +36,8 @@ public class TherapyService {
         Patient patient = patientRepository.findById(newTherapy.getPatientId()).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given id does not exists."));
 
-        Doctor doctor = doctorRepository.findByFirstAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName());
-
-        if(doctor == null) throw new IllegalArgumentException(String.format("Doctor '%s' '%s' not found!", newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()));
+        Doctor doctor = doctorRepository.findByFirstNameAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()).orElseThrow(
+                () -> new IllegalArgumentException(String.format("Doctor %s %s not found!", newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName())));
 
         Therapy therapy = Therapy.builder()
                                  .type(newTherapy.getType())
@@ -52,6 +52,8 @@ public class TherapyService {
         List<Therapy> therapies = patient.getTherapies();
         therapies.add(therapy);
         patient.setTherapies(therapies);
+
+        patientRepository.save(patient);
 
         return therapyRepository.save(therapy);
     }

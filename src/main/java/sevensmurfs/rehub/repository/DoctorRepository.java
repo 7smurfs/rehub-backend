@@ -15,6 +15,6 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
-    @Query("SELECT d FROM Doctor d WHERE d.firstName = :firstName AND d.lastName = :lastName")
-    Doctor findByFirstAndLastName(@Param("firstName") String firstName, @Param("lastName") String lastName);
+    Optional<Doctor> findByFirstNameAndLastName(String firstName, String lastName);
+
 }
