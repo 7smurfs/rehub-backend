@@ -57,6 +57,14 @@ public class TherapyService {
 
         return therapyRepository.save(therapy);
     }
+
+    public List<Therapy> getAllTherapies(Long patientId){
+
+        List<Therapy> therapies = therapyRepository.findByPatientId(patientId).orElseThrow(
+                () -> new IllegalArgumentException("No therapies found for patient!"));
+        return therapies;
+    }
+
     @Transactional
     public void invalidateAllTherapiesForPatient(Patient patient) {
         log.debug("Invalidating all therapies for employee with ID {}.", patient.getId());
