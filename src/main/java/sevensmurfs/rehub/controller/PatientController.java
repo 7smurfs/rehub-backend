@@ -19,6 +19,7 @@ import sevensmurfs.rehub.model.message.request.TherapyRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
 import sevensmurfs.rehub.model.message.response.PatientResponse;
+import sevensmurfs.rehub.model.message.response.TherapyResponse;
 import sevensmurfs.rehub.service.PatientService;
 import sevensmurfs.rehub.service.TherapyService;
 
@@ -87,7 +88,6 @@ public class PatientController {
     }
 
     @PostMapping("/therapy")
-    //@RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<Object> createTherapy(@Validated @RequestBody TherapyRequest therapyRequest) throws Exception {
 
         log.info(" > > > POST /api/v1/patient/therapy (Adding a new therapy)");
@@ -101,6 +101,18 @@ public class PatientController {
                                                                  .buildAndExpand(therapy.getId())
                                                                  .toUri())
                              .build();
+    }
+
+    @GetMapping("/{id}/therapies")
+    public ResponseEntity<Object> fetchAllTherapiesForPatient(@PathVariable(name = "id") Long id) throws Exception {
+
+        log.info(" > > > GET /api/v1/patient/therapies (Fetching all therapies with id: {})", id);
+
+        List<Therapy> therapies = therapyService.getAllTherapies(id);
+
+        log.info(" < < < GET /api/v1/patient/therapies (Get all patients request success)");
+
+        return ResponseEntity.ok(therapies.stream().map(TherapyResponse::mapTherapyEntity).toList());
     }
 
 }
