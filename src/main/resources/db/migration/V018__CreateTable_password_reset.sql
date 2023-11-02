@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS password_reset
     id                  BIGSERIAL                                    PRIMARY KEY,
     token               VARCHAR(36)                                  NOT NULL,
     status              TEXT                                         NOT NULL,
-    user_id             BIGINT                                       NULL,
+    user_id             BIGINT                                       NOT NULL,
     created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP          NOT NULL,
     last_modified_at    TIMESTAMP                                    NULL,
     FOREIGN KEY (user_id) REFERENCES rehub_user (id)

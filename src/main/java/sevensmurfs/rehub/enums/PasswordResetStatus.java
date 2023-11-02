@@ -11,9 +11,4 @@ public enum PasswordResetStatus {
      * User has successfully reset his password
      */
     RESET_ACCEPTED,
-
-    /**
-     * Password reset token has expired
-     */
-    RESET_EXPIRED;
 }
