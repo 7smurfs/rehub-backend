@@ -1,5 +1,6 @@
 package sevensmurfs.rehub.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,4 +42,5 @@ public class PasswordReset extends AuditableEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private RehubUser rehubUser;
+
 }
