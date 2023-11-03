@@ -4,7 +4,7 @@ import jakarta.validation.groups.Default;
 
 public interface PasswordResetValidator {
 
-    interface getPasswordResetLink extends Default {}
+    interface PasswordResetLink extends Default {}
 
-    interface saveNewPassword extends Default {}
+    interface SaveNewPassword extends Default {}
 }

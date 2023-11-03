@@ -11,22 +11,22 @@ import sevensmurfs.rehub.model.message.request.validator.PasswordResetValidator;
 @Data
 public class PasswordResetRequest {
 
-    @Null(groups = {PasswordResetValidator.saveNewPassword.class})
-    @NotBlank(groups = {PasswordResetValidator.getPasswordResetLink.class})
+    @Null(groups = {PasswordResetValidator.SaveNewPassword.class})
+    @NotBlank(groups = {PasswordResetValidator.PasswordResetLink.class})
     private String username;
 
-    @Null(groups = {PasswordResetValidator.getPasswordResetLink.class})
-    @NotBlank(groups = {PasswordResetValidator.saveNewPassword.class})
-    @Size(min = 8, groups = {PasswordResetValidator.saveNewPassword.class})
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9]).{8,}$", groups = {PasswordResetValidator.saveNewPassword.class})
+    @Null(groups = {PasswordResetValidator.PasswordResetLink.class})
+    @NotBlank(groups = {PasswordResetValidator.SaveNewPassword.class})
+    @Size(min = 8, groups = {PasswordResetValidator.SaveNewPassword.class})
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9]).{8,}$", groups = {PasswordResetValidator.SaveNewPassword.class})
     private String newPass;
 
-    @Null(groups = {PasswordResetValidator.getPasswordResetLink.class})
-    @NotBlank(groups = {PasswordResetValidator.saveNewPassword.class})
+    @Null(groups = {PasswordResetValidator.PasswordResetLink.class})
+    @NotBlank(groups = {PasswordResetValidator.SaveNewPassword.class})
     private String confirmPass;
 
-    @Null(groups = {PasswordResetValidator.getPasswordResetLink.class})
-    @NotBlank(groups = {PasswordResetValidator.saveNewPassword.class})
+    @Null(groups = {PasswordResetValidator.PasswordResetLink.class})
+    @NotBlank(groups = {PasswordResetValidator.SaveNewPassword.class})
     private String token;
 
 }
