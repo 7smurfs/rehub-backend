@@ -5,8 +5,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
+import sevensmurfs.rehub.model.entity.Doctor;
+import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.entity.Patient;
+import sevensmurfs.rehub.model.message.request.TherapyRequest;
+import sevensmurfs.rehub.repository.DoctorRepository;
+import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.repository.TherapyRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +24,46 @@ public class TherapyService {
     private final TherapyRepository therapyRepository;
 
     private final TherapyResultService therapyResultService;
+
+    private final PatientRepository patientRepository;
+
+    private final DoctorRepository doctorRepository;
+
+    @Transactional
+    public Therapy createTherapy(TherapyRequest newTherapy) {
+
+        log.debug("Creating therapy entity.");
+        Patient patient = patientRepository.findById(newTherapy.getPatientId()).orElseThrow(
+                () -> new IllegalArgumentException("Patient with given id does not exists."));
+
+        Doctor doctor = doctorRepository.findByFirstNameAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()).orElseThrow(
+                () -> new IllegalArgumentException(String.format("Doctor %s %s not found!", newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName())));
+
+        Therapy therapy = Therapy.builder()
+                                 .type(newTherapy.getType())
+                                 .request(newTherapy.getRequest())
+                                 .patient(patient)
+                                 .status(newTherapy.getStatus())
+                                 .build();
+
+        log.debug("Saving therapy entity.");
+
+        //Saving therapy to patients therapies
+        List<Therapy> therapies = patient.getTherapies();
+        therapies.add(therapy);
+        patient.setTherapies(therapies);
+
+        patientRepository.save(patient);
+
+        return therapyRepository.save(therapy);
+    }
+
+    public List<Therapy> getAllTherapies(Long patientId){
+
+        List<Therapy> therapies = therapyRepository.findByPatientId(patientId).orElseThrow(
+                () -> new IllegalArgumentException("No therapies found for patient!"));
+        return therapies;
+    }
 
     @Transactional
     public void invalidateAllTherapiesForPatient(Patient patient) {
