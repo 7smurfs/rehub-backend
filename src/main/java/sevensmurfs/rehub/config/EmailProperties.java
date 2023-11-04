@@ -25,5 +25,8 @@ public class EmailProperties {
 
     @Value("${spring.mail.properties.mail.smtp.auth}")
     private String auth;
+
+    @Value("${password.reset.url}")
+    private String passwordResetLink;
 }
 

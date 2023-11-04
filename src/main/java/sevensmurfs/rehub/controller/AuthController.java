@@ -64,7 +64,7 @@ public class AuthController {
      * Request password reset link POST > /api/v1/auth/reset
      */
     @PostMapping("/reset")
-    public ResponseEntity<Object> getPasswordResetLink(@Validated(PasswordResetValidator.getPasswordResetLink.class)
+    public ResponseEntity<Object> PasswordResetLink(@Validated(PasswordResetValidator.PasswordResetLink.class)
                                                        @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
 
         log.info(" > > > POST /api/v1/auth/reset (Requesting password reset link)");
@@ -80,7 +80,7 @@ public class AuthController {
      * Save a new password request POST > /api/v1/auth/reset/password
      */
     @PostMapping("/reset/password")
-    public ResponseEntity<Object> saveNewPassword(@Validated(PasswordResetValidator.saveNewPassword.class)
+    public ResponseEntity<Object> saveNewPassword(@Validated(PasswordResetValidator.SaveNewPassword.class)
                                                   @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
 
         log.info(" > > > POST /api/v1/auth/reset/password (Updating user's password)");
