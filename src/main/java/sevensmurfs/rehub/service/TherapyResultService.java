@@ -39,6 +39,7 @@ public class TherapyResultService {
                                            .orElseThrow(
                                                    () -> new IllegalArgumentException("Invalid therapy ID: " + request.getTherapyId()));
 
+        // Create a new TherapyResult entity
         TherapyResult therapyResult = TherapyResult.builder()
                                                    .result(request.getResult())
                                                    .status(request.getStatus())
@@ -50,4 +51,5 @@ public class TherapyResultService {
         therapyRepository.save(therapy);
         log.debug("Therapy result saved successfully.");
     }
+
 }
