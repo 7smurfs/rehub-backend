@@ -63,7 +63,7 @@ VALUES ( 'Ema', 'Vidović', '24b88f3bd6f063231fe57fe045efde381f8d05867cf70ca6f81
 -- pin:34567890123 phin:369814702
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Petar', 'Đurđević', '86594fd36f33232b9fb022c66aa5f111fb45704691d6359f638b3823754a9c8f',
-        'c7bfd2cab871a0862cd6c29851986c6979368a81f36f30922d9360f78e22663c', '2000-12-9');
+        'c7bfd2cab871a0862cd6c29851986c6979368a81f36f30922d9360f78e22663c', '2000-12-09');
 
 -- pin:98765432109 phin:621094738
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
@@ -73,7 +73,7 @@ VALUES ( 'Mia', 'Grubišić', 'bd2d84bb3656fddd06f8b0f549552fd430f8399fb83de176d
 -- pin:54321098765 phin:432189675
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES  ( 'Stjepan', 'Knežević', '38f74d704006fd54f322ba3191dde6260b6f12ab3695578944a82385b60d33aa',
-        'c25ff5af751e7384c02ef5a0122a73ae1035b0041ace0f90b47f7148e36b87d0', '1993-02-1');
+        'c25ff5af751e7384c02ef5a0122a73ae1035b0041ace0f90b47f7148e36b87d0', '1993-02-01');
 
 -- pin:67890123456 phin:510987634
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
