@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import sevensmurfs.rehub.enums.TherapyStatus;
 
-import java.time.LocalDateTime;
-
 @Data
 public class TherapyRequest {
 
