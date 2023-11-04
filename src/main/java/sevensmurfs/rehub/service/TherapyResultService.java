@@ -1,6 +1,5 @@
 package sevensmurfs.rehub.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,19 +36,21 @@ public class TherapyResultService {
     public void writeTherapyResult(TherapyResultRequest request) {
         // Find the therapy by ID
         Therapy therapy = therapyRepository.findById(request.getTherapyId())
-                                           .orElseThrow(() -> new EntityNotFoundException("Therapy not found"));
+                                           .orElseThrow(() -> new IllegalArgumentException("Invalid therapy ID: " + request.getTherapyId()));
 
         // Create a new TherapyResult entity
-        TherapyResult therapyResult = new TherapyResult();
-        therapyResult.setResult(request.getResult());
+        TherapyResult therapyResult = TherapyResult.builder()
+                                                   .result(request.getResult())
+                                                   .status(request.getStatus())
+                                                   .build();
 
         // Set the therapy result for the therapy
         therapy.setTherapyResult(therapyResult);
-        therapy.setStatus(request.getStatus());
 
         // Save the therapy result and update the therapy
         therapyResultRepository.save(therapyResult);
         therapyRepository.save(therapy);
-
+        log.debug("Therapy result saved successfully.");
     }
+
 }
