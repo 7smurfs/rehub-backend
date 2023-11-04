@@ -5,16 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
-import sevensmurfs.rehub.model.entity.Doctor;
-import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.entity.Patient;
+import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.TherapyRequest;
 import sevensmurfs.rehub.repository.DoctorRepository;
 import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.repository.TherapyRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +34,9 @@ public class TherapyService {
         Patient patient = patientRepository.findById(newTherapy.getPatientId()).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given id does not exists."));
 
-        Doctor doctor = doctorRepository.findByFirstNameAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()).orElseThrow(
-                () -> new IllegalArgumentException(String.format("Doctor %s %s not found!", newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName())));
+        doctorRepository.findByFirstNameAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()).orElseThrow(
+                () -> new IllegalArgumentException(
+                        String.format("Doctor %s %s not found!", newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName())));
 
         Therapy therapy = Therapy.builder()
                                  .type(newTherapy.getType())
@@ -58,11 +57,10 @@ public class TherapyService {
         return therapyRepository.save(therapy);
     }
 
-    public List<Therapy> getAllTherapies(Long patientId){
-
-        List<Therapy> therapies = therapyRepository.findByPatientId(patientId).orElseThrow(
+    public List<Therapy> getAllTherapies(Long patientId) {
+        log.debug("Fetching all therapies for patient {}", patientId);
+        return therapyRepository.findByPatientId(patientId).orElseThrow(
                 () -> new IllegalArgumentException("No therapies found for patient!"));
-        return therapies;
     }
 
     @Transactional
