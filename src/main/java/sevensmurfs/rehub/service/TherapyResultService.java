@@ -34,23 +34,20 @@ public class TherapyResultService {
 
     @Transactional
     public void writeTherapyResult(TherapyResultRequest request) {
-        // Find the therapy by ID
-        Therapy therapy = therapyRepository.findById(request.getTherapyId())
-                                           .orElseThrow(() -> new IllegalArgumentException("Invalid therapy ID: " + request.getTherapyId()));
 
-        // Create a new TherapyResult entity
+        Therapy therapy = therapyRepository.findById(request.getTherapyId())
+                                           .orElseThrow(
+                                                   () -> new IllegalArgumentException("Invalid therapy ID: " + request.getTherapyId()));
+
         TherapyResult therapyResult = TherapyResult.builder()
                                                    .result(request.getResult())
                                                    .status(request.getStatus())
                                                    .build();
 
-        // Set the therapy result for the therapy
         therapy.setTherapyResult(therapyResult);
 
-        // Save the therapy result and update the therapy
         therapyResultRepository.save(therapyResult);
         therapyRepository.save(therapy);
         log.debug("Therapy result saved successfully.");
     }
-
 }

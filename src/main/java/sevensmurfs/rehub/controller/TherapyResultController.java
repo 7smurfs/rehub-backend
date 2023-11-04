@@ -4,6 +4,8 @@ import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import sevensmurfs.rehub.model.message.request.TherapyResultRequest;
 import sevensmurfs.rehub.service.TherapyResultService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/v1/therapy/result")
 @RequiredArgsConstructor
 @Slf4j
@@ -22,7 +25,7 @@ public class TherapyResultController {
 
     @PostMapping
     @RolesAllowed("ROLE_EMPLOYEE")
-    public ResponseEntity<Object> writeTherapyResult(@RequestBody TherapyResultRequest request) {
+    public ResponseEntity<Object> writeTherapyResult(@Validated @RequestBody TherapyResultRequest request) {
         log.info(" > > > POST /api/v1/therapy/result (Write therapy result request)");
 
         // Call the service method to write the therapy result
