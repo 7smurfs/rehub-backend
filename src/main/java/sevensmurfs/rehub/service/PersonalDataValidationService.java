@@ -28,7 +28,7 @@ public class PersonalDataValidationService {
     public void validateEmployeeFromMinistryDatabase(UserRequest userRequest) {
         log.debug("Validating employee from personal information database.");
         personalDataRepository.findAllByFirstNameAndLastNameAndPinAndDateOfBirth(userRequest.getFirstName(),
-                                                                                 userRequest.getFirstName(),
+                                                                                 userRequest.getLastName(),
                                                                                  SecurityUtil.hashInput(userRequest.getPin()),
                                                                                  userRequest.getDateOfBirth()).orElseThrow(
                 () -> new IllegalArgumentException("Invalid personal data."));
