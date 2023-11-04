@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>ReHub Email</title>
+</head>
+<body>
+<h1>Hello, <span th:text="${recipientName}">Recipient</span>!</h1>
+
+<p>Your therapy for <i><span th:text="${therapy.type}"></span></i> has been confirmed!</p>
+<p>Your appointment with your doctor will be on <span th:text="${therapyDate}"></span> at <span th:text="${therapyTime}"></span></p>
+<p>If you want to cancel or reschedule the appointment, contact us via mail or phone.</p>
+<p>
+    If you have any questions or need further information, please don't hesitate to contact us.
+</p>
+
+<p>Best regards,<br>ReHub</p>
+</body>
+</html>

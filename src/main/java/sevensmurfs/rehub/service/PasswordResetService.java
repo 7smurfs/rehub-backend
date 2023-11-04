@@ -27,6 +27,8 @@ public class PasswordResetService {
 
     private final PasswordEncoder encoder;
 
+    private final EmailService emailService;
+
     @Transactional
     public void getPasswordResetLink(PasswordResetRequest passwordResetRequest) throws Exception {
 
@@ -52,9 +54,7 @@ public class PasswordResetService {
 
         passwordResetRepository.save(passwordReset);
 
-
-        //send email method comes here
-        //method should take in two arguments: String token and String username
+        emailService.sendPasswordReset(passwordResetRequest.getUsername(), token);
     }
 
     @Transactional

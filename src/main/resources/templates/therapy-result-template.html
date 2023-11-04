@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Therapy Result - ReHub</title>
+</head>
+<body>
+<h1>Hello, <span th:text="${recipientName}">Recipient</span>!</h1>
+
+<p>We are pleased to share with you the results of your recent therapy sessions. Below, you will find a summary of your therapy progress:</p>
+
+<p><strong>Therapy Result:</strong></p>
+<p th:text="${therapyResult.result}"></p>
+
+<p>If you have any questions or would like to discuss your therapy results further, please do not hesitate to reach out to us. We are here to support you on your journey to well-being.</p>
+
+<p>Best regards,<br>ReHub</p>
+</body>
+</html>
