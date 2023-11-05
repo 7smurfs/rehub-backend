@@ -1,13 +1,13 @@
 name: Build Docker image
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
 jobs:
   build-and-deploy:
-    name: Build stage
+    name: Build docker image and deploy to hub
     runs-on: ubuntu-latest
 
     steps:
