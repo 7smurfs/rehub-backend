@@ -1,15 +1,12 @@
 FROM openjdk:17-alpine
 
+RUN mkdir /app
+
+COPY rehub-1.0.0.jar /app/rehub-1.0.0.jar
 WORKDIR /app
 
-COPY gradle gradle
-COPY build.gradle settings.gradle gradlew ./
-COPY gradlew.bat ./
 
-COPY src src
-
-RUN ./gradlew build
 
 LABEL authors="begjosip"
 
-CMD ["java", "-Dspring.profiles.active=local", "-jar", "build/libs/rehub-1.0.0.jar"]
+CMD ["java", "-Dspring.profiles.active=local", "-jar", "rehub-1.0.0.jar"]
