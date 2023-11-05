@@ -8,5 +8,5 @@ WORKDIR /app
 
 
 LABEL authors="begjosip"
-
-CMD ["java", "-Dspring.profiles.active=local", "-jar", "rehub-1.0.0.jar"]
+EXPOSE 8080
+ENTRYPOINT ["java", "-Dspring.profiles.active=local", "-jar", "rehub-1.0.0.jar"]
