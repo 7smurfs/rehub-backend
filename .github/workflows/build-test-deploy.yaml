@@ -1,7 +1,7 @@
 name: Build Docker image
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
