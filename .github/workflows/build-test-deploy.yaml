@@ -34,11 +34,6 @@ jobs:
           name: jar-file
           path: rehub-1.0.0.jar
 
-      - uses: actions/download-artifact@master
-        with:
-          name: jar-file
-          path: rehub-1.0.0.jar
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
