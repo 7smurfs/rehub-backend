@@ -27,7 +27,7 @@ jobs:
         run: ./gradlew test
 
       - name: Copy Jar file
-        run: mv build/libs/$(ls build/libs) rehub-1.0.0.jar
+        run: mv build/libs/rehub-1.0.0.jar rehub-1.0.0.jar
 
       - uses: actions/upload-artifact@master
         with:
