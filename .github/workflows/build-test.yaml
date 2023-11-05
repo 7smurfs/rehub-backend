@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build stage
     runs-on: ubuntu-latest
 
     steps:
@@ -20,5 +20,16 @@ jobs:
           distribution: adopt
           java-version: 17
 
-      - name: Build with Gradle
+      - name: Build
         run: ./gradlew build
+
+      - name: Test
+        run: ./gradlew test
+
+      - name: Copy Jar file
+        run: mv build/libs/$(ls build/libs) rehub.jar
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: jar-file
+          path: rehub.jar
