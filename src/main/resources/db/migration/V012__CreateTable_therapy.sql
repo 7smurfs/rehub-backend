@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS therapy
 (
     id                BIGSERIAL PRIMARY KEY,
     type              TEXT                                NOT NULL,
-    request           VARCHAR                             NOT NULL,
+    request           TEXT                             NOT NULL,
     status            TEXT                                NOT NULL,
     ref_id            BIGINT                              NULL,
     created_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
