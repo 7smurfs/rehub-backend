@@ -1,6 +1,4 @@
 -- Create table schema for patient
--- pin column is personal identification number
--- phin column is personal health identification number
 
 CREATE TABLE IF NOT EXISTS patient
 (

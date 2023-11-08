@@ -1,6 +1,6 @@
 -- Create table schema for rehub user
 -- username column is user email. There is no need for actual username
--- username column represents hash user email
+-- username column represents encrypted user email
 -- password column has size limitation for ByCrypt password hashing
 
 CREATE TABLE IF NOT EXISTS rehub_user

@@ -1,5 +1,4 @@
 -- Create table schema for employee
--- pin column is personal identification number
 
 CREATE TABLE IF NOT EXISTS employee
 (
