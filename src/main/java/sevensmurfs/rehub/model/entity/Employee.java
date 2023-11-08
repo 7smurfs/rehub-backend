@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "uc_employee_pin", columnNames = "pin"),
-                            @UniqueConstraint(name = "uc_employee_phone_number", columnNames = "phoneNumber")})
+@Table(uniqueConstraints = @UniqueConstraint(name = "uc_employee_phone_number", columnNames = "phoneNumber"))
 @SuperBuilder
 @Getter
 @Setter
@@ -44,18 +43,12 @@ public class Employee extends AuditableEntity {
     private String lastName;
 
     @Column(nullable = false, unique = true)
-    private String pin;
-
-    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
     private String gender;
 
     @Column(nullable = false)
     private String profession;
-
-    @Column(nullable = false)
-    private LocalDate dateOfBirth;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

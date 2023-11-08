@@ -24,9 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "uc_patient_pin", columnNames = "pin"),
-                            @UniqueConstraint(name = "uc_patient_phone_number", columnNames = "phoneNumber"),
-                            @UniqueConstraint(name = "uc_patient_phin", columnNames = "phin")})
+@Table(uniqueConstraints = @UniqueConstraint(name = "uc_patient_phone_number", columnNames = "phoneNumber"))
 @Getter
 @Setter
 @SuperBuilder
@@ -43,12 +41,6 @@ public class Patient extends AuditableEntity {
 
     @Column(nullable = false)
     private String lastName;
-
-    @Column(nullable = false, unique = true)
-    private String phin;
-
-    @Column(nullable = false, unique = true)
-    private String pin;
 
     @Column(nullable = false, unique = true)
     private String phoneNumber;

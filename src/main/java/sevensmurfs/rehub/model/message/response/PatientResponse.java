@@ -35,7 +35,6 @@ public class PatientResponse {
                               .user(UserResponse.mapUserEntity(patient.getUser()))
                               .firstName(patient.getFirstName())
                               .lastName(patient.getLastName())
-                              .pin(patient.getPin())
                               .phoneNumber(patient.getPhoneNumber())
                               .gender(patient.getGender())
                               .dateOfBirth(patient.getDateOfBirth())

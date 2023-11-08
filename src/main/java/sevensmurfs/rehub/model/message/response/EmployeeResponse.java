@@ -41,7 +41,6 @@ public class EmployeeResponse {
                                .gender(employee.getGender())
                                .profession(employee.getProfession())
                                .therapies(employee.getTherapies().stream().map(TherapyResponse::mapTherapyEntity).toList())
-                               .dateOfBirth(employee.getDateOfBirth())
                                .build();
     }
 }

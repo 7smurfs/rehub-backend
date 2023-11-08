@@ -33,8 +33,6 @@ public class PatientService {
         Patient patient = Patient.builder()
                                  .firstName(userRequest.getFirstName())
                                  .lastName(userRequest.getLastName())
-                                 .pin(SecurityUtil.hashInput(userRequest.getPin()))
-                                 .phin(SecurityUtil.hashInput(userRequest.getPhin()))
                                  .phoneNumber(userRequest.getPhoneNumber())
                                  .dateOfBirth(userRequest.getDateOfBirth())
                                  .gender(userRequest.getGender())
