@@ -54,11 +54,11 @@ public class PatientService {
                 () -> new IllegalArgumentException("Patient with given ID does not exist."));
         if (patient.getUser().getStatus().equals(UserStatus.INVALIDATED))
             throw new IllegalArgumentException("User is already invalidated.");
-
+        patient.setPhoneNumber(SecurityUtil.hashInput(patient.getPhoneNumber()) + "_" + patient.getId());
         log.debug("Invalidating patient with ID {}.", patient.getId());
         therapyService.invalidateAllTherapiesForPatient(patient);
-        patient.getUser().setStatus(UserStatus.INVALIDATED);
-        userService.saveUser(patient.getUser());
+        userService.invalidateUser(patient.getUser());
+        patientRepository.save(patient);
         log.debug("Successfully invalidated patient with ID {}.", patient.getId());
     }
 }

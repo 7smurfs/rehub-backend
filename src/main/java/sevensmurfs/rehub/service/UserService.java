@@ -89,4 +89,13 @@ public class UserService {
         userRepository.save(user);
         log.debug("User saved.");
     }
+
+    @Transactional
+    public void invalidateUser(RehubUser user) {
+        log.debug("Invalidating user.");
+        user.setStatus(UserStatus.INVALIDATED);
+        user.setUsername(SecurityUtil.hashInput(user.getUsername()) + "_" + user.getId());
+        userRepository.save(user);
+        log.debug("User invalidated.");
+    }
 }
