@@ -20,9 +20,8 @@ public class JwtGenerator {
 
     /**
      * Expiration time in milliseconds
-     * Equals to 10 minutes (can be prolonged)
      */
-    private static final long JWT_EXPIRATION = 600000L;
+    private static final long JWT_EXPIRATION = 6000000L;
 
     /**
      * Key used for JWT token encryption

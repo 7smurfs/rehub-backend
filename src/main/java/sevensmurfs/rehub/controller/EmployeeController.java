@@ -69,7 +69,7 @@ public class EmployeeController {
      * Get all employees ADMIN request GET > /api/v1/employee
      */
     @GetMapping
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
     public ResponseEntity<Object> getAllEmployees() {
 
         log.info(" > > > GET /api/v1/employee (Get all employees ADMIN request)");

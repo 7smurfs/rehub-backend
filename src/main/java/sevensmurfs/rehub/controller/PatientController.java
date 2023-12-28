@@ -62,7 +62,7 @@ public class PatientController {
      * Get all patients request GET > /api/v1/patient
      */
     @GetMapping
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
     public ResponseEntity<Object> getAllPatients() {
 
         log.info(" > > > GET /api/v1/patient (Get all patients request)");
