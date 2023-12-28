@@ -55,11 +55,14 @@ public class AuthController {
 
         String username = SecurityUtil.encryptUsername(userRequest.getUsername());
         RehubUser user = userService.findUserByUsername(username);
+        String [] userInfo = userService.getUserInfo(user);
+        if (userInfo == null)
+            throw new IllegalArgumentException("No valid user data.");
         String jwtToken = jwtGenerator.generateToken(authentication, user.getRoles());
 
         log.info(" < < < POST /api/v1/auth/login (User login request successful)");
 
-        return ResponseEntity.ok().body(UserResponse.mapAuthenticatedUserEntity(user, jwtToken));
+        return ResponseEntity.ok().body(UserResponse.mapAuthenticatedUserEntity(user, jwtToken, userInfo[0], userInfo[1]));
     }
 
     /**

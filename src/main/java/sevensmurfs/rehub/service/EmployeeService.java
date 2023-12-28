@@ -9,7 +9,6 @@ import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
-import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.util.List;
 
@@ -58,4 +57,5 @@ public class EmployeeService {
 
         log.debug("Successfully invalidate employee with ID {}.", employee.getId());
     }
+
 }

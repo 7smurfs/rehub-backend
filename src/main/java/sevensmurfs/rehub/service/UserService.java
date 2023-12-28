@@ -7,8 +7,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.Role;
 import sevensmurfs.rehub.enums.UserStatus;
+import sevensmurfs.rehub.model.entity.Employee;
+import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.UserRole;
 import sevensmurfs.rehub.model.message.request.UserRequest;
+import sevensmurfs.rehub.repository.EmployeeRepository;
+import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.UserRoleRepository;
 import sevensmurfs.rehub.util.SecurityUtil;
@@ -23,6 +28,10 @@ public class UserService {
     private final RehubUserRepository userRepository;
 
     private final UserRoleRepository userRoleRepository;
+
+    private final PatientRepository patientRepository;
+
+    private final EmployeeRepository employeeRepository;
 
     private final PersonalDataValidationService dataValidationService;
 
@@ -97,5 +106,31 @@ public class UserService {
         user.setUsername(SecurityUtil.hashInput(user.getUsername()) + "_" + user.getId());
         userRepository.save(user);
         log.debug("User invalidated.");
+    }
+
+    @Transactional
+    public String[] getUserInfo(RehubUser user) {
+        String[] result = new String[2];
+        List<Role> userRoles = user.getRoles().stream().map(UserRole::getName).toList();
+        if (userRoles.contains(Role.PATIENT)) {
+            Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
+                    () -> new IllegalArgumentException("Invalid user data. Can't find patient with given user data."));
+            result[0] = patient.getFirstName();
+            result[1] = patient.getLastName();
+            return result;
+        }
+        if (userRoles.contains(Role.EMPLOYEE)) {
+            Employee employee = employeeRepository.findEmployeeByUserId(user.getId()).orElseThrow(
+                    () -> new IllegalArgumentException("Invalid user data. Can't find employee with given user data."));
+            result[0] = employee.getFirstName();
+            result[1] = employee.getLastName();
+            return result;
+        }
+        if (userRoles.contains(Role.SUPERADMIN)) {
+            result[0] = "SuperAdmin";
+            result[1] = "User";
+            return result;
+        }
+        return null;
     }
 }
