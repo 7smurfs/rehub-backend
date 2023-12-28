@@ -10,6 +10,7 @@ import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -45,6 +46,10 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    public long getNumberOfEmployees() {
+        return employeeRepository.count();
+    }
+
     @Transactional
     public void invalidateEmployeeWithId(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(
@@ -58,4 +63,7 @@ public class EmployeeService {
         log.debug("Successfully invalidate employee with ID {}.", employee.getId());
     }
 
+    public Long getNumberOfNewEmployeesForMonth() {
+        return employeeRepository.countAllByCreatedAtAfter(LocalDateTime.now().minusMonths(1));
+    }
 }

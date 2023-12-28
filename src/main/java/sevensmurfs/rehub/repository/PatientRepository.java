@@ -5,11 +5,15 @@ import org.springframework.stereotype.Repository;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Optional<Patient> findPatientByUserId(Long userId);
+
+    long countAllByCreatedAtAfter(LocalDateTime createdAt);
 
 }

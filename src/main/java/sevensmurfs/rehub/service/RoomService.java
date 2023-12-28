@@ -54,4 +54,8 @@ public class RoomService {
         log.debug("Fetch all rooms.");
         return roomRepository.findAll();
     }
+
+    public Long getNumberOfRooms() {
+        return roomRepository.count();
+    }
 }

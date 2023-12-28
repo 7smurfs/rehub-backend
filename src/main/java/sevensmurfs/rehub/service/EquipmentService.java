@@ -58,4 +58,8 @@ public class EquipmentService {
         log.debug("Fetching equipment with id.");
         return equipmentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Equipment with id does not exist."));
     }
+
+    public Long getNumberOfEquipment() {
+        return equipmentRepository.count();
+    }
 }

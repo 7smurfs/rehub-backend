@@ -71,4 +71,8 @@ public class TherapyService {
         therapyRepository.saveAll(patient.getTherapies());
         log.debug("Successfully deleted all therapies for employee with ID {}.", patient.getId());
     }
+
+    public Long getNumberOfActiveTherapies() {
+        return therapyRepository.count();
+    }
 }

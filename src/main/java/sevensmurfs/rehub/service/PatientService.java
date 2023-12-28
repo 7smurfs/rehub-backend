@@ -11,6 +11,7 @@ import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.util.SecurityUtil;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -60,5 +61,13 @@ public class PatientService {
         userService.invalidateUser(patient.getUser());
         patientRepository.save(patient);
         log.debug("Successfully invalidated patient with ID {}.", patient.getId());
+    }
+
+    public Long getNumberOfPatients() {
+        return patientRepository.count();
+    }
+
+    public Long getNumberOfNewPatientsForMonth() {
+        return patientRepository.countAllByCreatedAtAfter(LocalDateTime.now().minusMonths(1));
     }
 }
