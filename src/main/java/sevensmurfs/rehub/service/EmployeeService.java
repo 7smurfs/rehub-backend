@@ -43,7 +43,8 @@ public class EmployeeService {
 
     public List<Employee> getAllEmployees() {
         log.debug("Fetching all employees.");
-        return employeeRepository.findAll();
+        List<Employee> allEmployees = employeeRepository.findAll();
+        return allEmployees.stream().filter(employee -> employee.getUser().getStatus().equals(UserStatus.ACTIVE)).toList();
     }
 
     public long getNumberOfEmployees() {
@@ -65,5 +66,15 @@ public class EmployeeService {
 
     public Long getNumberOfNewEmployeesForMonth() {
         return employeeRepository.countAllByCreatedAtAfter(LocalDateTime.now().minusMonths(1));
+    }
+
+    public void setEmployeeAsAdmin(Long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Employee with given ID does not exist."));
+        if (employee.getUser().getStatus().equals(UserStatus.INVALIDATED))
+            throw new IllegalArgumentException("User is already invalidate.");
+        log.debug("Setting employee  with ID {} as ADMIN.", employee.getId());
+        userService.giveAdminToUser(employee.getUser());
+        log.debug("ADMIN successfully given to employee.");
     }
 }

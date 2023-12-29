@@ -3,7 +3,6 @@ package sevensmurfs.rehub.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import sevensmurfs.rehub.model.entity.Employee;
-import sevensmurfs.rehub.model.entity.RehubUser;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

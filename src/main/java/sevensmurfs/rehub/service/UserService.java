@@ -134,4 +134,18 @@ public class UserService {
         return null;
     }
 
+    public void giveAdminToUser(RehubUser user) {
+        log.debug("Setting user with ID: {} as ADMIN.", user.getId());
+        if (user.getRoles().stream().anyMatch(userRole -> userRole.getName().equals(Role.ADMIN))) {
+            throw new IllegalArgumentException("User is already an ADMIN.");
+        }
+        UserRole adminRole = UserRole.builder()
+                                     .name(Role.ADMIN)
+                                     .build();
+        List<UserRole> userRoles = user.getRoles();
+        userRoles.add(adminRole);
+        user.setRoles(userRoles);
+        userRepository.save(user);
+        log.debug("User saved successfully.");
+    }
 }

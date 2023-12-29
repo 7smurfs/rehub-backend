@@ -85,16 +85,32 @@ public class EmployeeController {
      * Invalidate employee ADMIN request DELETE > /api/v1/employee/:id
      */
     @DeleteMapping("/{id}")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ROLE_SUPERADMIN")
     public ResponseEntity<Object> deleteEmployee(@PathVariable(name = "id") Long id) {
 
-        log.info(" > > > DELETE /api/v1/employee/{} (Invalidate employee ADMIN request)", id);
+        log.info(" > > > DELETE /api/v1/employee/{} (Invalidate employee SUPERADMIN request)", id);
 
         employeeService.invalidateEmployeeWithId(id);
 
-        log.info(" < < < DELETE /api/v1/employee/{} (Invalidate employee ADMIN success)", id);
+        log.info(" < < < DELETE /api/v1/employee/{} (Invalidate employee SUPERADMIN success)", id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Set employee as ADMIN  SUPERADMIN request POST > /api/v1/employee/:id
+     */
+    @PostMapping("/{id}")
+    @RolesAllowed("ROLE_SUPERADMIN")
+    public ResponseEntity<Object> setEmployeeAsAdmin(@PathVariable(name = "id") Long id) {
+
+        log.info(" > > > POST /api/v1/employee/{} (Set employee as ADMIN request)", id);
+
+        employeeService.setEmployeeAsAdmin(id);
+
+        log.info(" < < < POST /api/v1/employee/{} (Set employee as ADMIN success)", id);
+
+        return ResponseEntity.ok().build();
     }
 
     /**
