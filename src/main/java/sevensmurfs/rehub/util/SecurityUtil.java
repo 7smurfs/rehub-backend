@@ -2,6 +2,7 @@ package sevensmurfs.rehub.util;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import sevensmurfs.rehub.model.message.request.UserRequest;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -10,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Random;
 
 @Slf4j
 public class SecurityUtil {
@@ -69,4 +71,19 @@ public class SecurityUtil {
         log.debug("Username decrypted");
         return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
+
+    public static String generateEmployeePassword(UserRequest userRequest) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            char randomLetter = (char) (random.nextInt(26) + 'A');
+            sb.append(randomLetter);
+        }
+        return userRequest.getFirstName().toUpperCase().charAt(0) +
+                          userRequest.getLastName().toUpperCase().charAt(0) +
+                          "_" +
+                          userRequest.getDateOfBirth().getYear() +
+                          "_" + sb;
+    }
+
 }

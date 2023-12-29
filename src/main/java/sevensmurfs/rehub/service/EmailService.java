@@ -14,6 +14,7 @@ import org.thymeleaf.context.Context;
 import sevensmurfs.rehub.config.EmailProperties;
 import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.entity.TherapyResult;
+import sevensmurfs.rehub.model.message.request.UserRequest;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -134,6 +135,38 @@ public class EmailService {
             helper.setText(html, true);
             helper.setSentDate(new Date());
             log.debug("Sending email to {}", recipientEmail);
+            helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
+            javaMailSender.send(message);
+        } catch (SMTPSendFailedException ex) {
+            log.error(ex.getMessage());
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            log.warn("Error occurred while trying to send mail.");
+        }
+    }
+
+    public void sendAccountCreationInformationToEmployee(UserRequest userRequest, String password) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message,
+                                                             MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                                                             StandardCharsets.UTF_8.name());
+
+            Context context = new Context(LocaleContextHolder.getLocale());
+
+            // Context for template
+            context.setVariable("employeeName", userRequest.getFirstName());
+            context.setVariable("employeeProfession", userRequest.getProfession());
+            context.setVariable("employeeUsername", userRequest.getUsername());
+            context.setVariable("employeePassword", password);
+
+            String html;
+            html = springTemplateEngine.process("employee-account-created-template", context);
+            helper.setSubject("ReHub's newest employee!");
+            helper.setTo(userRequest.getUsername());
+            helper.setText(html, true);
+            helper.setSentDate(new Date());
+            log.debug("Sending email to {}", userRequest.getUsername());
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
         } catch (SMTPSendFailedException ex) {

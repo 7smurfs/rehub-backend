@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ReHub!</title>
+</head>
+<body>
+<div style="justify-content: start;
+        align-items: center;
+        padding: 10px;
+        font-size: 20px;
+        color: #00326E;
+        text-align: center;
+        font-family: Arial,serif;
+        border: solid white;
+        border-radius: 5px;
+        margin: 5px;
+        background-color: #B9E2F4" ;>
+    <h1 style="font-family: 'sans-serif';
+            font-size: 32px;">
+        ReHub
+    </h1>
+    <h1 style="font-family: 'sans-serif';">Dobrodošli <span th:text="${employeeName}"></span>,</h1>
+    <p style="margin: 5px;">
+        Dobrodošli u ReHub, gdje se inovacija susreće sa suosjećanjem u području zdravstva! Radujemo se što ste se pridružili našoj rastućoj
+        obitelji posvećenih stručnjaka koji su predani preoblikovanju standarda medicinske izvrsnosti. U ReHubu vjerujemo u stvaranje
+        poticajnog okruženja koje potiče suradnju, prihvaća najsuvremenije tehnologije i stavlja skrb o pacijentima na prvo mjesto. Zajedno
+        krećemo na putovanje revolucije u zdravstvu. Dobrodošli u ReHub, gdje svaki korak naprijed znači korak prema
+        zdravijem svijetu!
+        <br/>
+        Vaše znanje kao <span th:text="${employeeProfession}"></span> će nam dobro doći kako bi našim korisnicima pružili što bolju uslugu.
+    </p>
+    <br />
+    <span>Vaši podaci za prijavu u naš sustav su slijedeći</span>
+    <h1 th:text="${employeeUsername}"
+        style="font-family: sans-serif;
+        margin-left: 8px; margin-right: 8px;
+        font-weight: bold; font-size: 32px;">
+    </h1>
+    <h1 th:text="${employeePassword}"
+        style="font-family: sans-serif;
+        margin-left: 8px; margin-right: 8px;
+        font-weight: bold; font-size: 32px;">
+    </h1>
+    <p>Za bilo kakvu dodatnu pomoć kontaktirajte naš ReHub tim.</p>
+</div>
+</body>
+</html>

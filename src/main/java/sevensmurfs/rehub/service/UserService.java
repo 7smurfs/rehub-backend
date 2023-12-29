@@ -25,6 +25,8 @@ import java.util.List;
 @Slf4j
 public class UserService {
 
+    private final EmailService emailService;
+
     private final RehubUserRepository userRepository;
 
     private final UserRoleRepository userRoleRepository;
@@ -57,20 +59,32 @@ public class UserService {
 
     @Transactional
     public RehubUser registerEmployee(UserRequest userRequest) throws Exception {
-        this.validateUserRequestRegistration(userRequest);
+        this.validateEmployeeUserRequestRegistration(userRequest);
+
         // This is mocked validation from our server database.
         // We are checking if user information is valid and legit
         dataValidationService.validateEmployeeFromMinistryDatabase(userRequest);
 
+        String password = SecurityUtil.generateEmployeePassword(userRequest);
+
+        emailService.sendAccountCreationInformationToEmployee(userRequest, password);
+
         RehubUser user = RehubUser.builder()
                                   .username(SecurityUtil.encryptUsername(userRequest.getUsername()))
-                                  .password(encoder.encode(userRequest.getPassword()))
+                                  .password(encoder.encode(password))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.EMPLOYEE)))
                                   .status(UserStatus.ACTIVE)
                                   .build();
 
         log.debug("Saving user entity.");
         return userRepository.save(user);
+    }
+
+    private void validateEmployeeUserRequestRegistration(UserRequest userRequest) throws Exception {
+        log.debug("Validating user registration request.");
+        if (userRepository.findByUsername(SecurityUtil.encryptUsername(userRequest.getUsername())).isPresent())
+            throw new IllegalArgumentException("User email already in use.");
+        log.debug("User successfully validated.");
     }
 
     private void validateUserRequestRegistration(UserRequest userRequest) throws Exception {
