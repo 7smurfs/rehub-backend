@@ -16,7 +16,6 @@ public class RoomRequest {
     @Min(1)
     private Integer capacity;
 
-    @NotNull
     private RoomStatus status;
 
     private String specialMessage;

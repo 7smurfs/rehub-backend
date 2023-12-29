@@ -116,7 +116,7 @@ public class EmployeeController {
      * Employee create room request POST > /api/v1/employee/room
      */
     @PostMapping("/room")
-    @RolesAllowed("ROLE_EMPLOYEE")
+    @RolesAllowed("ROLE_SUPERADMIN")
     public ResponseEntity<Object> createRoom(@Validated @RequestBody RoomRequest roomRequest) {
 
         log.info(" > > > POST /api/v1/employee/room (Employee room create request)");
@@ -148,6 +148,38 @@ public class EmployeeController {
     }
 
     /**
+     * Employee set room as operable request POST > /api/v1/employee/room/operable/:id
+     */
+    @PostMapping("/room/operable/{id}")
+    @RolesAllowed("ROLE_SUPERADMIN")
+    public ResponseEntity<Object> setRoomAsOperable(@PathVariable Long id) {
+
+        log.info(" > > > POST /api/v1/employee/room/operable/{} (Employee set room as operable request)", id);
+
+        roomService.setRoomAsOperable(id);
+
+        log.info(" < < < POST /api/v1/employee/room/operable/{} (Employee set room as operable successful)", id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Employee set room as inoperable request POST > /api/v1/employee/room/inoperable/:id
+     */
+    @PostMapping("/room/inoperable/{id}")
+    @RolesAllowed("ROLE_SUPERADMIN")
+    public ResponseEntity<Object> setRoomAsInOperable(@PathVariable Long id) {
+
+        log.info(" > > > POST /api/v1/employee/room/inoperable/{} (Employee set room as inoperable request)", id);
+
+        roomService.setRoomAsInOperable(id);
+
+        log.info(" < < < POST /api/v1/employee/room/inoperable/{} (Employee set room as inoperable successful)", id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * Employee get room with id request GET > /api/v1/employee/room/{id}
      */
     @GetMapping("/room/{id}")
@@ -166,7 +198,7 @@ public class EmployeeController {
      * Employee delete room request DELETE > /api/v1/employee/room/{id}
      */
     @DeleteMapping("/room/{id}")
-    @RolesAllowed("ROLE_EMPLOYEE")
+    @RolesAllowed("ROLE_SUPERADMIN")
     public ResponseEntity<Object> deleteRoom(@PathVariable Long id) {
 
         log.info(" > > > DELETE /api/v1/employee/room/{} (Employee room delete request)", id);

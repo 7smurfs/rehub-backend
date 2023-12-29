@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.RoomStatus;
 import sevensmurfs.rehub.model.entity.Room;
 import sevensmurfs.rehub.model.message.request.RoomRequest;
 import sevensmurfs.rehub.repository.RoomRepository;
@@ -27,7 +28,7 @@ public class RoomService {
         Room room = Room.builder()
                         .label(roomRequest.getLabel())
                         .capacity(roomRequest.getCapacity())
-                        .status(roomRequest.getStatus())
+                        .status(RoomStatus.OPERABLE)
                         .specialMessage(roomRequest.getSpecialMessage())
                         .build();
 
@@ -57,5 +58,27 @@ public class RoomService {
 
     public Long getNumberOfRooms() {
         return roomRepository.count();
+    }
+
+    public void setRoomAsOperable(Long id) {
+        log.debug("Setting room as operable.");
+        Room room = roomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Room with id does not exist"));
+        if (room.getStatus().equals(RoomStatus.OUT_OF_OPERATION))
+            room.setStatus(RoomStatus.OPERABLE);
+        else
+            throw new IllegalArgumentException("Room might be in use at the moment.");
+        roomRepository.save(room);
+        log.debug("Room set as operable.");
+    }
+
+    public void setRoomAsInOperable(Long id) {
+        log.debug("Setting room as inoperable.");
+        Room room = roomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Room with id does not exist"));
+        if (room.getStatus().equals(RoomStatus.OPERABLE))
+            room.setStatus(RoomStatus.OUT_OF_OPERATION);
+        else
+            throw new IllegalArgumentException("Room might be in use at the moment.");
+        roomRepository.save(room);
+        log.debug("Room set as operable.");
     }
 }
