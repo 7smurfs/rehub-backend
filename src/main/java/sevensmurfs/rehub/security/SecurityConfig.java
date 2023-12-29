@@ -27,7 +27,8 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                    .cors(Customizer.withDefaults())
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
-                           .requestMatchers("/v1/auth/login", "/v1/patient/register", "/v1/faq/**", "/v1/auth/reset").permitAll())
+                           .requestMatchers("/v1/auth/login", "/v1/patient/register", "/v1/faq/**", "/v1/auth/reset",
+                                            "/v1/auth/reset/password").permitAll())
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .anyRequest().authenticated())
                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -119,7 +119,7 @@ public class UserService {
             result[1] = patient.getLastName();
             return result;
         }
-        if (userRoles.contains(Role.EMPLOYEE)) {
+        if (userRoles.contains(Role.EMPLOYEE) && !userRoles.contains(Role.SUPERADMIN)) {
             Employee employee = employeeRepository.findEmployeeByUserId(user.getId()).orElseThrow(
                     () -> new IllegalArgumentException("Invalid user data. Can't find employee with given user data."));
             result[0] = employee.getFirstName();
