@@ -18,38 +18,40 @@ public class UserRequest {
     @Null(groups = {UserRequestValidator.Login.class, UserRequestValidator.Register.class})
     private Long id;
 
-    @NotBlank(groups = {UserRequestValidator.Register.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
     @Null(groups = {UserRequestValidator.Login.class})
     private String firstName;
 
-    @NotBlank(groups = {UserRequestValidator.Register.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
     @Null(groups = {UserRequestValidator.Login.class})
     private String lastName;
 
-    @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class})
-    @Email(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class})
+    @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class, UserRequestValidator.Employee.class})
+    @Email(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class, UserRequestValidator.Employee.class})
     private String username;
 
+    @Null(groups = UserRequestValidator.Employee.class)
     @NotBlank(groups = {UserRequestValidator.Register.class, UserRequestValidator.Login.class, UserRequestValidator.Delete.class})
     @Size(min = 8, groups = {UserRequestValidator.Register.class})
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9]).{8,}$", groups = {UserRequestValidator.Register.class, UserRequestValidator.Update.class})
     private String password;
 
+    @Null(groups = UserRequestValidator.Employee.class)
     @NotNull(groups = {UserRequestValidator.Register.class})
     private String confirmPassword;
 
-    @NotNull(groups = {UserRequestValidator.Register.class})
+    @NotNull(groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
     @Null(groups = {UserRequestValidator.Update.class})
-    @Pattern(regexp = "^[0-9]{11}$", groups = {UserRequestValidator.Register.class})
+    @Pattern(regexp = "^[0-9]{11}$", groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
     private String pin;
 
     @NotNull(groups = {UserRequestValidator.Patient.class})
-    @Null(groups = {UserRequestValidator.Update.class})
+    @Null(groups = {UserRequestValidator.Update.class, UserRequestValidator.Employee.class})
     @Pattern(regexp = "^[0-9]{9}$")
     private String phin;
 
-    @NotNull(groups = {UserRequestValidator.Register.class})
-    @Pattern(regexp = "^\\+3859(1|2|5|8|9|76|77)\\d{6,7}$", groups = {UserRequestValidator.Register.class})
+    @NotNull(groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
+    @Pattern(regexp = "^\\+3859(1|2|5|8|9|76|77)\\d{6,7}$", groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
     private String phoneNumber;
 
     @NotBlank(groups = {UserRequestValidator.Employee.class})
@@ -57,6 +59,6 @@ public class UserRequest {
 
     private String gender;
 
-    @NotNull(groups = {UserRequestValidator.Register.class})
+    @NotNull(groups = {UserRequestValidator.Register.class, UserRequestValidator.Employee.class})
     private LocalDate dateOfBirth;
 }
