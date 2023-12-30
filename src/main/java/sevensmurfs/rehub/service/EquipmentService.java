@@ -64,4 +64,22 @@ public class EquipmentService {
     public Long getNumberOfEquipment() {
         return equipmentRepository.count();
     }
+
+    public void setEquipmentWithIdAsOperable(Long id) {
+        log.debug("Setting equipment with ID:{} as operable.", id);
+        Equipment equipment = equipmentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Equipment with given id does not exists."));
+        equipment.setStatus(EquipmentStatus.OPERABLE);
+        equipmentRepository.save(equipment);
+        log.debug("Equipment status set as OPERABLE.");
+    }
+
+    public void setEquipmentWithIdAsOutOfService(Long id) {
+        log.debug("Setting equipment with ID:{} as out of service.", id);
+        Equipment equipment = equipmentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Equipment with given id does not exists."));
+        equipment.setStatus(EquipmentStatus.OUT_OF_SERVICE);
+        equipmentRepository.save(equipment);
+        log.debug("Equipment status set as OUT OF SERVICE.");
+    }
 }

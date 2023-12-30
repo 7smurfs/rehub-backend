@@ -261,6 +261,38 @@ public class EmployeeController {
     }
 
     /**
+     * Employee set equipment as operable request POST > /api/v1/employee/equipment/operable/:id
+     */
+    @PostMapping("/equipment/operable/{id}")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
+    public ResponseEntity<Object> setEquipmentAsOperable(@PathVariable Long id) {
+
+        log.info(" > > > POST /api/v1/employee/equipment/operable/{} (Employee set equipment as operable request)", id);
+
+        equipmentService.setEquipmentWithIdAsOperable(id);
+
+        log.info(" < < < POST /api/v1/employee/equipment/operable/{} (Employee set equipment as operable request success)", id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Employee create equipment request POST > /api/v1/employee/equipment
+     */
+    @PostMapping("/equipment/inoperable/{id}")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
+    public ResponseEntity<Object> setEquipmentAsOutOfService(@PathVariable Long id) {
+
+        log.info(" > > > POST /api/v1/employee/equipment/inoperable/{} (Employee equipment set as out of service request)", id);
+
+        equipmentService.setEquipmentWithIdAsOutOfService(id);
+
+        log.info(" < < < POST /api/v1/employee/equipment/inoperable/{} (Employee equipment set as out of service request success)", id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * Employee delete equipment request DELETE > /api/v1/employee/equipment/{id}
      */
     @DeleteMapping("/equipment/{id}")
