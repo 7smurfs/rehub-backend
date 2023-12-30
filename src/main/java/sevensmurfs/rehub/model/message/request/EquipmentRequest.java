@@ -11,11 +11,11 @@ public class EquipmentRequest {
     @NotBlank
     private String name;
 
-    @NotNull
     private EquipmentStatus status;
 
     private String specialMessage;
 
+    @NotNull
     private Long roomId;
 
 }

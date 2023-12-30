@@ -214,7 +214,7 @@ public class EmployeeController {
      * Employee create equipment request POST > /api/v1/employee/equipment
      */
     @PostMapping("/equipment")
-    @RolesAllowed("ROLE_EMPLOYEE")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
     public ResponseEntity<Object> createEquipment(@Validated @RequestBody EquipmentRequest equipmentRequest) {
 
         log.info(" > > > POST /api/v1/employee/equipment (Employee equipment create request)");
@@ -264,7 +264,7 @@ public class EmployeeController {
      * Employee delete equipment request DELETE > /api/v1/employee/equipment/{id}
      */
     @DeleteMapping("/equipment/{id}")
-    @RolesAllowed("ROLE_EMPLOYEE")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_SUPERADMIN"})
     public ResponseEntity<Object> deleteEquipment(@PathVariable Long id) {
 
         log.info(" > > > DELETE /api/v1/employee/equipment/{} (Employee equipment delete request)", id);

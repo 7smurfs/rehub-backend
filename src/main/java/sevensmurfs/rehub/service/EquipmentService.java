@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.EquipmentStatus;
 import sevensmurfs.rehub.model.entity.Equipment;
 import sevensmurfs.rehub.model.entity.Room;
 import sevensmurfs.rehub.model.message.request.EquipmentRequest;
@@ -29,7 +30,7 @@ public class EquipmentService {
 
         Equipment equipment = Equipment.builder()
                                        .name(equipmentRequest.getName())
-                                       .status(equipmentRequest.getStatus())
+                                       .status(EquipmentStatus.OPERABLE)
                                        .specialMessage(equipmentRequest.getSpecialMessage())
                                        .room(room)
                                        .build();
@@ -42,8 +43,9 @@ public class EquipmentService {
     public void deleteEquipment(Long id) {
 
         log.debug("Deleting equipment with id {}", id);
-
-        equipmentRepository.deleteById(id);
+        Equipment equipment = equipmentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Equipment with given id does not exists."));
+        equipmentRepository.delete(equipment);
 
         log.debug("Successfully deleted equipment with id {}", id);
     }
