@@ -175,4 +175,34 @@ public class EmailService {
             log.warn("Error occurred while trying to send mail.");
         }
     }
+
+    public void sendEmailForRegisteredUser(String firstName, String lastName, String email) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message,
+                                                             MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                                                             StandardCharsets.UTF_8.name());
+
+            Context context = new Context(LocaleContextHolder.getLocale());
+
+            // Context for template
+            context.setVariable("firstName", firstName);
+            context.setVariable("lastName", lastName);
+
+            String html;
+            html = springTemplateEngine.process("patient-registered-template", context);
+            helper.setSubject("Dobrodosli u ReHub");
+            helper.setTo(email);
+            helper.setText(html, true);
+            helper.setSentDate(new Date());
+            log.debug("Sending email to {}", email);
+            helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
+            javaMailSender.send(message);
+        } catch (SMTPSendFailedException ex) {
+            log.error(ex.getMessage());
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            log.warn("Error occurred while trying to send mail.");
+        }
+    }
 }

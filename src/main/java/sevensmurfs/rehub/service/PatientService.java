@@ -25,6 +25,8 @@ public class PatientService {
 
     private final TherapyService therapyService;
 
+    private final EmailService emailService;
+
     @Transactional
     public Patient registerPatient(UserRequest userRequest) throws Exception {
 
@@ -41,6 +43,9 @@ public class PatientService {
                                  .build();
 
         log.debug("Saving patient entity.");
+
+        emailService.sendEmailForRegisteredUser(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getUsername());
+
         return patientRepository.save(patient);
     }
 
