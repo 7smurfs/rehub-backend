@@ -6,12 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
 import sevensmurfs.rehub.model.entity.Patient;
+import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.TherapyRequest;
 import sevensmurfs.rehub.repository.DoctorRepository;
 import sevensmurfs.rehub.repository.PatientRepository;
+import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.TherapyRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -26,6 +29,8 @@ public class TherapyService {
     private final PatientRepository patientRepository;
 
     private final DoctorRepository doctorRepository;
+
+    private final RehubUserRepository userRepository;
 
     @Transactional
     public Therapy createTherapy(TherapyRequest newTherapy) {
@@ -57,10 +62,17 @@ public class TherapyService {
         return therapyRepository.save(therapy);
     }
 
-    public List<Therapy> getAllTherapies(Long patientId) {
-        log.debug("Fetching all therapies for patient {}", patientId);
-        return therapyRepository.findByPatientId(patientId).orElseThrow(
-                () -> new IllegalArgumentException("No therapies found for patient!"));
+    public List<Therapy> getAllTherapiesForPatient(String username) {
+        log.debug("Fetching all therapies for patient {}", username);
+
+        RehubUser user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("User with given username does not exist."));
+        Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
+                () -> new IllegalArgumentException("User with given user ID does not exist."));
+
+        log.debug("Successfully fetched patient.");
+
+        return patient.getTherapies().isEmpty() ? Collections.emptyList() : patient.getTherapies();
     }
 
     @Transactional

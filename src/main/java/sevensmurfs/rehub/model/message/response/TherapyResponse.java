@@ -36,7 +36,7 @@ public class TherapyResponse {
                               .request(therapy.getRequest())
                               .status(therapy.getStatus())
                               .referenceTherapyId(therapy.getRefId())
-                              .roomLabel(therapy.getRoom() != null ? therapy.getRoom().getLabel() : "No Room Assigned")
+                              .roomLabel(therapy.getRoom() != null ? therapy.getRoom().getLabel() : null)
                               .startAt(therapy.getAppointment() != null ? therapy.getAppointment().getStartAt() : null)
                               .endAt(therapy.getAppointment() != null ? therapy.getAppointment().getEndAt() : null)
                               .therapyResultResponse(therapy.getTherapyResult() != null ? TherapyResultResponse.mapTherapyResultEntity(therapy.getTherapyResult()) : null)

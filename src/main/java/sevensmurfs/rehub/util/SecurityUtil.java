@@ -1,7 +1,9 @@
 package sevensmurfs.rehub.util;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 
 import javax.crypto.Cipher;
@@ -84,6 +86,14 @@ public class SecurityUtil {
                           "_" +
                           userRequest.getDateOfBirth().getYear() +
                           "_" + sb;
+    }
+
+    public static String getJwtTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
 }

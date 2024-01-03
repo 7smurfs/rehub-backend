@@ -1,6 +1,8 @@
 package sevensmurfs.rehub.controller;
 
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.entity.Patient;
+import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.TherapyRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
 import sevensmurfs.rehub.model.message.response.PatientResponse;
 import sevensmurfs.rehub.model.message.response.TherapyResponse;
+import sevensmurfs.rehub.security.JwtGenerator;
 import sevensmurfs.rehub.service.PatientService;
 import sevensmurfs.rehub.service.TherapyService;
+import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.util.List;
 
@@ -36,6 +40,8 @@ public class PatientController {
     private final PatientService patientService;
 
     private final TherapyService therapyService;
+
+    private final JwtGenerator jwtGenerator;
 
     /**
      * Patient registration request POST > /api/v1/patient
@@ -105,16 +111,18 @@ public class PatientController {
                              .build();
     }
 
-    @GetMapping("/{id}/therapies")
-    public ResponseEntity<Object> fetchAllTherapiesForPatient(@PathVariable(name = "id") Long id) throws Exception {
+    @GetMapping("/therapies")
+    public ResponseEntity<Object> fetchAllTherapiesForPatient(@NotNull HttpServletRequest request) {
 
-        log.info(" > > > GET /api/v1/patient/therapies (Fetching all therapies with id: {})", id);
+        log.info(" > > > GET /api/v1/patient/therapies (Fetching all therapies for patient)");
 
-        List<Therapy> therapies = therapyService.getAllTherapies(id);
+        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String username = jwtGenerator.getUsernameFromToken(token);
+
+        List<Therapy> therapies = therapyService.getAllTherapiesForPatient(username);
 
         log.info(" < < < GET /api/v1/patient/therapies (Get all patients request success)");
 
         return ResponseEntity.ok(therapies.stream().map(TherapyResponse::mapTherapyEntity).toList());
     }
-
 }
