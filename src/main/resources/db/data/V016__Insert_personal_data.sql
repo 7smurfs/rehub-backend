@@ -100,12 +100,12 @@ INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Ivica', 'Lončar', '159b0ac2b5302f9c7fae5b782a7fd68858b2526682bffb1fbd652d50928e28c4',
         '0ae47e176dfae8f743dd6431c4d15b4d5917ff743e6461e357b603ffd05657a3', '1980-06-09');
 
---additional data
+--additional personal data data
 
--- pin:98765432100 phin:123456789
+-- pin:98765432100 phin:123456780
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Nikola', 'Petković', 'fe63757c49af2f9466851ad0b5cd915a5097ab13354c15e42114958b7173521d',
-         '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', '1980-12-12');
+         '42dd0a7fdcb47aad0f6bd98da39c42ba60c00dc0e01fcba36195c23b7f19143d', '1980-12-12');
 
 --pin:11223344556 phin:917654328
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
@@ -197,8 +197,8 @@ INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Matija', 'Fabić', '077f84994ec1d55d5d86f5237e779f3ea791402ec27cb5ea09d52109d66df05b',
          '9775781a98554db8d7731166653474cafdcaa5c8ad2cf51289af7c4cbaaef0eb', '1977-10-10');
 
---pin:13645630911 phin:890123456
+--pin:13645630911 phin:890123451
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Paulo', 'Simić', '418ba48dff2e4b9e5354d525488cba6a85cdeb0143110e6e665bf1c82cc3f124',
-         'ad77bf45ddba710f17e69511a583619714f955b7c78f6b9f1b800b0fb71cb3f0', '1977-10-10');
+         '734fe4e0609a50e149786e373a72f198ab59c4120a34dcdbeb20fa9ca7e468c1', '1977-10-10');
 
