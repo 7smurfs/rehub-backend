@@ -195,10 +195,10 @@ VALUES ( 'Petra', 'Trojković', '218570d0e4590b3455ee2c47606fed85ebc5370aa9b2e13
 --pin:54887728537 phin:709016341
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Matija', 'Fabić', '077f84994ec1d55d5d86f5237e779f3ea791402ec27cb5ea09d52109d66df05b',
-         '9775781a98554db8d7731166653474cafdcaa5c8ad2cf51289af7c4cbaaef0eb', '1977-10-10');
+         '9775781a98554db8d7731166653474cafdcaa5c8ad2cf51289af7c4cbaaef0eb', '1971-04-10');
 
 --pin:13645630911 phin:890123451
 INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Paulo', 'Simić', '418ba48dff2e4b9e5354d525488cba6a85cdeb0143110e6e665bf1c82cc3f124',
-         '734fe4e0609a50e149786e373a72f198ab59c4120a34dcdbeb20fa9ca7e468c1', '1977-10-10');
+         '734fe4e0609a50e149786e373a72f198ab59c4120a34dcdbeb20fa9ca7e468c1', '1995-05-03');
 
