@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.context.Context;
 import sevensmurfs.rehub.config.EmailProperties;
+import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.entity.TherapyResult;
 import sevensmurfs.rehub.model.message.request.UserRequest;
@@ -120,17 +121,15 @@ public class EmailService {
                                                              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                                                              StandardCharsets.UTF_8.name());
 
-            Context context = new Context(LocaleContextHolder.getLocale());
-
             String passwordResetlink = emailProperties.getPasswordResetLink() + token;
 
+            Context context = new Context(LocaleContextHolder.getLocale());
             context.setVariable("passwordResetLink", passwordResetlink);
 
             String html;
-
             html = springTemplateEngine.process("password-reset-template", context);
 
-            helper.setSubject("Important message from ReHub!");
+            helper.setSubject("Promjena lozinke");
             helper.setTo(recipientEmail);
             helper.setText(html, true);
             helper.setSentDate(new Date());
@@ -162,7 +161,7 @@ public class EmailService {
 
             String html;
             html = springTemplateEngine.process("employee-account-created-template", context);
-            helper.setSubject("ReHub's newest employee!");
+            helper.setSubject("Dobrodosli u ReHub");
             helper.setTo(userRequest.getUsername());
             helper.setText(html, true);
             helper.setSentDate(new Date());
