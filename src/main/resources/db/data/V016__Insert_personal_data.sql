@@ -100,4 +100,105 @@ INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
 VALUES ( 'Ivica', 'Lončar', '159b0ac2b5302f9c7fae5b782a7fd68858b2526682bffb1fbd652d50928e28c4',
         '0ae47e176dfae8f743dd6431c4d15b4d5917ff743e6461e357b603ffd05657a3', '1980-06-09');
 
+--additional data
+
+-- pin:98765432100 phin:123456789
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Nikola', 'Petković', 'fe63757c49af2f9466851ad0b5cd915a5097ab13354c15e42114958b7173521d',
+         '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', '1980-12-12');
+
+--pin:11223344556 phin:917654328
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Tanja', 'Čargonja', 'a3c4dc19f7bcdef335c1dcdb7feac0202bf142049a10047dbdfea636d0a1c454',
+         'e0d75561fd434a641fa8aca266826d1e308c1607122f11801fe26fedfa727364', '1970-08-04');
+
+--pin:87654321011 phin:234560897
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Dominik', 'Krušvar', '28357074dfc8cf276528c17f9d0d0015aec3b6110edf76c2b4cdbf4779da3833',
+         'df00db9cbda8112b13b375635bdf9d5c9989f7f68fc42352a09bc8ed757520d8', '1949-09-10');
+
+--pin:99887766554 phin:365478910
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Leonarda', 'Smoljić', 'a70d135be50bceda39c935ed9da6a163df2a76b191cd344eb31cc04209640b53',
+         '00c0ae09c09ae6772d89d4d4ba21541595d373b4fd3c576542531591347b5927', '1990-08-18');
+
+--pin:12345671098 phin:456789012
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Filip', 'Koraca', '846b17401db92129ac6699b7b2aad267908d53275f7ca959e1cbeb5d2b128bb4',
+         'ff60779871754c0d05e3a24a033c808b1995426527ef609fa3584c293b74666e', '2002-06-04');
+
+--pin:11223344666 phin:567890123
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Ivana', 'Cerovac', '0ba235e591c0c76c5183fe3b76613a3127e70f7c5d8145e0bf59097afcab0840',
+         '415fa433f164026565fc460e5a94fe2ff7944eab7020008a85cd0b0510881f01', '1996-11-16');
+
+--pin:98765430012 phin:678901261
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Igor', 'Dobrić', '6f51dbf6a76f819694eeeb311dce8b332fbf8acd767e2dc258874f5d23d360be',
+         '2e7548c6746d98f058371aacf68f5426a8434446434f8ac27e67d8ef63380afa', '1957-06-09');
+
+--pin:99954321011 phin:789000345
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Saša', 'Kozar', '308d29c553e5b0cf785fd9d80d61b426253bcbfc90e0b2811ed0c0c43b0649d7',
+         '436b57ca74fc4de2b4a1ae6a32e37bee770680efe800f0f4afc7d26326c1bbd7', '1977-03-29');
+
+--pin:16583002545 phin:091123236
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Karla', 'Radojević', 'cba28ef6aa9b1589cce21025ee46f097bddb7b2a0940286c4b58271ebf720270',
+         'e383d5418802eef6ad97b3fa20fbd210ad8071ff1c7e2d8f515aedd834be6439', '2004-06-19');
+
+--pin:21346578901 phin:109254367
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Ivan', 'Kedžo', '8ef2d89d46c4bb39d9b6790ac7b7ae2995eaa633b0c8e43d814021ed5debdd5c',
+         'dcc344333be554749ecf75e40cfed36abcfe53ad4ac91697756784b375304a75', '1988-12-13');
+
+--pin:16203344857 phin:345078908
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Kristina', 'Smoljan', 'fc6714e477740627ef23947d6526df14d427b9ab7df150d476daca8a0fab1b8b',
+         'bc6841c75e887705e373def9b836f04f4d42747d6759c0b0485061e14ad81a17', '2005-02-02');
+
+--pin:98765202210 phin:567890491
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Alida', 'Kušen', '582f18ad149605969d67d51ecbf765239fcc5728d725b33af516176aa0b6bdaa',
+         'edd8068783fbe5932a5afe4ea0204efdc1527264e638e37dd064663e00ee047a', '1940-10-06');
+
+--pin:68754328013 phin:789056945
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Srećko', 'Dobrović', 'ae3707043bcb00f4c54dce2a6b8791efb267f4a9e91a5031f7a7c5e74835cf04',
+         '5908580076ba15cff53d6b0fc821aec119aa800b8e0b4a8fd3140f6b97b4e96d', '1965-04-17');
+
+--pin:99980706556 phin:890434456
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Noa', 'Akrapović', '57ce154b1cd618688aa64c0b45c9056054748bb9aa3a09a183fa8869387a81a9',
+         'a006e6736ccee550c553d99975661cc13540f16c385f816cd0be175ab7e3365a', '1997-07-28');
+
+--pin:68945674910 phin:901271507
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Sanja', 'Bodružić', '4c68c031358e0b06a179b3f43924c69ff84d861eedbc5b544ba50c6b033d1748',
+         '0f2fd117438e59454faa8409830d53e4ee45f7f096ab27c9fb30d00fb17397c7', '1984-08-26');
+
+--pin:10023344758 phin:234597101
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Petar', 'Preradović', '17568c9b440e1233ecb1ddfa03a07213692cd1efa98242cf7a30007bb18a8c0e',
+         'c563beaa43e71755a18ba3518ebbcb0031a0d4b443df36652fd971f4cc36a8ef', '1951-12-04');
+
+--pin:92765432803 phin:416739012
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Karolina', 'Jelavić', 'c6257b6839fd8bf75c89276ed69528f25272cac26f71385d7b9c97388edade47',
+         'f286c353933779a4ddbeb325605cc0e69ac2c12b42a5f34d984f90c42c3bcc53', '1993-01-11');
+
+--pin:87661521014 phin:658921214
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Petra', 'Trojković', '218570d0e4590b3455ee2c47606fed85ebc5370aa9b2e1317222338e0b16c27b',
+         '53d1357a269e63f9c7a0099a0900a57a3250bbdfbe68c5a134c9ee51597eddb2', '1977-10-10');
+
+--pin:54887728537 phin:709016341
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Matija', 'Fabić', '077f84994ec1d55d5d86f5237e779f3ea791402ec27cb5ea09d52109d66df05b',
+         '9775781a98554db8d7731166653474cafdcaa5c8ad2cf51289af7c4cbaaef0eb', '1977-10-10');
+
+--pin:13645630911 phin:890123456
+INSERT INTO personal_data ( first_name, last_name, pin, phin, date_of_birth)
+VALUES ( 'Paulo', 'Simić', '418ba48dff2e4b9e5354d525488cba6a85cdeb0143110e6e665bf1c82cc3f124',
+         'ad77bf45ddba710f17e69511a583619714f955b7c78f6b9f1b800b0fb71cb3f0', '1977-10-10');
 
