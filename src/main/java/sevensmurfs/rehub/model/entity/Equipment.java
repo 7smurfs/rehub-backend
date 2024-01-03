@@ -39,7 +39,7 @@ public class Equipment {
 
     private String specialMessage;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 

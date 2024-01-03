@@ -47,7 +47,7 @@ public class Room {
 
     private String specialMessage;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     @Builder.Default
     private Set<Equipment> equipment = new HashSet<>();
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.RoomStatus;
 import sevensmurfs.rehub.model.entity.Room;
 import sevensmurfs.rehub.model.message.request.RoomRequest;
+import sevensmurfs.rehub.repository.EquipmentRepository;
 import sevensmurfs.rehub.repository.RoomRepository;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+
+    private final EquipmentRepository equipmentRepository;
 
     @Transactional
     public Room createRoom(RoomRequest roomRequest) {
@@ -40,8 +43,16 @@ public class RoomService {
     public void deleteRoom(Long id) {
         log.debug("Deleting room with id {}", id);
 
-        roomRepository.deleteById(id);
-
+        Room room = roomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Room with id does not exist."));
+        if (room.getEquipment().isEmpty()) {
+            roomRepository.delete(room);
+        } else {
+            room.getEquipment().forEach(equipment -> {
+                equipment.setRoom(null);
+                equipmentRepository.save(equipment);
+            });
+            roomRepository.delete(room);
+        }
         log.debug("Successfully deleted room with id {}", id);
     }
 
