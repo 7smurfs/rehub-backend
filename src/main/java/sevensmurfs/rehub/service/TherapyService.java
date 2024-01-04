@@ -33,10 +33,12 @@ public class TherapyService {
     private final RehubUserRepository userRepository;
 
     @Transactional
-    public Therapy createTherapy(TherapyRequest newTherapy) {
+    public Therapy createTherapy(TherapyRequest newTherapy, String username) {
 
         log.debug("Creating therapy entity.");
-        Patient patient = patientRepository.findById(newTherapy.getPatientId()).orElseThrow(
+        RehubUser user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("User with given username does not exist."));
+        Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given id does not exists."));
 
         doctorRepository.findByFirstNameAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()).orElseThrow(
@@ -47,7 +49,8 @@ public class TherapyService {
                                  .type(newTherapy.getType())
                                  .request(newTherapy.getRequest())
                                  .patient(patient)
-                                 .status(newTherapy.getStatus())
+                                 .status(TherapyStatus.PENDING_APPROVAL)
+                                 .refId(newTherapy.getReferenceId())
                                  .build();
 
         log.debug("Saving therapy entity.");
@@ -57,6 +60,7 @@ public class TherapyService {
         therapies.add(therapy);
         patient.setTherapies(therapies);
 
+        log.debug("Saving updated patient entity.");
         patientRepository.save(patient);
 
         return therapyRepository.save(therapy);

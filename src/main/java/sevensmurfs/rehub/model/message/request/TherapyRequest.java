@@ -15,15 +15,11 @@ public class TherapyRequest {
     @NotBlank
     private String request;
 
-    @NotNull
-    private Long patientId;
-
-    @NotNull
-    private TherapyStatus status;
-
     @NotBlank
     private String doctorFirstName;
 
     @NotBlank
     private String doctorLastName;
+
+    private Long referenceId;
 }

@@ -96,11 +96,14 @@ public class PatientController {
     }
 
     @PostMapping("/therapy")
-    public ResponseEntity<Object> createTherapy(@Validated @RequestBody TherapyRequest therapyRequest) throws Exception {
+    public ResponseEntity<Object> createTherapy(@Validated @RequestBody TherapyRequest therapyRequest,
+                                                @NotNull HttpServletRequest request) {
 
         log.info(" > > > POST /api/v1/patient/therapy (Adding a new therapy)");
 
-        Therapy therapy = therapyService.createTherapy(therapyRequest);
+        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String username = jwtGenerator.getUsernameFromToken(token);
+        Therapy therapy = therapyService.createTherapy(therapyRequest, username);
 
         log.info(" < < < POST /api/v1/therapy (New therapy added succesfully)");
 
