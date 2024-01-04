@@ -1,19 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Therapy Result - ReHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezultati terapije</title>
 </head>
 <body>
-<h1>Hello, <span th:text="${recipientName}">Recipient</span>!</h1>
-
-<p>We are pleased to share with you the results of your recent therapy sessions. Below, you will find a summary of your therapy progress:</p>
-
-<p><strong>Therapy Result:</strong></p>
-<p th:text="${therapyResult.result}"></p>
-
-<p>If you have any questions or would like to discuss your therapy results further, please do not hesitate to reach out to us. We are here to support you on your journey to well-being.</p>
-
-<p>Best regards,<br>ReHub</p>
+<div style="justify-content: start;
+        align-items: center;
+        padding: 10px;
+        font-size: 20px;
+        color: #00326E;
+        text-align: center;
+        font-family: Arial,serif;
+        border: solid white;
+        border-radius: 5px;
+        margin: 5px;
+        background-color: #B9E2F4" ;>
+    <h1 style="font-family: 'sans-serif';
+            font-size: 32px;">
+        ReHub
+    </h1>
+    <h1 style="font-family: 'sans-serif';">Rezultati terapije</h1>
+    <br />
+    <br />
+    <p style="margin: 5px;">
+        Poštovani <span th:text="${firstName}"></span>  <span th:text="${lastName}"></span>,
+        Uvodom u tijek i razvoj vaše terapije nakon rasprave o detaljima šaljemo Vam slijedeće rezultate.
+        <br/>
+    </p>
+    <span style="font-weight: bold">Vrsta terapije: <span th:text="${therapyType}"></span></span>
+    <br />
+    <span style="font-weight: bold">Datum: <span th:text="${date}"></span></span>
+    <br />
+    <span style="font-weight: bold">Ishod: <span th:text="${result}"></span></span>
+    <br />
+    <span style="font-weight: bold">Status: <span th:text="${status}"></span></span>
+    <br />
+    <br />
+    <br />
+    <p>Za bilo kakvu dodatnu pomoć kontaktirajte naš ReHub tim.</p>
+</div>
 </body>
 </html>

@@ -37,8 +37,9 @@ public class EmailService {
 
     private final SpringTemplateEngine springTemplateEngine;
 
-    public void sendTherapyResult(String recipientEmail, String recipientName, TherapyResult therapyResult) {
+    public void sendTherapyResultEmail(String email, Patient patient, Therapy therapy, TherapyResult therapyResult) {
         try {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
                                                              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
@@ -46,18 +47,21 @@ public class EmailService {
 
             Context context = new Context(LocaleContextHolder.getLocale());
 
-            context.setVariable("recipientName", recipientName);
-            context.setVariable("therapyResult", therapyResult);
+            context.setVariable("firstName", patient.getFirstName());
+            context.setVariable("lastName", patient.getLastName());
+            context.setVariable("therapyType", therapy.getType());
+            context.setVariable("date", therapy.getAppointment().getStartAt().format(dateFormatter));
+            context.setVariable("result", therapyResult.getResult());
+            context.setVariable("status", therapyResult.getStatus());
 
             String html;
-
             html = springTemplateEngine.process("therapy-result-template", context);
 
-            helper.setSubject("Important message from ReHub!");
-            helper.setTo(recipientEmail);
+            helper.setSubject("Rezultati Vaše terapije");
+            helper.setTo(email);
             helper.setText(html, true);
             helper.setSentDate(new Date());
-            log.debug("Sending email to {}", recipientEmail);
+            log.debug("Sending email to {}", email);
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
         } catch (SMTPSendFailedException ex) {
