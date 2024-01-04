@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
+import sevensmurfs.rehub.model.entity.Appointment;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.TherapyRequest;
+import sevensmurfs.rehub.repository.AppointmentRepository;
 import sevensmurfs.rehub.repository.DoctorRepository;
 import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.repository.RehubUserRepository;
@@ -25,6 +27,8 @@ import java.util.List;
 public class TherapyService {
 
     private final TherapyRepository therapyRepository;
+
+    private final AppointmentRepository appointmentRepository;
 
     private final TherapyResultService therapyResultService;
 
@@ -104,5 +108,19 @@ public class TherapyService {
         return therapyRepository.findAll().stream().filter(therapy -> !(therapy.getStatus().equals(TherapyStatus.INVALIDATED) ||
                                                                         therapy.getStatus().equals(TherapyStatus.CANCELED)))
                                 .toList();
+    }
+
+    public Therapy findTherapyById(Long therapyId) {
+        return therapyRepository.findById(therapyId).orElseThrow(() -> new IllegalArgumentException("Cannot find therapy with given ID."));
+    }
+
+    public void saveTherapy(Therapy therapy) {
+        log.debug("Saving therapy.");
+        therapyRepository.save(therapy);
+    }
+
+    public void saveAppointment(Appointment appointment) {
+        log.debug("Saving appointment.");
+        appointmentRepository.save(appointment);
     }
 }

@@ -155,7 +155,7 @@ public class EmailService {
 
             // Context for template
             context.setVariable("employeeName", userRequest.getFirstName());
-            context.setVariable("employeeProfession", userRequest.getProfession());
+            context.setVariable("employeeProfession", userRequest.getProfession().toLowerCase());
             context.setVariable("employeeUsername", userRequest.getUsername());
             context.setVariable("employeePassword", password);
 

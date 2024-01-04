@@ -1,6 +1,8 @@
 package sevensmurfs.rehub.controller;
 
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.Equipment;
 import sevensmurfs.rehub.model.entity.Room;
 import sevensmurfs.rehub.model.entity.Therapy;
+import sevensmurfs.rehub.model.message.request.AppointmentRequest;
 import sevensmurfs.rehub.model.message.request.EquipmentRequest;
 import sevensmurfs.rehub.model.message.request.RoomRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
@@ -26,9 +29,11 @@ import sevensmurfs.rehub.model.message.response.EmployeeResponse;
 import sevensmurfs.rehub.model.message.response.EquipmentResponse;
 import sevensmurfs.rehub.model.message.response.RoomResponse;
 import sevensmurfs.rehub.model.message.response.TherapyResponse;
+import sevensmurfs.rehub.security.JwtGenerator;
 import sevensmurfs.rehub.service.EmployeeService;
 import sevensmurfs.rehub.service.EquipmentService;
 import sevensmurfs.rehub.service.RoomService;
+import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.util.List;
 
@@ -44,6 +49,8 @@ public class EmployeeController {
     private final RoomService roomService;
 
     private final EquipmentService equipmentService;
+
+    private final JwtGenerator jwtGenerator;
 
     /**
      * Employee registration request POST > /api/v1/employee
@@ -115,7 +122,7 @@ public class EmployeeController {
     }
 
     /**
-     * Get all employees ADMIN request GET > /api/v1/employee
+     * Get all therapies EMPLOYEE request GET > /api/v1/employee/therapies
      */
     @GetMapping("/therapies")
     @RolesAllowed("ROLE_EMPLOYEE")
@@ -128,6 +135,29 @@ public class EmployeeController {
         log.info(" < < < GET /api/v1/employee/therapies (Get all therapies EMPLOYEE success)");
 
         return ResponseEntity.ok(therapies.stream().map(TherapyResponse::mapTherapyEntity).toList());
+    }
+
+    /**
+     * Set appointment for therapy request POST > /api/v1/employee/therapy
+     */
+    @PostMapping("/therapy")
+    @RolesAllowed("ROLE_EMPLOYEE")
+    public ResponseEntity<Object> setAppointmentForTherapy(@Validated @RequestBody AppointmentRequest appointmentRequest,
+                                                           @NotNull HttpServletRequest request) {
+
+        log.info(" > > > POST /api/v1/employee/therapy (Set appointment for therapy EMPLOYEE request)");
+
+        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String username = jwtGenerator.getUsernameFromToken(token);
+        employeeService.setAppointmentForTherapy(appointmentRequest, username);
+
+        log.info(" < < < POST /api/v1/employee/therapy (Set appointment for therapy EMPLOYEE success)");
+
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest()
+                                                                 .path("/employee/therapy/{id}")
+                                                                 .buildAndExpand(appointmentRequest.getTherapyId())
+                                                                 .toUri())
+                             .build();
     }
 
     /**

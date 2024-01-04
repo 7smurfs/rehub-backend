@@ -4,10 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.TherapyStatus;
 import sevensmurfs.rehub.enums.UserStatus;
+import sevensmurfs.rehub.model.entity.Appointment;
 import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.Therapy;
+import sevensmurfs.rehub.model.message.request.AppointmentRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
 
@@ -24,6 +27,8 @@ public class EmployeeService {
     private final TherapyService therapyService;
 
     private final UserService userService;
+
+    private final RoomService roomService;
 
     @Transactional
     public Employee registerEmployee(UserRequest userRequest) throws Exception {
@@ -85,5 +90,30 @@ public class EmployeeService {
         log.debug("Fetching all therapies.");
 
         return therapyService.getAllAvailableTherapies();
+    }
+
+    @Transactional
+    public void setAppointmentForTherapy(AppointmentRequest appointmentRequest, String username) {
+
+        log.debug("Setting new appointment for therapy with ID: {}", appointmentRequest.getTherapyId());
+        RehubUser user = userService.findUserByUsername(username);
+        Employee employee = employeeRepository.findEmployeeByUserId(user.getId()).orElseThrow(
+                () -> new IllegalArgumentException("Cannot find employee with user ID: " + user.getId()));
+
+        Therapy therapy = therapyService.findTherapyById(appointmentRequest.getTherapyId());
+        Appointment appointment = Appointment.builder()
+                                             .startAt(appointmentRequest.getStartAt())
+                                             .endAt(appointmentRequest.getEndAt())
+                                             .therapy(therapy)
+                                             .build();
+        therapy.setAppointment(appointment);
+        therapy.setStatus(TherapyStatus.APPROVED);
+        therapy.setRoom(roomService.getRoomWithId(appointmentRequest.getRoomId()));
+        therapy.setEmployee(employee);
+
+        therapyService.saveTherapy(therapy);
+        therapyService.saveAppointment(appointment);
+
+        log.debug("Saved appointment.");
     }
 }
