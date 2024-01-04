@@ -98,4 +98,11 @@ public class TherapyService {
     public Long getNumberOfActiveTherapies() {
         return therapyRepository.count();
     }
+
+    public List<Therapy> getAllAvailableTherapies() {
+        log.debug("Fetching all available therapies.");
+        return therapyRepository.findAll().stream().filter(therapy -> !(therapy.getStatus().equals(TherapyStatus.INVALIDATED) ||
+                                                                        therapy.getStatus().equals(TherapyStatus.CANCELED)))
+                                .toList();
+    }
 }

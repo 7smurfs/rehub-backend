@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+
+    private final TherapyService therapyService;
 
     private final UserService userService;
 
@@ -76,5 +79,11 @@ public class EmployeeService {
         log.debug("Setting employee  with ID {} as ADMIN.", employee.getId());
         userService.giveAdminToUser(employee.getUser());
         log.debug("ADMIN successfully given to employee.");
+    }
+
+    public List<Therapy> getAllTherapies() {
+        log.debug("Fetching all therapies.");
+
+        return therapyService.getAllAvailableTherapies();
     }
 }

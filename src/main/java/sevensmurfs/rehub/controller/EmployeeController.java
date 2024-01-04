@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.Equipment;
 import sevensmurfs.rehub.model.entity.Room;
+import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.EquipmentRequest;
 import sevensmurfs.rehub.model.message.request.RoomRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
@@ -24,6 +25,7 @@ import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
 import sevensmurfs.rehub.model.message.response.EmployeeResponse;
 import sevensmurfs.rehub.model.message.response.EquipmentResponse;
 import sevensmurfs.rehub.model.message.response.RoomResponse;
+import sevensmurfs.rehub.model.message.response.TherapyResponse;
 import sevensmurfs.rehub.service.EmployeeService;
 import sevensmurfs.rehub.service.EquipmentService;
 import sevensmurfs.rehub.service.RoomService;
@@ -110,6 +112,22 @@ public class EmployeeController {
         log.info(" < < < POST /api/v1/employee/{} (Set employee as ADMIN success)", id);
 
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Get all employees ADMIN request GET > /api/v1/employee
+     */
+    @GetMapping("/therapies")
+    @RolesAllowed("ROLE_EMPLOYEE")
+    public ResponseEntity<Object> getAllTherapies() {
+
+        log.info(" > > > GET /api/v1/employee/therapies (Get all therapies EMPLOYEE request)");
+
+        List<Therapy> therapies = employeeService.getAllTherapies();
+
+        log.info(" < < < GET /api/v1/employee/therapies (Get all therapies EMPLOYEE success)");
+
+        return ResponseEntity.ok(therapies.stream().map(TherapyResponse::mapTherapyEntity).toList());
     }
 
     /**
