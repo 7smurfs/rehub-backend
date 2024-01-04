@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
 import sevensmurfs.rehub.model.entity.Appointment;
+import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.Therapy;
@@ -126,5 +127,11 @@ public class TherapyService {
     public void saveAppointment(Appointment appointment) {
         log.debug("Saving appointment.");
         appointmentRepository.save(appointment);
+    }
+
+    public List<Therapy> getAllEmployeeTherapies(Employee employee) {
+        log.debug("Fetching all employees therapies.");
+        List<Therapy> therapies = therapyRepository.findByEmployeeId(employee.getId());
+        return therapies.isEmpty() ? Collections.emptyList() : therapies;
     }
 }

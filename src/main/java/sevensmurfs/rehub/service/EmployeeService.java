@@ -101,6 +101,7 @@ public class EmployeeService {
                 () -> new IllegalArgumentException("Cannot find employee with user ID: " + user.getId()));
 
         Therapy therapy = therapyService.findTherapyById(appointmentRequest.getTherapyId());
+        this.validateAppointmentTime(appointmentRequest);
         Appointment appointment = Appointment.builder()
                                              .startAt(appointmentRequest.getStartAt())
                                              .endAt(appointmentRequest.getEndAt())
@@ -117,8 +118,35 @@ public class EmployeeService {
         log.debug("Saved appointment.");
     }
 
+    private void validateAppointmentTime(AppointmentRequest appointmentRequest) {
+        log.debug("Validating appointment start and end time.");
+
+        if (appointmentRequest.getStartAt().isAfter(appointmentRequest.getEndAt()))
+            throw new IllegalArgumentException("Invalid appointment time. Start date needs to be before end date.");
+
+        if (appointmentRequest.getStartAt().getHour() < 8)
+            throw new IllegalArgumentException("Invalid appointment time. Start date needs to be after opening hours.");
+
+        if ((appointmentRequest.getEndAt().getHour() == 20 && appointmentRequest.getEndAt().getMinute() > 0)
+            || (appointmentRequest.getEndAt().getHour() > 20))
+            throw new IllegalArgumentException("Invalid appointment time. End date needs to be before closing hours.");
+
+        if (!appointmentRequest.getStartAt().toLocalDate().equals(appointmentRequest.getEndAt().toLocalDate()))
+            throw new IllegalArgumentException("Invalid appointment time. Start and end dates needs to be on the same date.");
+    }
+
     public Employee findEmployeeByUserId(Long id) {
         return employeeRepository.findEmployeeByUserId(id).orElseThrow(
                 () -> new IllegalArgumentException("Cannot find employee with user ID: " + id.toString()));
+    }
+
+    public List<Therapy> getEmployeesTherapies(String username) {
+        log.debug("Fetching employees therapies.");
+
+        RehubUser user = userService.findUserByUsername(username);
+        Employee employee = employeeRepository.findEmployeeByUserId(user.getId()).orElseThrow(
+                () -> new IllegalArgumentException("Cannot find employee with user ID: " + user.getId()));
+
+        return therapyService.getAllEmployeeTherapies(employee);
     }
 }

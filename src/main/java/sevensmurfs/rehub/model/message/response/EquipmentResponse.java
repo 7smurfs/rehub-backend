@@ -17,12 +17,19 @@ public class EquipmentResponse {
 
     private String specialMessage;
 
-    public static EquipmentResponse mapEquimentEntity(Equipment equipment) {
+    private Long roomId;
+
+    private String roomLabel;
+
+    public static EquipmentResponse mapEquipmentEntity(Equipment equipment) {
         return EquipmentResponse.builder()
                                 .id(equipment.getId())
                                 .name(equipment.getName())
                                 .specialMessage(equipment.getSpecialMessage())
                                 .status(equipment.getStatus())
+                                .roomId(equipment.getRoom() != null ? equipment.getRoom().getId() : null)
+                                .roomLabel(equipment.getRoom() != null ? equipment.getRoom().getLabel() : null)
                                 .build();
     }
+
 }

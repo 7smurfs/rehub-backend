@@ -124,6 +124,24 @@ public class EmployeeController {
     /**
      * Get all therapies EMPLOYEE request GET > /api/v1/employee/therapies
      */
+    @GetMapping("/accountable/therapies")
+    @RolesAllowed("ROLE_EMPLOYEE")
+    public ResponseEntity<Object> getEmployeeTherapies(@NotNull HttpServletRequest request) {
+
+        log.info(" > > > GET /api/v1/employee/therapies (Get all therapies EMPLOYEE request)");
+
+        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String username = jwtGenerator.getUsernameFromToken(token);
+        List<Therapy> therapies = employeeService.getEmployeesTherapies(username);
+
+        log.info(" < < < GET /api/v1/employee/therapies (Get all therapies EMPLOYEE success)");
+
+        return ResponseEntity.ok(therapies.stream().map(TherapyResponse::mapTherapyEntity).toList());
+    }
+
+    /**
+     * Get all therapies EMPLOYEE request GET > /api/v1/employee/therapies
+     */
     @GetMapping("/therapies")
     @RolesAllowed("ROLE_EMPLOYEE")
     public ResponseEntity<Object> getAllTherapies() {
@@ -290,7 +308,7 @@ public class EmployeeController {
 
         log.info(" < < < GET /api/v1/employee/equipment (Employee get all equipment success)");
 
-        return ResponseEntity.ok(equipment.stream().map(EquipmentResponse::mapEquimentEntity).toList());
+        return ResponseEntity.ok(equipment.stream().map(EquipmentResponse::mapEquipmentEntity).toList());
     }
 
     /**
@@ -305,7 +323,7 @@ public class EmployeeController {
 
         log.info(" < < < GET /api/v1/employee/equipment/{} (Employee get equipment with id successful)", id);
 
-        return ResponseEntity.ok(EquipmentResponse.mapEquimentEntity(equipment));
+        return ResponseEntity.ok(EquipmentResponse.mapEquipmentEntity(equipment));
     }
 
     /**

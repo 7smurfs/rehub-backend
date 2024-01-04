@@ -30,7 +30,7 @@ public class RoomResponse {
                            .capacity(room.getCapacity())
                            .status(room.getStatus())
                            .specialMessage(room.getSpecialMessage())
-                           .equipment(room.getEquipment().stream().map(EquipmentResponse::mapEquimentEntity).toList())
+                           .equipment(room.getEquipment().stream().map(EquipmentResponse::mapEquipmentEntity).toList())
                            .build();
     }
 }
