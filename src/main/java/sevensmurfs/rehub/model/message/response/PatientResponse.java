@@ -41,4 +41,14 @@ public class PatientResponse {
                               .therapies(patient.getTherapies().stream().map(TherapyResponse::mapTherapyEntity).toList())
                               .build();
     }
+
+    public static PatientResponse mapPatientEntityForTherapy(Patient patient) {
+        return PatientResponse.builder()
+                              .id(patient.getId())
+                              .firstName(patient.getFirstName())
+                              .lastName(patient.getLastName())
+                              .gender(patient.getGender())
+                              .dateOfBirth(patient.getDateOfBirth())
+                              .build();
+    }
 }

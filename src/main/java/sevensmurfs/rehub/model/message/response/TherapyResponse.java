@@ -41,7 +41,7 @@ public class TherapyResponse {
                               .roomLabel(therapy.getRoom() != null ? therapy.getRoom().getLabel() : null)
                               .startAt(therapy.getAppointment() != null ? therapy.getAppointment().getStartAt() : null)
                               .endAt(therapy.getAppointment() != null ? therapy.getAppointment().getEndAt() : null)
-                              .patientResponse(PatientResponse.mapPatientEntity(therapy.getPatient()))
+                              .patientResponse(PatientResponse.mapPatientEntityForTherapy(therapy.getPatient()))
                               .therapyResultResponse(therapy.getTherapyResult() != null ?
                                                      TherapyResultResponse.mapTherapyResultEntity(therapy.getTherapyResult()) :
                                                      null)
