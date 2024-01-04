@@ -105,13 +105,25 @@ public class PatientController {
         String username = jwtGenerator.getUsernameFromToken(token);
         Therapy therapy = therapyService.createTherapy(therapyRequest, username);
 
-        log.info(" < < < POST /api/v1/therapy (New therapy added succesfully)");
+        log.info(" < < < POST /api/v1/patient/therapy (New therapy added succesfully)");
 
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest()
                                                                  .path("/{therapyId}")
                                                                  .buildAndExpand(therapy.getId())
                                                                  .toUri())
                              .build();
+    }
+
+    @DeleteMapping("/therapy/{id}")
+    public ResponseEntity<Object> cancelTherapy(@PathVariable Long id) {
+
+        log.info(" > > > DELETE /api/v1/patient/therapy/{} (Canceling therapy)", id);
+
+        therapyService.cancelTherapyWithId(id);
+
+        log.info(" < < < DELETE /api/v1/patient/therapy/{} (Canceling therapy success)", id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/therapies")

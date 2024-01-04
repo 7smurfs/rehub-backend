@@ -134,4 +134,17 @@ public class TherapyService {
         List<Therapy> therapies = therapyRepository.findByEmployeeId(employee.getId());
         return therapies.isEmpty() ? Collections.emptyList() : therapies;
     }
+
+    public void cancelTherapyWithId(Long id) {
+        log.debug("Canceling therapy.");
+        Therapy therapy = findTherapyById(id);
+        if (therapy.getStatus().equals(TherapyStatus.CANCELED) || therapy.getStatus().equals(TherapyStatus.INVALIDATED)) {
+            throw new IllegalArgumentException("Therapy is already invalidated.");
+        }
+
+        therapy.setStatus(TherapyStatus.CANCELED);
+        therapyRepository.save(therapy);
+
+        log.debug("Therapy has been canceled.");
+    }
 }
