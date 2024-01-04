@@ -14,7 +14,9 @@ import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.TherapyRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -73,10 +75,15 @@ public class TherapyService {
                 () -> new IllegalArgumentException("User with given username does not exist."));
         Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
                 () -> new IllegalArgumentException("User with given user ID does not exist."));
+        List<Therapy> therapies = patient.getTherapies()
+                                         .stream()
+                                         .sorted(Comparator.comparing(therapy -> therapy.getCreatedAt().compareTo(LocalDateTime.now())))
+                                         .filter(therapy -> !therapy.getStatus().equals(TherapyStatus.CANCELED))
+                                         .toList();
 
         log.debug("Successfully fetched patient.");
 
-        return patient.getTherapies().isEmpty() ? Collections.emptyList() : patient.getTherapies();
+        return patient.getTherapies().isEmpty() ? Collections.emptyList() : therapies;
     }
 
     @Transactional
