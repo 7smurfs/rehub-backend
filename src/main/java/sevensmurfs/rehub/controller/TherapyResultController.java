@@ -25,7 +25,7 @@ public class TherapyResultController {
 
     @PostMapping
     @RolesAllowed("ROLE_EMPLOYEE")
-    public ResponseEntity<Object> writeTherapyResult(@Validated @RequestBody TherapyResultRequest request) {
+    public ResponseEntity<Object> writeTherapyResult(@Validated @RequestBody TherapyResultRequest request) throws Exception {
         log.info(" > > > POST /api/v1/therapy/result (Write therapy result request)");
 
         // Call the service method to write the therapy result

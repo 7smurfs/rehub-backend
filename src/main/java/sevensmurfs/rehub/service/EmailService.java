@@ -39,6 +39,7 @@ public class EmailService {
 
     public void sendTherapyResultEmail(String email, Patient patient, Therapy therapy, TherapyResult therapyResult) {
         try {
+            log.debug("Sending therapy result email.");
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
@@ -64,6 +65,7 @@ public class EmailService {
             log.debug("Sending email to {}", email);
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
+            log.debug("Mail sent successfully.");
         } catch (SMTPSendFailedException ex) {
             log.error(ex.getMessage());
         } catch (Exception ex) {
@@ -74,6 +76,7 @@ public class EmailService {
 
     public void sendPasswordReset(String recipientEmail, String token) {
         try {
+            log.debug("Sending email for password reset.");
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
                                                              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
@@ -94,6 +97,7 @@ public class EmailService {
             log.debug("Sending email to {}", recipientEmail);
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
+            log.debug("Mail sent successfully.");
         } catch (SMTPSendFailedException ex) {
             log.error(ex.getMessage());
         } catch (Exception ex) {
@@ -104,6 +108,7 @@ public class EmailService {
 
     public void sendAccountCreationInformationToEmployee(UserRequest userRequest, String password) {
         try {
+            log.debug("Sending email for account creation information to employee.");
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
                                                              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
@@ -126,6 +131,7 @@ public class EmailService {
             log.debug("Sending email to {}", userRequest.getUsername());
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
+            log.debug("Mail sent successfully.");
         } catch (SMTPSendFailedException ex) {
             log.error(ex.getMessage());
         } catch (Exception ex) {
@@ -136,6 +142,7 @@ public class EmailService {
 
     public void sendEmailForRegisteredUser(String firstName, String lastName, String email) {
         try {
+            log.debug("Sending email for user registration.");
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,
                                                              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
@@ -156,6 +163,7 @@ public class EmailService {
             log.debug("Sending email to {}", email);
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
+            log.debug("Mail sent successfully.");
         } catch (SMTPSendFailedException ex) {
             log.error(ex.getMessage());
         } catch (Exception ex) {
@@ -195,6 +203,7 @@ public class EmailService {
             log.debug("Sending email to {}", email);
             helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
             javaMailSender.send(message);
+            log.debug("Mail sent successfully.");
         } catch (SMTPSendFailedException ex) {
             log.error(ex.getMessage());
         } catch (Exception ex) {
