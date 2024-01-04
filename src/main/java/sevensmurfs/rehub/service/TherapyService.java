@@ -47,9 +47,13 @@ public class TherapyService {
         Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given id does not exists."));
 
-        doctorRepository.findByFirstNameAndLastName(newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName()).orElseThrow(
+        String[] doctor = newTherapy.getDoctorFullName().trim().split(" ");
+        if (doctor.length < 2)
+            throw new IllegalArgumentException("Invalid doctor name.");
+
+        doctorRepository.findByFirstNameAndLastName(doctor[0], doctor[1]).orElseThrow(
                 () -> new IllegalArgumentException(
-                        String.format("Doctor %s %s not found!", newTherapy.getDoctorFirstName(), newTherapy.getDoctorLastName())));
+                        String.format("Doctor %s %s not found!", doctor[0], doctor[1])));
 
         Therapy therapy = Therapy.builder()
                                  .type(newTherapy.getType())

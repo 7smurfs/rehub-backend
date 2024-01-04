@@ -16,10 +16,7 @@ public class TherapyRequest {
     private String request;
 
     @NotBlank
-    private String doctorFirstName;
-
-    @NotBlank
-    private String doctorLastName;
+    private String doctorFullName;
 
     private Long referenceId;
 }
