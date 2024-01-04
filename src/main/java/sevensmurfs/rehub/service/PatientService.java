@@ -75,4 +75,9 @@ public class PatientService {
     public Long getNumberOfNewPatientsForMonth() {
         return patientRepository.countAllByCreatedAtAfter(LocalDateTime.now().minusMonths(1));
     }
+
+    public Patient findPatientByUserId(Long id) {
+        return patientRepository.findPatientByUserId(id).orElseThrow(
+                () -> new IllegalArgumentException("Cannot find patient with user ID: " + id.toString()));
+    }
 }

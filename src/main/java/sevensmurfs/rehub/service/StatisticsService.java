@@ -3,7 +3,16 @@ package sevensmurfs.rehub.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import sevensmurfs.rehub.enums.Role;
+import sevensmurfs.rehub.model.entity.Employee;
+import sevensmurfs.rehub.model.entity.Patient;
+import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.UserRole;
 import sevensmurfs.rehub.model.message.response.StatisticsResponse;
+import sevensmurfs.rehub.model.message.response.UserResponse;
+import sevensmurfs.rehub.util.SecurityUtil;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +45,31 @@ public class StatisticsService {
 
         log.debug("Statistics success.");
         return statBuilder.build();
+    }
+
+    public UserResponse getUserStatsAndInfo(RehubUser user) throws Exception {
+        log.debug("Gathering user stats and info.");
+
+        UserResponse.UserResponseBuilder responseBuilder = UserResponse.builder();
+        responseBuilder.id(user.getId());
+        responseBuilder.roles(user.getRoles().stream().map(UserRole::getName).collect(Collectors.toList()));
+        responseBuilder.username(SecurityUtil.decryptUsername(user.getUsername()));
+
+        if (user.getRoles().stream().anyMatch(userRole -> userRole.getName().equals(Role.EMPLOYEE))) {
+            Employee employee = employeeService.findEmployeeByUserId(user.getId());
+            responseBuilder.firstName(employee.getFirstName());
+            responseBuilder.lastName(employee.getLastName());
+            return responseBuilder.build();
+        }
+        if (user.getRoles().stream().anyMatch(userRole -> userRole.getName().equals(Role.PATIENT))) {
+            Patient patient = patientService.findPatientByUserId(user.getId());
+            responseBuilder.firstName(patient.getFirstName());
+            responseBuilder.lastName(patient.getLastName());
+            return responseBuilder.build();
+        }
+        if (user.getRoles().stream().anyMatch(userRole -> userRole.getName().equals(Role.SUPERADMIN))) {
+            return responseBuilder.build();
+        }
+        throw new IllegalArgumentException("Unexpected error occured.");
     }
 }

@@ -116,4 +116,9 @@ public class EmployeeService {
 
         log.debug("Saved appointment.");
     }
+
+    public Employee findEmployeeByUserId(Long id) {
+        return employeeRepository.findEmployeeByUserId(id).orElseThrow(
+                () -> new IllegalArgumentException("Cannot find employee with user ID: " + id.toString()));
+    }
 }
