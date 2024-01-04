@@ -13,6 +13,7 @@ import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.AppointmentRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
+import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +30,8 @@ public class EmployeeService {
     private final UserService userService;
 
     private final RoomService roomService;
+
+    private final EmailService emailService;
 
     @Transactional
     public Employee registerEmployee(UserRequest userRequest) throws Exception {
@@ -93,7 +96,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void setAppointmentForTherapy(AppointmentRequest appointmentRequest, String username) {
+    public void setAppointmentForTherapy(AppointmentRequest appointmentRequest, String username) throws Exception {
 
         log.debug("Setting new appointment for therapy with ID: {}", appointmentRequest.getTherapyId());
         RehubUser user = userService.findUserByUsername(username);
@@ -114,6 +117,13 @@ public class EmployeeService {
 
         therapyService.saveTherapy(therapy);
         therapyService.saveAppointment(appointment);
+
+        emailService.sendTherapyConfirmedNotification(SecurityUtil.decryptUsername(therapy.getPatient().getUser().getUsername()),
+                                                      therapy.getPatient(),
+                                                      therapy,
+                                                      appointment.getStartAt().toLocalDate(),
+                                                      appointment.getStartAt(),
+                                                      appointment.getEndAt());
 
         log.debug("Saved appointment.");
     }

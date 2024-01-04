@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.context.Context;
 import sevensmurfs.rehub.config.EmailProperties;
+import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.entity.TherapyResult;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -35,54 +37,6 @@ public class EmailService {
 
     private final SpringTemplateEngine springTemplateEngine;
 
-    public void sendTherapyConfirmedOrCanceled(String recipientEmail, String recipientName, Therapy therapy, LocalDateTime localDateTime, boolean confirmed) {
-        try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message,
-                                                             MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                                                             StandardCharsets.UTF_8.name());
-
-            Context context = new Context(LocaleContextHolder.getLocale());
-            /**
-             * This function assigns value to given key from template
-             */
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
-            // Format the LocalDateTime using the formatter
-            String formattedDate = localDateTime.format(formatterDate);
-            String formattedTime = localDateTime.format(formatterTime);
-
-            context.setVariable("recipientName", recipientName);
-            context.setVariable("therapy", therapy);
-            context.setVariable("therapyDate", formattedDate);
-            context.setVariable("therapyTime", formattedTime);
-
-            String html;
-
-            // Set right name of the template without extension
-            if (confirmed){
-                html = springTemplateEngine.process("therapy-confirmed-template", context);
-            }
-            else{
-                html = springTemplateEngine.process("therapy-canceled-template", context);
-
-            }
-
-            helper.setSubject("Important message from ReHub!");
-            helper.setTo(recipientEmail);
-            helper.setText(html, true);
-            helper.setSentDate(new Date());
-            log.debug("Sending email to {}", recipientEmail);
-            helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
-            javaMailSender.send(message);
-        } catch (SMTPSendFailedException ex) {
-            log.error(ex.getMessage());
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            log.warn("Error occurred while trying to send mail.");
-        }
-
-    }
     public void sendTherapyResult(String recipientEmail, String recipientName, TherapyResult therapyResult) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -205,4 +159,44 @@ public class EmailService {
             log.warn("Error occurred while trying to send mail.");
         }
     }
+
+    public void sendTherapyConfirmedNotification(String email, Patient patient, Therapy therapy, LocalDate therapyDate, LocalDateTime startAt, LocalDateTime endAt) {
+        log.debug("Sending email for therapy confirmation.");
+        try {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message,
+                                                             MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                                                             StandardCharsets.UTF_8.name());
+
+            Context context = new Context(LocaleContextHolder.getLocale());
+
+            // Context for template
+            context.setVariable("firstName", patient.getFirstName());
+            context.setVariable("lastName", patient.getLastName());
+            context.setVariable("therapyType", therapy.getType());
+            context.setVariable("date", therapyDate.format(dateFormatter));
+            context.setVariable("startAt", startAt.format(timeFormatter));
+            context.setVariable("endAt", endAt.format(timeFormatter));
+            context.setVariable("employeePhone", therapy.getEmployee().getPhoneNumber());
+
+            String html;
+            html = springTemplateEngine.process("therapy-confirmed-template", context);
+            helper.setSubject("Odobrenje terapije u ReHub");
+            helper.setTo(email);
+            helper.setText(html, true);
+            helper.setSentDate(new Date());
+            log.debug("Sending email to {}", email);
+            helper.setFrom(new InternetAddress(emailProperties.getEmail(), REHUB));
+            javaMailSender.send(message);
+        } catch (SMTPSendFailedException ex) {
+            log.error(ex.getMessage());
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            log.warn("Error occurred while trying to send mail.");
+        }
+    }
+
 }

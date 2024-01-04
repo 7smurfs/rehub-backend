@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ReHub Email</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odobrena terapija</title>
 </head>
 <body>
-<h1>Hello, <span th:text="${recipientName}">Recipient</span>!</h1>
-
-<p>Your therapy for <i><span th:text="${therapy.type}"></span></i> has been confirmed!</p>
-<p>Your appointment with your doctor will be on <span th:text="${therapyDate}"></span> at <span th:text="${therapyTime}"></span></p>
-<p>If you want to cancel or reschedule the appointment, contact us via mail or phone.</p>
-<p>
-    If you have any questions or need further information, please don't hesitate to contact us.
-</p>
-
-<p>Best regards,<br>ReHub</p>
+<div style="justify-content: start;
+        align-items: center;
+        padding: 10px;
+        font-size: 20px;
+        color: #00326E;
+        text-align: center;
+        font-family: Arial,serif;
+        border: solid white;
+        border-radius: 5px;
+        margin: 5px;
+        background-color: #B9E2F4" ;>
+    <h1 style="font-family: 'sans-serif';
+            font-size: 32px;">
+        ReHub
+    </h1>
+    <h1 style="font-family: 'sans-serif';">Odobrenje terapije</h1>
+    <br />
+    <br />
+    <p style="margin: 5px;">
+        Poštovani <span th:text="${firstName}"></span>  <span th:text="${lastName}"></span>,
+        Vaša tražena terapija je odobrena. U nastavku možete pronaći sve potrebne informacije. Molimo Vas da se odazovete u navedenom terminu.
+        <br/>
+    </p>
+    <span style="font-weight: bold">Vrsta terapije: <span th:text="${therapyType}"></span></span>
+    <br />
+    <span style="font-weight: bold">Datum: <span th:text="${date}"></span></span>
+    <br />
+    <span style="font-weight: bold">Vremensko razdoblje: <span th:text="${startAt}"></span> - <span th:text="${endAt}"></span></span>
+    <br />
+    <span style="font-weight: bold">Mob. doktor: <span th:text="${employeePhone}"></span></span>
+    <br />
+    <br />
+    <p>Za bilo kakvu dodatnu pomoć kontaktirajte naš ReHub tim.</p>
+</div>
 </body>
 </html>

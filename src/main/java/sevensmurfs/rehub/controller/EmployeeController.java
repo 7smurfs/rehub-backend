@@ -161,7 +161,7 @@ public class EmployeeController {
     @PostMapping("/therapy")
     @RolesAllowed("ROLE_EMPLOYEE")
     public ResponseEntity<Object> setAppointmentForTherapy(@Validated @RequestBody AppointmentRequest appointmentRequest,
-                                                           @NotNull HttpServletRequest request) {
+                                                           @NotNull HttpServletRequest request) throws Exception {
 
         log.info(" > > > POST /api/v1/employee/therapy (Set appointment for therapy EMPLOYEE request)");
 
