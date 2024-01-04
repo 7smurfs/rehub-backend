@@ -27,6 +27,8 @@ public class TherapyResponse {
 
     private LocalDateTime endAt;
 
+    private PatientResponse patientResponse;
+
     private TherapyResultResponse therapyResultResponse;
 
     public static TherapyResponse mapTherapyEntity(Therapy therapy) {
@@ -39,7 +41,10 @@ public class TherapyResponse {
                               .roomLabel(therapy.getRoom() != null ? therapy.getRoom().getLabel() : null)
                               .startAt(therapy.getAppointment() != null ? therapy.getAppointment().getStartAt() : null)
                               .endAt(therapy.getAppointment() != null ? therapy.getAppointment().getEndAt() : null)
-                              .therapyResultResponse(therapy.getTherapyResult() != null ? TherapyResultResponse.mapTherapyResultEntity(therapy.getTherapyResult()) : null)
+                              .patientResponse(PatientResponse.mapPatientEntity(therapy.getPatient()))
+                              .therapyResultResponse(therapy.getTherapyResult() != null ?
+                                                     TherapyResultResponse.mapTherapyResultEntity(therapy.getTherapyResult()) :
+                                                     null)
                               .build();
     }
 }
