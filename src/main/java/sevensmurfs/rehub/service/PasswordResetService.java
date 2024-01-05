@@ -95,6 +95,9 @@ public class PasswordResetService {
                 () -> new IllegalArgumentException("Cannot find user by username."));
         this.validatePasswordResetRequest(passwordResetRequest);
 
+        if (!encoder.matches(passwordResetRequest.getOldPass(), user.getPassword()))
+            throw new IllegalArgumentException("Old password is incorrect");
+
         user.setPassword(encoder.encode(passwordResetRequest.getNewPass()));
         rehubUserRepository.save(user);
 

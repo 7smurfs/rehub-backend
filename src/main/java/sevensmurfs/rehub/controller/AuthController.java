@@ -103,7 +103,7 @@ public class AuthController {
      * Change user's password request POST > /api/v1/auth/change/password
      */
     @PostMapping("/change/password")
-    public ResponseEntity<Object> changeUserPassword(@Validated(PasswordResetValidator.SaveNewPassword.class)
+    public ResponseEntity<Object> changeUserPassword(@Validated(PasswordResetValidator.ChangePassword.class)
                                                      @RequestBody PasswordResetRequest passwordResetRequest,
                                                      @NotNull HttpServletRequest request) {
 

@@ -14,6 +14,10 @@ public class PasswordResetRequest {
     @NotBlank(groups = {PasswordResetValidator.PasswordResetLink.class})
     private String username;
 
+    @Null(groups = {PasswordResetValidator.PasswordResetLink.class, PasswordResetValidator.SaveNewPassword.class})
+    @NotBlank(groups = PasswordResetValidator.ChangePassword.class)
+    private String oldPass;
+
     @Null(groups = {PasswordResetValidator.PasswordResetLink.class})
     @NotBlank(groups = {PasswordResetValidator.SaveNewPassword.class, PasswordResetValidator.ChangePassword.class})
     @Size(min = 8, groups = {PasswordResetValidator.SaveNewPassword.class})
