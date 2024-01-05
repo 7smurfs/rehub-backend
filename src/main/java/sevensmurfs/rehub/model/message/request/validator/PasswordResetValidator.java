@@ -6,5 +6,7 @@ public interface PasswordResetValidator {
 
     interface PasswordResetLink extends Default {}
 
+    interface ChangePassword extends Default {}
+
     interface SaveNewPassword extends Default {}
 }

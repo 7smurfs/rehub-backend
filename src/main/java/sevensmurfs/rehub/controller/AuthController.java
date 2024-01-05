@@ -1,5 +1,7 @@
 package sevensmurfs.rehub.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +57,7 @@ public class AuthController {
 
         String username = SecurityUtil.encryptUsername(userRequest.getUsername());
         RehubUser user = userService.findUserByUsername(username);
-        String [] userInfo = userService.getUserInfo(user);
+        String[] userInfo = userService.getUserInfo(user);
         if (userInfo == null)
             throw new IllegalArgumentException("No valid user data.");
         String jwtToken = jwtGenerator.generateToken(authentication, user.getRoles());
@@ -70,7 +72,7 @@ public class AuthController {
      */
     @PostMapping("/reset")
     public ResponseEntity<Object> PasswordResetLink(@Validated(PasswordResetValidator.PasswordResetLink.class)
-                                                       @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
+                                                    @RequestBody PasswordResetRequest passwordResetRequest) throws Exception {
 
         log.info(" > > > POST /api/v1/auth/reset (Requesting password reset link)");
 
@@ -95,5 +97,24 @@ public class AuthController {
         log.info(" < < < POST /api/v1/auth/reset/password (Updating user's password successful)");
 
         return ResponseEntity.ok("Password has been updated successfully");
+    }
+
+    /**
+     * Change user's password request POST > /api/v1/auth/change/password
+     */
+    @PostMapping("/change/password")
+    public ResponseEntity<Object> changeUserPassword(@Validated(PasswordResetValidator.SaveNewPassword.class)
+                                                     @RequestBody PasswordResetRequest passwordResetRequest,
+                                                     @NotNull HttpServletRequest request) {
+
+        log.info(" > > > POST /api/v1/auth/change/password (Change user's password)");
+
+        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String username = jwtGenerator.getUsernameFromToken(token);
+        passwordResetService.changeUsersPassword(username, passwordResetRequest);
+
+        log.info(" < < < POST /api/v1/auth/change/password (Change user's password successful)");
+
+        return ResponseEntity.ok("Password has been changed successfully");
     }
 }

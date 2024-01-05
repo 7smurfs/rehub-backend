@@ -65,30 +65,17 @@ public class PasswordResetService {
         PasswordReset passwordReset = passwordResetRepository.findByToken(passwordResetRequest.getToken()).orElseThrow(
                 () -> new IllegalArgumentException("Given token does not exist"));
 
-        //Checking if token is still valid
-
-        if (!passwordReset.getCreatedAt().isAfter(LocalDateTime.now().minusHours(tokenTimeToLiveInHours))) {
-
+        if (!passwordReset.getCreatedAt().isAfter(LocalDateTime.now().minusHours(tokenTimeToLiveInHours)))
             throw new IllegalArgumentException("Token alive time exceeded");
 
-        }
-
-        //Checking if token was already used to reset password
-
-        if (passwordReset.getStatus().equals(PasswordResetStatus.RESET_ACCEPTED)){
+        if (passwordReset.getStatus().equals(PasswordResetStatus.RESET_ACCEPTED)) {
 
             throw new IllegalArgumentException("Token was already used to reset password");
         }
-
-        //Checking if newPass and confirmPass are equal
-
-        if (!passwordResetRequest.getNewPass().equals(passwordResetRequest.getConfirmPass())) {
-            throw new IllegalArgumentException("Passwords do not match");
-        }
+        this.validatePasswordResetRequest(passwordResetRequest);
 
         RehubUser rehubUser = passwordReset.getRehubUser();
 
-        //Changing PasswordReset status to ACCEPTED and saving changes
         passwordReset.setStatus(PasswordResetStatus.RESET_ACCEPTED);
         passwordResetRepository.save(passwordReset);
 
@@ -96,10 +83,27 @@ public class PasswordResetService {
         rehubUser.setPassword(encoder.encode(passwordResetRequest.getNewPass()));
 
         log.debug("Saving new password");
-
         rehubUserRepository.save(rehubUser);
-
         log.debug("Saving new password successful");
+    }
 
+    public void changeUsersPassword(String username, PasswordResetRequest passwordResetRequest) {
+
+        log.debug("Changin user's password.");
+
+        RehubUser user = rehubUserRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("Cannot find user by username."));
+        this.validatePasswordResetRequest(passwordResetRequest);
+
+        user.setPassword(encoder.encode(passwordResetRequest.getNewPass()));
+        rehubUserRepository.save(user);
+
+        log.debug("Password changed successfully.");
+    }
+
+    private void validatePasswordResetRequest(PasswordResetRequest passwordResetRequest) {
+        log.debug("Validating password request.");
+        if (!passwordResetRequest.getNewPass().equals(passwordResetRequest.getConfirmPass()))
+            throw new IllegalArgumentException("Confirma password and new password are not the same.");
     }
 }
