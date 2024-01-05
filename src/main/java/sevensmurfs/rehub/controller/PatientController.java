@@ -81,16 +81,18 @@ public class PatientController {
     }
 
     /**
-     * Invalidate patient request DELETE > /api/v1/patient/:id
+     * Invalidate patient request DELETE > /api/v1/patient
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> invalidatePatient(@PathVariable(name = "id") Long id) {
+    @DeleteMapping
+    public ResponseEntity<Object> invalidatePatient(@NotNull HttpServletRequest request) {
 
-        log.info(" > > > DELETE /api/v1/patient/{} (Invalidate patient request)", id);
+        log.info(" > > > DELETE /api/v1/patient (Invalidate patient request)");
 
-        patientService.invalidatePatientWithId(id);
+        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String username = jwtGenerator.getUsernameFromToken(token);
+        patientService.invalidatePatientWithUsername(username);
 
-        log.info(" < < < DELETE /api/v1/patient/{} (Invalidate patient success)", id);
+        log.info(" < < < DELETE /api/v1/patient (Invalidate patient success)");
 
         return ResponseEntity.noContent().build();
     }

@@ -55,8 +55,9 @@ public class PatientService {
     }
 
     @Transactional
-    public void invalidatePatientWithId(Long id) {
-        Patient patient = patientRepository.findById(id).orElseThrow(
+    public void invalidatePatientWithUsername(String username) {
+        RehubUser user = userService.findUserByUsername(username);
+        Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given ID does not exist."));
         if (patient.getUser().getStatus().equals(UserStatus.INVALIDATED))
             throw new IllegalArgumentException("User is already invalidated.");
@@ -80,4 +81,6 @@ public class PatientService {
         return patientRepository.findPatientByUserId(id).orElseThrow(
                 () -> new IllegalArgumentException("Cannot find patient with user ID: " + id.toString()));
     }
+
+
 }
