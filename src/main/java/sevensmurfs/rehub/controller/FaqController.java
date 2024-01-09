@@ -34,7 +34,7 @@ public class FaqController {
      * Add a new faq Admin POST > /api/v1/faq
      */
     @PostMapping
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ROLE_SUPERADMIN")
     public ResponseEntity<Object> addFaq(@Validated @RequestBody FaqRequest faqRequest) throws Exception {
 
         log.info(" > > > POST /api/v1/faq (Adding a new faq)");
@@ -69,7 +69,7 @@ public class FaqController {
      * Delete faq ADMIN request DELETE > /api/v1/faq/:id
      */
     @DeleteMapping("/{id}")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ROLE_SUPERADMIN")
     public ResponseEntity<Object> deleteFaq(@PathVariable(name = "id") Long id) {
 
         log.info(" > > > DELETE /api/v1/faq/{} (Delete faq request)", id);
