@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface TherapyRepository extends JpaRepository<Therapy, Long> {
 
     List<Therapy> findByEmployeeId(Long employeeId);
+
+    List<Therapy> findAllByRoomId(Long roomId);
 }

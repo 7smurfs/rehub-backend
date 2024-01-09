@@ -148,4 +148,10 @@ public class TherapyService {
 
         log.debug("Therapy has been canceled.");
     }
+
+    @Transactional
+    public List<Therapy> getAllTherapiesForRoomId(Long id) {
+        return therapyRepository.findAllByRoomId(id).stream().filter(
+                therapy -> therapy.getAppointment().getStartAt().isAfter(LocalDateTime.now())).toList();
+    }
 }

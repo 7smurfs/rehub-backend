@@ -9,6 +9,7 @@ import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.Appointment;
 import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.Room;
 import sevensmurfs.rehub.model.entity.Therapy;
 import sevensmurfs.rehub.model.message.request.AppointmentRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
@@ -105,6 +106,7 @@ public class EmployeeService {
 
         Therapy therapy = therapyService.findTherapyById(appointmentRequest.getTherapyId());
         this.validateAppointmentTime(appointmentRequest);
+        this.validateRoomForAppointmentTime(appointmentRequest);
         Appointment appointment = Appointment.builder()
                                              .startAt(appointmentRequest.getStartAt())
                                              .endAt(appointmentRequest.getEndAt())
@@ -126,6 +128,17 @@ public class EmployeeService {
                                                       appointment.getEndAt());
 
         log.debug("Saved appointment.");
+    }
+
+    private void validateRoomForAppointmentTime(AppointmentRequest appointmentRequest) {
+        log.debug("Validating room capacity.");
+        Room room = roomService.getRoomWithId(appointmentRequest.getRoomId());
+        List<Therapy> therapies = therapyService.getAllTherapiesForRoomId(room.getId()).stream().filter(
+                therapy -> (therapy.getAppointment().getStartAt().isBefore(appointmentRequest.getEndAt()) &&
+                            therapy.getAppointment().getEndAt().isAfter(appointmentRequest.getStartAt()))).toList();
+        if (room.getCapacity() <= therapies.size()) {
+            throw new IllegalArgumentException("Room capacity too small.");
+        }
     }
 
     private void validateAppointmentTime(AppointmentRequest appointmentRequest) {
