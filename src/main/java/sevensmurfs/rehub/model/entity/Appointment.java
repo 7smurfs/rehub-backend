@@ -36,6 +36,6 @@ public class Appointment {
     @Column(nullable = false)
     private LocalDateTime endAt;
 
-    @OneToOne(mappedBy = "appointment", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, optional = false)
+    @OneToOne(mappedBy = "appointment", fetch = FetchType.EAGER)
     private Therapy therapy;
 }
