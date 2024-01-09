@@ -161,6 +161,8 @@ public class EmployeeService {
         Employee employee = employeeRepository.findEmployeeByUserId(user.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Cannot find employee with user ID: " + user.getId()));
 
-        return therapyService.getAllEmployeeTherapies(employee);
+        return therapyService.getAllEmployeeTherapies(employee).stream().filter(therapy -> !(therapy.getStatus().equals(
+                                     TherapyStatus.INVALIDATED) || therapy.getStatus().equals(TherapyStatus.CANCELED)))
+                             .toList();
     }
 }
