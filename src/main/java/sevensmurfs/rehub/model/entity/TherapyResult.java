@@ -1,7 +1,9 @@
 package sevensmurfs.rehub.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,6 +34,6 @@ public class TherapyResult {
     @Column(nullable = false)
     private String result;
 
-    @OneToOne(mappedBy = "therapyResult", optional = false)
+    @OneToOne(mappedBy = "therapyResult", fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
     private Therapy therapy;
 }
