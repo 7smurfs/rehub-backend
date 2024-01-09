@@ -10,6 +10,8 @@ public class TherapyResultResponse {
 
     private Long id;
 
+    private Long therapyId;
+
     private String result;
 
     private String status;
@@ -17,6 +19,7 @@ public class TherapyResultResponse {
     public static TherapyResultResponse mapTherapyResultEntity(TherapyResult therapyResult) {
         return TherapyResultResponse.builder()
                                     .id(therapyResult.getId())
+                                    .therapyId(therapyResult.getTherapy().getId())
                                     .result(therapyResult.getResult())
                                     .status(therapyResult.getStatus())
                                     .build();
