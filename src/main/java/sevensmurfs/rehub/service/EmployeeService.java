@@ -131,6 +131,10 @@ public class EmployeeService {
     private void validateAppointmentTime(AppointmentRequest appointmentRequest) {
         log.debug("Validating appointment start and end time.");
 
+        if (appointmentRequest.getStartAt().isBefore(LocalDateTime.now()) || appointmentRequest.getEndAt().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Invalid appointment time. Start date and end date cannot be before current time.");
+        }
+
         if (appointmentRequest.getStartAt().isAfter(appointmentRequest.getEndAt()))
             throw new IllegalArgumentException("Invalid appointment time. Start date needs to be before end date.");
 
