@@ -122,19 +122,19 @@ public class EmployeeController {
     }
 
     /**
-     * Get all therapies EMPLOYEE request GET > /api/v1/employee/therapies
+     * Get all therapies EMPLOYEE request GET > /api/v1/employee/accountable/therapies
      */
     @GetMapping("/accountable/therapies")
     @RolesAllowed("ROLE_EMPLOYEE")
     public ResponseEntity<Object> getEmployeeTherapies(@NotNull HttpServletRequest request) {
 
-        log.info(" > > > GET /api/v1/employee/therapies (Get all therapies EMPLOYEE request)");
+        log.info(" > > > GET /api/v1/employee/accountable/therapies (Get all therapies EMPLOYEE request)");
 
         String token = SecurityUtil.getJwtTokenFromRequest(request);
         String username = jwtGenerator.getUsernameFromToken(token);
         List<Therapy> therapies = employeeService.getEmployeesTherapies(username);
 
-        log.info(" < < < GET /api/v1/employee/therapies (Get all therapies EMPLOYEE success)");
+        log.info(" < < < GET /api/v1/employee/accountable/therapies (Get all therapies EMPLOYEE success)");
 
         return ResponseEntity.ok(therapies.stream().map(TherapyResponse::mapTherapyEntity).toList());
     }

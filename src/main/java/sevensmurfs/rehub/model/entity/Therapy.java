@@ -45,6 +45,8 @@ public class Therapy extends AuditableEntity {
 
     private Long refId;
 
+    private String doctorFullName;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
     private Patient patient;

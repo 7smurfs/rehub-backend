@@ -60,6 +60,7 @@ public class TherapyService {
                                  .type(newTherapy.getType())
                                  .request(newTherapy.getRequest())
                                  .patient(patient)
+                                 .doctorFullName(newTherapy.getDoctorFullName())
                                  .status(TherapyStatus.PENDING_APPROVAL)
                                  .refId(newTherapy.getReferenceId())
                                  .build();

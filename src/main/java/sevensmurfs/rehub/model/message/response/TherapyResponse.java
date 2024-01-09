@@ -21,6 +21,8 @@ public class TherapyResponse {
 
     private Long referenceTherapyId;
 
+    private String doctorName;
+
     private String roomLabel;
 
     private LocalDateTime startAt;
@@ -38,6 +40,7 @@ public class TherapyResponse {
                               .request(therapy.getRequest())
                               .status(therapy.getStatus())
                               .referenceTherapyId(therapy.getRefId())
+                              .doctorName(therapy.getDoctorFullName())
                               .roomLabel(therapy.getRoom() != null ? therapy.getRoom().getLabel() : null)
                               .startAt(therapy.getAppointment() != null ? therapy.getAppointment().getStartAt() : null)
                               .endAt(therapy.getAppointment() != null ? therapy.getAppointment().getEndAt() : null)
