@@ -29,6 +29,8 @@ public class TherapyResponse {
 
     private LocalDateTime endAt;
 
+    private String scan;
+
     private PatientResponse patientResponse;
 
     private TherapyResultResponse therapyResultResponse;
@@ -41,6 +43,7 @@ public class TherapyResponse {
                               .status(therapy.getStatus())
                               .referenceTherapyId(therapy.getRefId())
                               .doctorName(therapy.getDoctorFullName())
+                              .scan(therapy.getTherapyScan() != null ? therapy.getTherapyScan() : null)
                               .roomLabel(therapy.getRoom() != null ? therapy.getRoom().getLabel() : null)
                               .startAt(therapy.getAppointment() != null ? therapy.getAppointment().getStartAt() : null)
                               .endAt(therapy.getAppointment() != null ? therapy.getAppointment().getEndAt() : null)
