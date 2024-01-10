@@ -28,7 +28,7 @@ public class SecurityConfig {
                    .cors(Customizer.withDefaults())
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .requestMatchers("/v1/auth/login", "/v1/patient/register", "/v1/faq/**", "/v1/auth/reset",
-                                            "/v1/auth/reset/password", "/v1/user/verification/**").permitAll())
+                                            "/v1/auth/reset/password", "/v1/auth/user/verification/**").permitAll())
                    .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                            .anyRequest().authenticated())
                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
