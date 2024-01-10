@@ -5,17 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
-import sevensmurfs.rehub.model.entity.Appointment;
-import sevensmurfs.rehub.model.entity.Employee;
-import sevensmurfs.rehub.model.entity.Patient;
-import sevensmurfs.rehub.model.entity.RehubUser;
-import sevensmurfs.rehub.model.entity.Therapy;
+import sevensmurfs.rehub.model.entity.*;
 import sevensmurfs.rehub.model.message.request.TherapyRequest;
-import sevensmurfs.rehub.repository.AppointmentRepository;
-import sevensmurfs.rehub.repository.DoctorRepository;
-import sevensmurfs.rehub.repository.PatientRepository;
-import sevensmurfs.rehub.repository.RehubUserRepository;
-import sevensmurfs.rehub.repository.TherapyRepository;
+import sevensmurfs.rehub.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -111,9 +103,7 @@ public class TherapyService {
 
     public List<Therapy> getAllAvailableTherapies() {
         log.debug("Fetching all available therapies.");
-        return therapyRepository.findAll().stream().filter(therapy -> !(therapy.getStatus().equals(TherapyStatus.INVALIDATED) ||
-                                                                        therapy.getStatus().equals(TherapyStatus.CANCELED) ||
-                                                                        therapy.getStatus().equals(TherapyStatus.APPROVED)))
+        return therapyRepository.findAll().stream().filter(therapy -> therapy.getStatus().equals(TherapyStatus.PENDING_APPROVAL))
                                 .toList();
     }
 
