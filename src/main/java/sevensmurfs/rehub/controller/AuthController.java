@@ -127,15 +127,47 @@ public class AuthController {
     /**
      * Verify user request GET > /api/v1/auth/user/verification/:token
      */
-    @GetMapping("/user/verification/{token}")
+    @GetMapping(value = "/user/verification/{token}")
     public ResponseEntity<Object> changeUserPassword(@PathVariable(name = "token") String token) {
 
         log.info(" > > > GET /api/v1/auth/verification/{}", token);
-
-        Verification verification = verificationService.verifyUserWithToken(token);
-        userService.verifyUser(verification);
-
+        try {
+            Verification verification = verificationService.verifyUserWithToken(token);
+            userService.verifyUser(verification);
+        } catch (IllegalArgumentException ex) {
+            String htmlContent = """
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Verification Success</title>
+                    </head>
+                    <body style="text-align: center; color: #00326E; padding: 50px;">
+                        <h1>Korisnik već verificiran. Prijavite se</h1>
+                        <a href="%s" style="color: #FFFFFF; background-color: #00326E; border-radius: 10px; padding: 20px;">PRIJAVITE SE</a>
+                    </body>
+                    </html>
+                    """
+                    .formatted(verificationService.getLoginPageUrl());
+            return ResponseEntity.badRequest().body(htmlContent);
+        }
+        String htmlContent = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Verification Success</title>
+                </head>
+                <body style="text-align: center; color: #00326E; padding: 50px;">
+                    <h1>Korisnik uspješno verificiran</h1>
+                    <a href="%s" style="color: #FFFFFF; background-color: #00326E; border-radius: 10px; padding: 20px;">PRIJAVITE SE</a>
+                </body>
+                </html>
+                """
+                .formatted(verificationService.getLoginPageUrl());
         log.info(" < < < GET /api/v1/auth/verification/{} (Successfully verified)", token);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(htmlContent);
     }
 }

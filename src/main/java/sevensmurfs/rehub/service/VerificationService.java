@@ -1,6 +1,7 @@
 package sevensmurfs.rehub.service;
 
 import jakarta.transaction.Transactional;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,10 @@ public class VerificationService {
 
     @Value("${user.verification.link}")
     private String userVerificationLink;
+
+    @Getter
+    @Value("${login.page.url}")
+    private String loginPageUrl;
 
     private final VerificationRepository verificationRepository;
 
@@ -45,6 +50,9 @@ public class VerificationService {
 
         Verification verification = verificationRepository.findByToken(token).orElseThrow(
                 () -> new IllegalArgumentException("Cannot find verificaton with given token."));
+        if (verification.getStatus().equals(VerificationStatus.VALIDATED)) {
+            throw new IllegalArgumentException("User is already verified.");
+        }
         verification.setStatus(VerificationStatus.VALIDATED);
         return verificationRepository.save(verification);
     }
