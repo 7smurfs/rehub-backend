@@ -147,7 +147,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/therapy/{id}")
-    public ResponseEntity<Object> cancelTherapy(@PathVariable Long id) {
+    public ResponseEntity<Object> cancelTherapy(@PathVariable Long id) throws IOException {
 
         log.info(" > > > DELETE /api/v1/patient/therapy/{} (Canceling therapy)", id);
 
