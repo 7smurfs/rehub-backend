@@ -42,6 +42,8 @@ public class UserService {
 
     @Transactional
     public RehubUser registerPatient(UserRequest userRequest) throws Exception {
+
+        // TODO: uncomment validation of User data @author begjosip
 //        this.validateUserRequestRegistration(userRequest);
         // This is mocked validation from our server database.
         // We are checking if user information is valid and legit

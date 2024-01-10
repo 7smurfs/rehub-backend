@@ -2,9 +2,12 @@ package sevensmurfs.rehub.controller;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,11 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.Therapy;
-import sevensmurfs.rehub.model.message.request.TherapyRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.model.message.request.validator.UserRequestValidator;
 import sevensmurfs.rehub.model.message.response.PatientResponse;
@@ -28,6 +32,7 @@ import sevensmurfs.rehub.service.PatientService;
 import sevensmurfs.rehub.service.TherapyService;
 import sevensmurfs.rehub.util.SecurityUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -97,15 +102,20 @@ public class PatientController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/therapy")
-    public ResponseEntity<Object> createTherapy(@Validated @RequestBody TherapyRequest therapyRequest,
-                                                @NotNull HttpServletRequest request) {
+    @PostMapping(value = "/therapy", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RolesAllowed("ROLE_PATIENT")
+    public ResponseEntity<Object> createTherapy(@RequestPart @NotBlank String type,
+                                                @RequestPart @NotBlank String request,
+                                                @RequestPart @NotBlank String doctorFullName,
+                                                @RequestPart(required = false) String referenceId,
+                                                @RequestPart("therapyScan") MultipartFile therapyScan,
+                                                @NotNull HttpServletRequest httpServletRequest) throws IOException {
 
         log.info(" > > > POST /api/v1/patient/therapy (Adding a new therapy)");
 
-        String token = SecurityUtil.getJwtTokenFromRequest(request);
+        String token = SecurityUtil.getJwtTokenFromRequest(httpServletRequest);
         String username = jwtGenerator.getUsernameFromToken(token);
-        Therapy therapy = therapyService.createTherapy(therapyRequest, username);
+        Therapy therapy = therapyService.createTherapy(type, request, doctorFullName, referenceId, therapyScan, username);
 
         log.info(" < < < POST /api/v1/patient/therapy (New therapy added succesfully)");
 

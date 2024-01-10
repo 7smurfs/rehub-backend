@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 import sevensmurfs.rehub.enums.TherapyStatus;
 
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(name = "uc_therapy_scan_url", columnNames = "therapyScan"))
 @SuperBuilder
 @Getter
 @Setter
@@ -45,6 +46,8 @@ public class Therapy extends AuditableEntity {
     private Long refId;
 
     private String doctorFullName;
+
+    private String therapyScan;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "id")

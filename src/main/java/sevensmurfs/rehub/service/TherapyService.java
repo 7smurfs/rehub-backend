@@ -3,21 +3,39 @@ package sevensmurfs.rehub.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 import sevensmurfs.rehub.enums.TherapyStatus;
-import sevensmurfs.rehub.model.entity.*;
-import sevensmurfs.rehub.model.message.request.TherapyRequest;
-import sevensmurfs.rehub.repository.*;
+import sevensmurfs.rehub.model.entity.Appointment;
+import sevensmurfs.rehub.model.entity.Employee;
+import sevensmurfs.rehub.model.entity.Patient;
+import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.Therapy;
+import sevensmurfs.rehub.repository.AppointmentRepository;
+import sevensmurfs.rehub.repository.DoctorRepository;
+import sevensmurfs.rehub.repository.PatientRepository;
+import sevensmurfs.rehub.repository.RehubUserRepository;
+import sevensmurfs.rehub.repository.TherapyRepository;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class TherapyService {
+
+    private static final String PDF_EXTENSION = ".pdf";
 
     private final TherapyRepository therapyRepository;
 
@@ -31,16 +49,27 @@ public class TherapyService {
 
     private final RehubUserRepository userRepository;
 
+    @Value("${therapy.scan.save.dir}")
+    private String therapyScanDir;
+
     @Transactional
-    public Therapy createTherapy(TherapyRequest newTherapy, String username) {
+    public Therapy createTherapy(String type,
+                                 String request,
+                                 String doctorFullName,
+                                 String referenceId,
+                                 MultipartFile therapyScan,
+                                 String username) throws IOException {
 
         log.debug("Creating therapy entity.");
+
+        this.validateTherapyScan(therapyScan);
+
         RehubUser user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("User with given username does not exist."));
         Patient patient = patientRepository.findPatientByUserId(user.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Patient with given id does not exists."));
 
-        String[] doctor = newTherapy.getDoctorFullName().trim().split(" ");
+        String[] doctor = doctorFullName.trim().split(" ");
         if (doctor.length < 2)
             throw new IllegalArgumentException("Invalid doctor name.");
 
@@ -48,13 +77,16 @@ public class TherapyService {
                 () -> new IllegalArgumentException(
                         String.format("Doctor %s %s not found!", doctor[0], doctor[1])));
 
+        String therapyScanUrl = this.saveTherapyScanForPatient(therapyScan, patient);
+
         Therapy therapy = Therapy.builder()
-                                 .type(newTherapy.getType())
-                                 .request(newTherapy.getRequest())
+                                 .type(type)
+                                 .request(request)
                                  .patient(patient)
-                                 .doctorFullName(newTherapy.getDoctorFullName())
+                                 .doctorFullName(doctorFullName)
+                                 .therapyScan(therapyScanUrl)
                                  .status(TherapyStatus.PENDING_APPROVAL)
-                                 .refId(newTherapy.getReferenceId())
+                                 .refId(referenceId == null ? null : Long.parseLong(referenceId))
                                  .build();
 
         log.debug("Saving therapy entity.");
@@ -68,6 +100,28 @@ public class TherapyService {
         patientRepository.save(patient);
 
         return therapyRepository.save(therapy);
+    }
+
+    private String saveTherapyScanForPatient(MultipartFile therapyScan, Patient patient) throws IOException {
+        String newFileName = "T_SCAN_" + UUID.randomUUID() + "_" + patient.getId() + PDF_EXTENSION;
+        Path filePath = Path.of(therapyScanDir + newFileName);
+        Files.copy(therapyScan.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        log.debug("Therapy scan save successfully.");
+        return newFileName;
+    }
+
+    private void validateTherapyScan(MultipartFile therapyScan) {
+        log.debug("Validating therapy scan.");
+        if (therapyScan.isEmpty()) {
+            throw new IllegalArgumentException("Valid therapy scan needs to be uploaded.");
+        }
+        if (!Objects.equals(therapyScan.getContentType(), MediaType.APPLICATION_PDF_VALUE)) {
+            throw new IllegalArgumentException("Therapy scan needs to be PDF.");
+        }
+        if ((therapyScan.getSize() / (1024.0 * 1024.0)) > 2.0) {
+            throw new IllegalArgumentException("Therapy scan needs to be less than 2 MB in size.");
+        }
+        log.debug("Therapy scan successfully validated.");
     }
 
     public List<Therapy> getAllTherapiesForPatient(String username) {
