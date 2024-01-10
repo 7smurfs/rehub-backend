@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +37,8 @@ import sevensmurfs.rehub.service.EquipmentService;
 import sevensmurfs.rehub.service.RoomService;
 import sevensmurfs.rehub.util.SecurityUtil;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
@@ -176,6 +180,23 @@ public class EmployeeController {
                                                                  .buildAndExpand(appointmentRequest.getTherapyId())
                                                                  .toUri())
                              .build();
+    }
+
+    /**
+     *
+     * Employee request to fetch PDF scan > GET /api/v1/patient/therapy/scan/{} (Requesting therapy scan PDF)
+     */
+    @GetMapping(value = "/therapy/scan/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+    @RolesAllowed("ROLE_EMPLOYEE")
+    public ResponseEntity<Resource> getTherapyScanForTherapyById(@PathVariable(name = "id") Long id) throws MalformedURLException {
+
+        log.debug(" > > > GET /api/v1/employee/therapy/scan/{} (Requesting therapy scan PDF)", id);
+
+        Resource therapyPdf = employeeService.getTherapyScanById(id);
+
+        log.debug(" < < < GET /api/v1/employee/therapy/scan/{} (Requesting therapy scan PDF success)", id);
+
+        return ResponseEntity.ok().body(therapyPdf);
     }
 
     /**

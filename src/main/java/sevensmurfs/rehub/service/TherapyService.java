@@ -1,11 +1,14 @@
 package sevensmurfs.rehub.service;
 
 import jakarta.transaction.Transactional;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import sevensmurfs.rehub.enums.TherapyStatus;
 import sevensmurfs.rehub.model.entity.Appointment;
@@ -20,8 +23,10 @@ import sevensmurfs.rehub.repository.RehubUserRepository;
 import sevensmurfs.rehub.repository.TherapyRepository;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -49,6 +54,7 @@ public class TherapyService {
 
     private final RehubUserRepository userRepository;
 
+    @Getter
     @Value("${therapy.scan.save.dir}")
     private String therapyScanDir;
 
@@ -181,11 +187,18 @@ public class TherapyService {
         return therapies.isEmpty() ? Collections.emptyList() : therapies;
     }
 
-    public void cancelTherapyWithId(Long id) {
+    public void cancelTherapyWithId(Long id) throws IOException {
         log.debug("Canceling therapy.");
         Therapy therapy = findTherapyById(id);
         if (therapy.getStatus().equals(TherapyStatus.CANCELED) || therapy.getStatus().equals(TherapyStatus.INVALIDATED)) {
             throw new IllegalArgumentException("Therapy is already invalidated.");
+        }
+        String fullPath = therapyScanDir + therapy.getTherapyScan();
+        Path filePath = Paths.get(fullPath);
+
+        if (Files.exists(filePath)) {
+            Files.delete(filePath);
+            log.debug("Successfully deleted PDF scan.");
         }
 
         therapy.setStatus(TherapyStatus.CANCELED);
@@ -198,5 +211,19 @@ public class TherapyService {
     public List<Therapy> getAllTherapiesForRoomId(Long id) {
         return therapyRepository.findAllByRoomId(id).stream().filter(
                 therapy -> therapy.getAppointment().getStartAt().isAfter(LocalDateTime.now())).toList();
+    }
+
+    public Resource getTherapyScanForPatientWithTherapyWithId(String username, Long id) throws MalformedURLException {
+        log.debug("Fetching PDF for therapy with id: {}", id);
+
+        RehubUser user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("User with given username does not exist."));
+        patientRepository.findPatientByUserId(user.getId()).orElseThrow(
+                () -> new IllegalArgumentException("User with given user ID does not exist."));
+        Therapy therapy = therapyRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Cannot find therapy with given ID"));
+        Path pdfPath = Path.of(therapyScanDir + therapy.getTherapyScan());
+        log.debug("Successfully fetched PDF from URL. {}", therapyScanDir + therapy.getTherapyScan());
+        return new UrlResource(pdfPath.toUri());
     }
 }

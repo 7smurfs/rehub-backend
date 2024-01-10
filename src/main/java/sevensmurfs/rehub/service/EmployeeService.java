@@ -3,6 +3,8 @@ package sevensmurfs.rehub.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.TherapyStatus;
 import sevensmurfs.rehub.enums.UserStatus;
@@ -16,6 +18,8 @@ import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
 import sevensmurfs.rehub.util.SecurityUtil;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -177,5 +181,15 @@ public class EmployeeService {
         return therapyService.getAllEmployeeTherapies(employee).stream().filter(therapy -> !(therapy.getStatus().equals(
                                      TherapyStatus.INVALIDATED) || therapy.getStatus().equals(TherapyStatus.CANCELED)))
                              .toList();
+    }
+
+    public Resource getTherapyScanById(Long id) throws MalformedURLException {
+        log.debug("Fetching PDF scan of therapy with ID {}", id);
+
+        Therapy therapy = therapyService.findTherapyById(id);
+        Path pdfPath = Path.of(therapyService.getTherapyScanDir() + therapy.getTherapyScan());
+
+        log.debug("Successfully fetched PDF from URL. {}", therapyService.getTherapyScanDir() + therapy.getTherapyScan());
+        return new UrlResource(pdfPath.toUri());
     }
 }

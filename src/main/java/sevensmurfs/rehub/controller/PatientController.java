@@ -4,9 +4,9 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -124,6 +124,26 @@ public class PatientController {
                                                                  .buildAndExpand(therapy.getId())
                                                                  .toUri())
                              .build();
+    }
+
+    /**
+     *
+     * Patient request to fetch PDF scan > GET /api/v1/patient/therapy/scan/{} (Requesting therapy scan PDF)
+     */
+    @GetMapping(value = "/therapy/scan/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+    @RolesAllowed("ROLE_PATIENT")
+    public ResponseEntity<Resource> getTherapyScanForTherapyById(@PathVariable(name = "id") Long id,
+                                                                 @NotNull HttpServletRequest httpServletRequest) throws IOException {
+
+        log.debug(" > > > GET /api/v1/patient/therapy/scan/{} (Requesting therapy scan PDF)", id);
+
+        String token = SecurityUtil.getJwtTokenFromRequest(httpServletRequest);
+        String username = jwtGenerator.getUsernameFromToken(token);
+        Resource therapyPdf = therapyService.getTherapyScanForPatientWithTherapyWithId(username, id);
+
+        log.debug(" < < < GET /api/v1/patient/therapy/scan/{} (Requesting therapy scan PDF success)", id);
+
+        return ResponseEntity.ok().body(therapyPdf);
     }
 
     @DeleteMapping("/therapy/{id}")
