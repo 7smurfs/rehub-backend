@@ -153,6 +153,7 @@ public class EmailService {
             // Context for template
             context.setVariable("firstName", firstName);
             context.setVariable("lastName", lastName);
+            context.setVariable("verificationToken", token);
 
             String html;
             html = springTemplateEngine.process("patient-registered-template", context);
