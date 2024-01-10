@@ -112,7 +112,8 @@ public class TherapyService {
     public List<Therapy> getAllAvailableTherapies() {
         log.debug("Fetching all available therapies.");
         return therapyRepository.findAll().stream().filter(therapy -> !(therapy.getStatus().equals(TherapyStatus.INVALIDATED) ||
-                                                                        therapy.getStatus().equals(TherapyStatus.CANCELED)))
+                                                                        therapy.getStatus().equals(TherapyStatus.CANCELED) ||
+                                                                        therapy.getStatus().equals(TherapyStatus.APPROVED)))
                                 .toList();
     }
 
