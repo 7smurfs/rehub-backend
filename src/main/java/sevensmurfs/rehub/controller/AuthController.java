@@ -11,11 +11,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.Verification;
 import sevensmurfs.rehub.model.message.request.PasswordResetRequest;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.model.message.request.validator.PasswordResetValidator;
@@ -24,6 +27,7 @@ import sevensmurfs.rehub.model.message.response.UserResponse;
 import sevensmurfs.rehub.security.JwtGenerator;
 import sevensmurfs.rehub.service.PasswordResetService;
 import sevensmurfs.rehub.service.UserService;
+import sevensmurfs.rehub.service.VerificationService;
 import sevensmurfs.rehub.util.SecurityUtil;
 
 @RestController
@@ -38,6 +42,8 @@ public class AuthController {
     private final JwtGenerator jwtGenerator;
 
     private final UserService userService;
+
+    private final VerificationService verificationService;
 
     private final PasswordResetService passwordResetService;
 
@@ -116,5 +122,20 @@ public class AuthController {
         log.info(" < < < POST /api/v1/auth/change/password (Change user's password successful)");
 
         return ResponseEntity.ok("Password has been changed successfully");
+    }
+
+    /**
+     * Verify user request GET > /api/v1/auth/user/verification/:token
+     */
+    @GetMapping("/user/verification/{token}")
+    public ResponseEntity<Object> changeUserPassword(@PathVariable(name = "token") String token) {
+
+        log.info(" > > > GET /api/v1/auth/verification/{}", token);
+
+        Verification verification = verificationService.verifyUserWithToken(token);
+        userService.verifyUser(verification);
+
+        log.info(" < < < GET /api/v1/auth/verification/{} (Successfully verified)", token);
+        return ResponseEntity.ok().build();
     }
 }

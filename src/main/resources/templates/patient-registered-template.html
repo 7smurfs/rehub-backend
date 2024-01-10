@@ -21,16 +21,22 @@
             font-size: 32px;">
         ReHub
     </h1>
-    <h1 style="font-family: 'sans-serif';">Dobrodošli <span th:text="${firstName}"></span>  <span th:text="${lastName}"></span></h1>
-    <br />
-    <br />
+    <h1 style="font-family: 'sans-serif';">Dobrodošli <span th:text="${firstName}"></span> <span th:text="${lastName}"></span></h1>
+    <br/>
+    <br/>
     <p style="margin: 5px;">
         Dobrodošli u ReHub, gdje se inovacija susreće sa suosjećanjem u području zdravstva! Radujemo se što ste se pridružili našoj rastućoj
-        obitelji gdje će vam pomoći stručnjaci koji su predani preoblikovanju standarda medicinske izvrsnosti. U ReHubu vjerujemo u stvaranje
+        obitelji gdje će vam pomoći stručnjaci koji su predani preoblikovanju standarda medicinske izvrsnosti. U ReHubu vjerujemo u
+        stvaranje
         poticajnog okruženja koje potiče suradnju, prihvaća najsuvremenije tehnologije i stavlja skrb o pacijentima na prvo mjesto. Zajedno
         krećemo na putovanje revolucije u zdravstvu. Dobrodošli u ReHub, gdje svaki korak naprijed znači korak prema
         zdravijem svijetu!
         <br/>
+        <br/>
+        Kako bi mogli početi koristiti vaš račun molimo Vas da verificirate mail klikom gumb ispod.
+        <br/>
+        <br/>
+        <a style="padding: 10px; background-color: #00326E; border-radius: 8px; color: white" th:href="${verificationToken}">VERIFICIRAJ</a>
     </p>
     <p>Za bilo kakvu dodatnu pomoć kontaktirajte naš ReHub tim.</p>
 </div>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sevensmurfs.rehub.enums.UserStatus;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
+import sevensmurfs.rehub.model.entity.Verification;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.PatientRepository;
 import sevensmurfs.rehub.util.SecurityUtil;
@@ -22,6 +23,8 @@ public class PatientService {
     private final PatientRepository patientRepository;
 
     private final UserService userService;
+
+    private final VerificationService verificationService;
 
     private final TherapyService therapyService;
 
@@ -43,8 +46,10 @@ public class PatientService {
                                  .build();
 
         log.debug("Saving patient entity.");
-
-        emailService.sendEmailForRegisteredUser(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getUsername());
+        Verification verification = verificationService.createVerificationForUser(user);
+        String formattedToken = verificationService.formatTokenForEmail(verification.getToken());
+        emailService.sendEmailForRegisteredUser(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getUsername(),
+                                                formattedToken);
 
         return patientRepository.save(patient);
     }
@@ -81,6 +86,4 @@ public class PatientService {
         return patientRepository.findPatientByUserId(id).orElseThrow(
                 () -> new IllegalArgumentException("Cannot find patient with user ID: " + id.toString()));
     }
-
-
 }

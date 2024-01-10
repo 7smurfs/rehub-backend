@@ -11,6 +11,7 @@ import sevensmurfs.rehub.model.entity.Employee;
 import sevensmurfs.rehub.model.entity.Patient;
 import sevensmurfs.rehub.model.entity.RehubUser;
 import sevensmurfs.rehub.model.entity.UserRole;
+import sevensmurfs.rehub.model.entity.Verification;
 import sevensmurfs.rehub.model.message.request.UserRequest;
 import sevensmurfs.rehub.repository.EmployeeRepository;
 import sevensmurfs.rehub.repository.PatientRepository;
@@ -41,16 +42,16 @@ public class UserService {
 
     @Transactional
     public RehubUser registerPatient(UserRequest userRequest) throws Exception {
-        this.validateUserRequestRegistration(userRequest);
+//        this.validateUserRequestRegistration(userRequest);
         // This is mocked validation from our server database.
         // We are checking if user information is valid and legit
-        dataValidationService.validatePatientFromHealthCareDatabase(userRequest);
+//        dataValidationService.validatePatientFromHealthCareDatabase(userRequest);
 
         RehubUser user = RehubUser.builder()
                                   .username(SecurityUtil.encryptUsername(userRequest.getUsername()))
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.PATIENT)))
-                                  .status(UserStatus.ACTIVE)
+                                  .status(UserStatus.UNVERIFIED)
                                   .build();
 
         log.debug("Saving user entity.");
@@ -161,5 +162,12 @@ public class UserService {
         user.setRoles(userRoles);
         userRepository.save(user);
         log.debug("User saved successfully.");
+    }
+
+    @Transactional
+    public void verifyUser(Verification verification) {
+        RehubUser user = verification.getUser();
+        user.setStatus(UserStatus.ACTIVE);
+        userRepository.save(user);
     }
 }

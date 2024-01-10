@@ -140,7 +140,7 @@ public class EmailService {
         }
     }
 
-    public void sendEmailForRegisteredUser(String firstName, String lastName, String email) {
+    public void sendEmailForRegisteredUser(String firstName, String lastName, String email, String token) {
         try {
             log.debug("Sending email for user registration.");
             MimeMessage message = javaMailSender.createMimeMessage();

@@ -26,7 +26,7 @@ public class RehubUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         RehubUser user = userRepository.findByUsernameAndStatus(username, UserStatus.ACTIVE).orElseThrow(
-                () -> new UsernameNotFoundException("Username not found."));
+                () -> new UsernameNotFoundException("Username not found or user is not verified."));
         return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
