@@ -28,7 +28,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -226,4 +228,49 @@ public class TherapyService {
         log.debug("Successfully fetched PDF from URL. {}", therapyScanDir + therapy.getTherapyScan());
         return new UrlResource(pdfPath.toUri());
     }
+
+    public List<LocalDate> getListOfNonWorkingDaysInCroatia() {
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        List<LocalDate> nonWorkingDates = new ArrayList<>();
+
+        nonWorkingDates.add(LocalDate.of(year, 1, 1));  // New Year's Day
+        nonWorkingDates.add(LocalDate.of(year, 5, 1));  // International Workers' Day
+        nonWorkingDates.add(LocalDate.of(year, 6, 22)); // Anti-Fascist Struggle Day
+        nonWorkingDates.add(LocalDate.of(year, 8, 5));  // Victory and Homeland Thanksgiving Day
+        nonWorkingDates.add(LocalDate.of(year, 8, 15)); // Assumption of Mary
+        nonWorkingDates.add(LocalDate.of(year, 10, 8)); // Independence Day
+        nonWorkingDates.add(LocalDate.of(year, 11, 1)); // All Saints' Day
+        nonWorkingDates.add(LocalDate.of(year, 12, 25)); // Christmas Day
+        nonWorkingDates.add(LocalDate.of(year, 12, 26)); // St. Stephen's Day
+
+        LocalDate easterDate = calculateEasterDate(year);
+        nonWorkingDates.add(easterDate);  // Easter Sunday
+        nonWorkingDates.add(easterDate.plusDays(1));  // Easter Monday
+
+        LocalDate corpusChristi = easterDate.plusDays(60);  // Corpus Christi is 60 days after Easter
+        nonWorkingDates.add(corpusChristi);
+
+        return nonWorkingDates;
+    }
+
+    private static LocalDate calculateEasterDate(int year) {
+        int a = year % 19;
+        int b = year / 100;
+        int c = year % 100;
+        int d = b / 4;
+        int e = b % 4;
+        int f = (b + 8) / 25;
+        int g = (b - f + 1) / 3;
+        int h = (19 * a + b - d - g + 15) % 30;
+        int i = c / 4;
+        int k = c % 4;
+        int l = (32 + 2 * e + 2 * i - h - k) % 7;
+        int m = (a + 11 * h + 22 * l) / 451;
+        int month = (h + l - 7 * m + 114) / 31;
+        int day = ((h + l - 7 * m + 114) % 31) + 1;
+
+        return LocalDate.of(year, month, day);
+    }
+
 }

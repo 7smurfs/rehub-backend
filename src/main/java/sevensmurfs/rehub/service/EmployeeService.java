@@ -20,6 +20,8 @@ import sevensmurfs.rehub.util.SecurityUtil;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -150,6 +152,16 @@ public class EmployeeService {
 
         if (appointmentRequest.getStartAt().isBefore(LocalDateTime.now()) || appointmentRequest.getEndAt().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Invalid appointment time. Start date and end date cannot be before current time.");
+        }
+
+        LocalDate date = appointmentRequest.getStartAt().toLocalDate();
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        if (dayOfWeek.equals(DayOfWeek.SATURDAY) || dayOfWeek.equals(DayOfWeek.SUNDAY)) {
+            throw new IllegalArgumentException("Invalid appointment date. Therapy day needs to be in range of working days.");
+        }
+
+        if (therapyService.getListOfNonWorkingDaysInCroatia().contains(date)) {
+            throw new IllegalArgumentException("Invalid appointment date. That date is holiday.");
         }
 
         if (appointmentRequest.getStartAt().isAfter(appointmentRequest.getEndAt()))
