@@ -141,10 +141,10 @@ public class AuthController {
                     <head>
                         <meta charset="UTF-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Verification Success</title>
+                        <title>Verification unsuccessful</title>
                     </head>
-                    <body style="text-align: center; color: #00326E; padding: 50px;">
-                        <h1>Korisnik već verificiran. Prijavite se</h1>
+                    <body style="text-align: center; background-color: #bae6fd; color: #00326E; padding: 50px;">
+                        <h1>Dogodila se greška. Prijavite se</h1>
                         <a href="%s" style="color: #FFFFFF; background-color: #00326E; border-radius: 10px; padding: 20px;">PRIJAVITE SE</a>
                     </body>
                     </html>
@@ -160,7 +160,7 @@ public class AuthController {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Verification Success</title>
                 </head>
-                <body style="text-align: center; color: #00326E; padding: 50px;">
+                <body style="text-align: center; background-color: #bae6fd; color: #00326E; padding: 50px;">
                     <h1>Korisnik uspješno verificiran</h1>
                     <a href="%s" style="color: #FFFFFF; background-color: #00326E; border-radius: 10px; padding: 20px;">PRIJAVITE SE</a>
                 </body>
