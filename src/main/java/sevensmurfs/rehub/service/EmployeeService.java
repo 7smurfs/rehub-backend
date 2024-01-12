@@ -76,8 +76,7 @@ public class EmployeeService {
         if (employee.getUser().getStatus().equals(UserStatus.INVALIDATED))
             throw new IllegalArgumentException("User is already invalidate.");
         log.debug("Invalidating employee with ID {}.", employee.getId());
-        employee.getUser().setStatus(UserStatus.INVALIDATED);
-        userService.saveUser(employee.getUser());
+        userService.invalidateUser(employee.getUser());
 
         log.debug("Successfully invalidate employee with ID {}.", employee.getId());
     }

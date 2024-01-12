@@ -44,13 +44,16 @@ public class UserService {
     public RehubUser registerPatient(UserRequest userRequest) throws Exception {
 
         this.validateUserRequestRegistration(userRequest);
-        dataValidationService.validatePatientFromHealthCareDatabase(userRequest);
-
+        Long personalDataId = dataValidationService.validatePatientFromHealthCareDatabase(userRequest);
+        if (userRepository.findByPersonalDataId(personalDataId.toString()).isPresent()) {
+            throw new IllegalArgumentException("Active user with given personal data already exists in the database.");
+        }
         RehubUser user = RehubUser.builder()
                                   .username(SecurityUtil.encryptUsername(userRequest.getUsername()))
                                   .password(encoder.encode(userRequest.getPassword()))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.PATIENT)))
                                   .status(UserStatus.UNVERIFIED)
+                                  .personalDataId(personalDataId.toString())
                                   .build();
 
         log.debug("Saving user entity.");
@@ -63,7 +66,7 @@ public class UserService {
 
         // This is mocked validation from our server database.
         // We are checking if user information is valid and legit
-        dataValidationService.validateEmployeeFromMinistryDatabase(userRequest);
+        Long personalDataId = dataValidationService.validateEmployeeFromMinistryDatabase(userRequest);
 
         String password = SecurityUtil.generateEmployeePassword(userRequest);
 
@@ -74,6 +77,7 @@ public class UserService {
                                   .password(encoder.encode(password))
                                   .roles(userRoleRepository.findAllByNameIn(List.of(Role.EMPLOYEE)))
                                   .status(UserStatus.ACTIVE)
+                                  .personalDataId(personalDataId.toString())
                                   .build();
 
         log.debug("Saving user entity.");
@@ -118,6 +122,7 @@ public class UserService {
         log.debug("Invalidating user.");
         user.setStatus(UserStatus.INVALIDATED);
         user.setUsername(SecurityUtil.hashInput(user.getUsername()) + "_" + user.getId());
+        user.setPersonalDataId(user.getPersonalDataId() + "_" + user.getId());
         userRepository.save(user);
         log.debug("User invalidated.");
     }

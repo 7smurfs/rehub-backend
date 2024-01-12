@@ -7,12 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(name = "uc_personal_data_pin", columnNames = "pin"),
                             @UniqueConstraint(name = "uc_personal_data_phin", columnNames = "phin")})
+@Getter
 public class PersonalData {
 
     @Id

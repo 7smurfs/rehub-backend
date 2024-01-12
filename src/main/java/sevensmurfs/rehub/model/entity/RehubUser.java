@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "uc_rehub_user_username", columnNames = "username"))
+@Table(uniqueConstraints = {@UniqueConstraint(name = "uc_rehub_user_username", columnNames = "username"),
+                            @UniqueConstraint(name = "uc_rehub_personal_data_id", columnNames = "personalDataId")})
 @Getter
 @Setter
 @Builder
@@ -47,6 +48,8 @@ public class RehubUser {
     @Column(nullable = false)
     private UserStatus status;
 
+    private String personalDataId;
+
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -55,5 +58,4 @@ public class RehubUser {
     )
     @Builder.Default
     private List<UserRole> roles = new ArrayList<>();
-
 }

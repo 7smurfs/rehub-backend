@@ -14,4 +14,5 @@ public interface RehubUserRepository extends JpaRepository<RehubUser, Long> {
 
     Optional<RehubUser> findByUsernameAndStatus(String username, UserStatus status);
 
+    Optional<RehubUser> findByPersonalDataId(String personalDataId);
 }
